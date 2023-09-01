@@ -14,6 +14,10 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
+  {
+    path: 'menu-partidos',
+    loadChildren: () => import('./menu-partidos/menu-partidos.module').then( m => m.MenuPartidosPageModule)
+  },
 
 ];
 
