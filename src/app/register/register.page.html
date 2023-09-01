@@ -1,0 +1,51 @@
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Registro</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <form (ngSubmit)="onSubmit()">
+        <ion-item>
+          <ion-input required type="text" label="Nombres" labelPlacement="floating"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input required type="text" label="Apellidos" labelPlacement="floating"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input required type="date" label="Fecha De Nacimiento" labelPlacement="floating"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-select label="Sexo" label-placement="floating">
+            <ion-select-option value="m">Masculino</ion-select-option>
+            <ion-select-option value="f">Femenino</ion-select-option>
+            <ion-select-option value="o">Otros</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-select label="Deporte Favorito" label-placement="floating">
+            <ion-select-option value="fut">Futbol</ion-select-option>
+            <ion-select-option value="bas">Basketball</ion-select-option>
+            <ion-select-option value="pad">Padel</ion-select-option>
+            <ion-select-option value="o">Otro</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-input required type="number" label="Teléfono" labelPlacement="floating"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input required type="text" label="Nombre de Usuario" labelPlacement="floating"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input required type="password" label="Contraseña" labelPlacement="floating"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input required type="password" label="Confitmar Contraseña" labelPlacement="floating"></ion-input>
+        </ion-item>
+        <ion-button block color="primary" type="submit">
+          Registrarse
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
