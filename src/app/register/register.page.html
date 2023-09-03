@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true"> 
   <ion-card>
     <ion-card-header>
       <ion-card-title>Registro</ion-card-title>
@@ -7,21 +7,21 @@
       <form (ngSubmit)="onSubmit()">
         <div class="campo">
           <ion-input required type="text" label="Nombres" labelPlacement="floating" name="nombres"
-            [(ngModel)]="user.nombres"></ion-input>
+            [(ngModel)]="user.nombres" (ionInput)="nombresInput()"></ion-input>
           <ion-text color="danger" *ngIf="NombreIngresado">Ingrese Nombre</ion-text>
           <ion-text color="danger" *ngIf="NombreValido">Ingrese Nombre Valido</ion-text>
         </div>
         <div class="campo">
           <ion-input required type="text" label="Apellidos" labelPlacement="floating" name="apellidos"
-            [(ngModel)]="user.apellidos"></ion-input>
+            [(ngModel)]="user.apellidos" (ionInput)="apellidosInput()"></ion-input>
           <ion-text color="danger" *ngIf="ApellidoIngresado">Ingrese Apellido</ion-text>
           <ion-text color="danger" *ngIf="ApellidoValido">Ingrese Apellido Valido</ion-text>
         </div>
         <div class="campo">
           <ion-input required type="date" label="Fecha De Nacimiento" labelPlacement="floating" name="fecha_nacimiento"
-            [(ngModel)]="user.fec_nac"></ion-input>
-          <ion-text color="danger" *ngIf="FechaIngresada">Ingrese Fecha Valida</ion-text>
-          <ion-text color="danger" *ngIf="FechaValida">Ingrese Fecha Valida</ion-text>
+            [(ngModel)]="user.fec_nac" (ionInput)="FechaNacInput()"></ion-input>
+          <ion-text color="danger" *ngIf="FechaIngresada">Ingrese Fecha</ion-text>
+          <ion-text color="danger" *ngIf="FechaValida">Ingrese Fecha Valida <br> La Edad Minima Es De 5 Años, Has Ingresado {{user.edad}} Años</ion-text>
         </div>
         <div class="campo">
           <ion-select label="Sexo" label-placement="floating" name="sexo" [(ngModel)]="user.sexo">
@@ -42,27 +42,27 @@
         </div>
         <div class="campo">
           <ion-input required type="number" label="Teléfono" labelPlacement="floating" name="telefono"
-            [(ngModel)]="user.tel"></ion-input>
+            [(ngModel)]="user.tel" (ionInput)="TelefonoInput()"></ion-input>
           <ion-text color="danger" *ngIf="TelefonoIngresado">Ingrese Teléfono</ion-text>
           <ion-text color="danger" *ngIf="TelefonoValido">Ingrese Teléfono Valido</ion-text>
         </div>
         <div class="campo">
           <ion-input required type="email" label="Email" labelPlacement="floating" name="emial"
-            [(ngModel)]="user.email"></ion-input>
+            [(ngModel)]="user.email" (ionInput)="EmailInput()"></ion-input>
           <ion-text color="danger" *ngIf="EmailIngresado">Ingrese Email</ion-text>
           <ion-text color="danger" *ngIf="EmailValido">Ingrese Email Valido</ion-text>
         </div>
         <div class="campo">
           <ion-input required type="text" label="Nombre de Usuario" labelPlacement="floating" name="username"
-            [(ngModel)]="user.username"></ion-input>
+            [(ngModel)]="user.username" (ionInput)="UsuarioInput()"></ion-input>
           <ion-text color="danger" *ngIf="UsuarioIngresado">Ingrese Nombre de Usuario</ion-text>
           <ion-text color="danger" *ngIf="UsuarioExistente">Nombre de Usuario YA Existente</ion-text>
         </div>
         <div class="campo">
           <ion-input required type="password" label="Contraseña" labelPlacement="floating" name="password"
-            [(ngModel)]="user.password"></ion-input>
+            [(ngModel)]="user.password" (ionInput)="ContraInput()"></ion-input>
           <ion-text color="danger" *ngIf="ContraseniaIngresada">Ingrese Contraseña</ion-text>
-          <ion-text color="danger" *ngIf="ContraseniaValida">Ingrese Contraseña</ion-text>
+          <ion-text color="danger" *ngIf="ContraseniaValida">Ingrese Contraseña Valida</ion-text>
         </div>
         <div class="campo">
           <ion-input required type="password" label="Confitmar Contraseña" labelPlacement="floating"
@@ -71,14 +71,14 @@
           <ion-text color="danger" *ngIf="ConfContraseniaValida">Contraseñas NO coinciden</ion-text>
         </div>
         <div class="boton-reg">
-          <ion-button block color="primary" type="submit" id="open-modal">
+          <ion-button block color="primary" type="submit">
             Registrarse
           </ion-button>
         </div>
       </form>
     </ion-card-content>
   </ion-card>
-  <ion-modal #modal trigger="open-modal" (willDismiss)="onWillDismiss()">
+  <ion-modal #modal (willDismiss)="onWillDismiss()">
     <ng-template>
       <ion-content>
         <div class="modal-content">
