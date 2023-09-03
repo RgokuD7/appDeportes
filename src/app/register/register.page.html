@@ -1,10 +1,11 @@
 <ion-content [fullscreen]="true">
-  <ion-card>
+  <ion-card #card style="height: 0%;">
     <ion-card-header>
+      <ion-button fill="clear" [routerLink]="['/home']">Atras</ion-button>
       <ion-card-title>Registro</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <form (ngSubmit)="onSubmit()">
+      <form (ngSubmit)="onSubmit()" #miFormulario="ngForm">
         <div class="campo">
           <ion-input required type="text" label="Nombres" labelPlacement="floating" name="nombres"
             [(ngModel)]="user.nombres" (ionInput)="nombresInput()"></ion-input>
@@ -20,6 +21,7 @@
         <div class="campo">
           <ion-input required type="date" label="Fecha De Nacimiento" labelPlacement="floating" name="fecha_nacimiento"
             [(ngModel)]="user.fec_nac" (ionInput)="FechaNacInput()"></ion-input>
+          <ion-text color="medium" *ngIf="FechaIngresada">Edad: {{user.edad}} años</ion-text>
           <ion-text color="danger" *ngIf="FechaNoIngresada">Ingrese Fecha</ion-text>
           <ion-text color="danger" *ngIf="FechaInvalida">Ingrese Fecha Valida <br> La Edad Minima Es De 5 Años, Has
             Ingresado {{user.edad}} Años</ion-text>

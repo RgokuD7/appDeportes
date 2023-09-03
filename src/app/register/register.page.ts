@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
-import { NavController, ModalController } from '@ionic/angular';
-
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { NavController, Animation, AnimationController, IonCard, IonCardContent } from '@ionic/angular';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -8,9 +7,30 @@ import { NavController, ModalController } from '@ionic/angular';
 })
 export class RegisterPage implements OnInit {
 
+  @ViewChild('miFormulario', { static: false }) formulario: any;
+  @ViewChild(IonCard, { read: ElementRef }) card: any;
+
+  private animation: Animation;
+
   constructor(
-    private navCtrl: NavController 
-  ){} 
+    private navCtrl: NavController,
+    private animationCtrl: AnimationController
+  ){
+    this.animation = this.animationCtrl.create();
+  }
+
+  ngAfterViewInit() {
+    this.animation = this.animationCtrl
+      .create()
+      .addElement(this.card.nativeElement)
+      .duration(1500)
+      .iterations(1)
+      .keyframes([
+        { offset: 0, height: '0%' },
+        { offset: 0.99, height: '700px' },
+        { offset: 1, height: 'auto' },
+      ]);
+  }
 
   user: any = {
     nombres: '',
@@ -25,6 +45,9 @@ export class RegisterPage implements OnInit {
     password: ''
   }
 
+  usersString = localStorage.getItem('users');
+  users = this.usersString ? JSON.parse(this.usersString) : [];
+  
   calcularEdad() {
     if (this.user.fec_nac) {
       const hoy = new Date();
@@ -72,6 +95,7 @@ export class RegisterPage implements OnInit {
     }
   }
   FechaNoIngresada: boolean = false;
+  FechaIngresada: boolean = false;
   FechaInvalida: boolean = false;
   FechaNacInput(){
     this.calcularEdad();
@@ -86,6 +110,7 @@ export class RegisterPage implements OnInit {
     }else{
       this.FechaInvalida = false;
       this.validacion = true;
+      this.FechaIngresada = true;
     }
   }
   SexoNoIngresado: boolean = false;
@@ -203,70 +228,89 @@ export class RegisterPage implements OnInit {
       }
     }
   }
-  ngOnInit() {
+  ionViewDidEnter() {
+    setTimeout(() => {
+      this.animation.play();
+    }, 100);
   }
+  ionViewWillLeave() {
+    this.formulario.resetForm();
+    if (this.animation) {
+      this.animation.stop();
+    }
+    this.NombreNoIngresado = false;
+    this.ApellidoNoIngresado = false;
+    this.FechaNoIngresada = false;
+    this.SexoNoIngresado = false;
+    this.DeporteNoIngresado = false;  
+    this.TelefonoNoIngresado = false;
+    this.EmailNoIngresado = false;
+    this.UsuarioNoIngresado = false;
+    this.ContraseniaNoIngresada = false;
+    this.ConfContraseniaNoIngresada = false;
+  }
+  ngOnInit(){}
   @ViewChild('modal') modal: any;
   onSubmit(){
     console.log(this.user);
-    console.log(this.pass_confirmation);
-    if(this.user.nombres == ''){
+    if(!this.user.nombres){
       this.NombreNoIngresado = true;
       this.validacion = false;
     }
     else if(this.NombreInvalido){
       this.validacion = false;
     }
-    if(this.user.apellidos == ''){
+    if(!this.user.apellidos){
       this.ApellidoNoIngresado = true;
       this.validacion = false;
     }
     else if(this.ApellidoInvalido){
       this.validacion = false;
     }
-    if(this.user.fec_nac == ''){
+    if(!this.user.fec_nac){
       this.FechaNoIngresada = true;
       this.validacion = false;
     }
     else if(this.FechaInvalida){
       this.validacion = false;
     }
-    if(this.user.sexo == ''){
+    if(!this.user.sexo){
       this.SexoNoIngresado = true;
       this.validacion = false;
     }
-    if(this.user.dep_fav == ''){
+    if(!this.user.dep_fav){
       this.DeporteNoIngresado = true;
       this.validacion = false;
     }
-    if(this.user.tel == ''){
+    if(!this.user.tel){
       this.TelefonoNoIngresado = true;
       this.validacion = false;
     }
     else if(this.TelefonoInvalido){
       this.validacion = false;
     }
-    if(this.user.email == ''){
+    if(!this.user.email){
       this.EmailNoIngresado = true;
       this.validacion = false;
     }
     else if(this.EmailInvalido){
       this.validacion = false;
     }
-    if(this.user.username == ''){
+    if(!this.user.username){
       this.UsuarioNoIngresado = true;
       this.validacion = false;
     }
     else if(this.UsuarioExistente){
       this.validacion = false;
     }
-    if(this.user.password == ''){
+    if(!this.user.password){
       this.ContraseniaNoIngresada = true;
       this.validacion = false;
     }
     else if(this.ContraseniaInvalida){
       this.validacion = false;
     }
-    if(this.pass_confirmation == ''){
+    if(!this.pass_confirmation){
       this.ConfContraseniaNoIngresada = true;
       this.validacion = false;
     }
@@ -275,6 +319,9 @@ export class RegisterPage implements OnInit {
     }
     if(this.validacion){
       this.modal.present();
+      this.users.push(this.user);
+      console.log(this.users);
+      localStorage.setItem('users', JSON.stringify(this.users));
     }
       
   }

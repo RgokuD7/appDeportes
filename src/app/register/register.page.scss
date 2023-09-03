@@ -1,9 +1,21 @@
-
 ion-modal {
     --height: 20%;
     --border-radius: 16px;
     --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
+
+ion-card-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+ion-card-header ion-button{
+    position: fixed;
+    left: 10px;
+}
 
 .modal-content{
     display: grid;
