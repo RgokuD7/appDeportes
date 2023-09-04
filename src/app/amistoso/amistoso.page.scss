@@ -8,3 +8,16 @@
     padding: 30px 30px 30px 30px;
 
   }
+
+
+  .centro {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+  }
+
+  .boton {
+    display: grid;
+    place-items: center;
+    --background: #138D75;   
+  }
