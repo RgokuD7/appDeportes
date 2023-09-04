@@ -1,6 +1,5 @@
-import { Component, OnInit} from '@angular/core';
-import { NavController } from '@ionic/angular';
-
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { NavController, Animation, AnimationController, IonCard } from '@ionic/angular';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -8,9 +7,30 @@ import { NavController } from '@ionic/angular';
 })
 export class RegisterPage implements OnInit {
 
+  @ViewChild('miFormulario', { static: false }) formulario: any;
+  @ViewChild(IonCard, { read: ElementRef }) card: any;
+
+  private animation: Animation;
+
   constructor(
-    private navCtrl: NavController 
-  ){} 
+    private navCtrl: NavController,
+    private animationCtrl: AnimationController
+  ){
+    this.animation = this.animationCtrl.create();
+  }
+
+  ngAfterViewInit() {
+    this.animation = this.animationCtrl
+      .create()
+      .addElement(this.card.nativeElement)
+      .duration(1500)
+      .iterations(1)
+      .keyframes([
+        { offset: 0, height: '0%' },
+        { offset: 0.99, height: '700px' },
+        { offset: 1, height: 'auto' },
+      ]);
+  }
 
   user: any = {
     nombres: '',
@@ -25,6 +45,9 @@ export class RegisterPage implements OnInit {
     password: ''
   }
 
+  usersString = localStorage.getItem('users');
+  users = this.usersString ? JSON.parse(this.usersString) : [];
+  
   calcularEdad() {
     if (this.user.fec_nac) {
       const hoy = new Date();
@@ -38,97 +61,139 @@ export class RegisterPage implements OnInit {
   regex = /\d/; // Expresión regular que verifica la presencia de números
   pass_confirmation: string  = ''
   validacion: boolean = false;
-  NombreIngresado: boolean = false;
-  NombreValido: boolean = false;
+  NombreNoIngresado: boolean = false;
+  NombreInvalido: boolean = false;
   nombresInput(){
     const nombres = this.user.nombres;
     if(nombres == ''){
-      this.NombreIngresado = true;
-    }else{this.NombreIngresado = false;}
-
-    if(this.regex.test(nombres)){
-      this.NombreValido = true;
-    }else{this.NombreValido = false;}
+      this.NombreNoIngresado = true;
+    }else{
+      this.NombreNoIngresado = false;
+      if(this.regex.test(nombres)){
+        this.NombreInvalido = true;
+        this.validacion = false;
+      }else{
+        this.NombreInvalido = false;
+        this.validacion = true;
+      }
+    }
   }
-  ApellidoIngresado: boolean = false;
-  ApellidoValido: boolean = false;
+  ApellidoNoIngresado: boolean = false;
+  ApellidoInvalido: boolean = false;
   apellidosInput(){
     const apellidos = this.user.apellidos;
     if(apellidos == ''){
-      this.ApellidoIngresado = true;
-    }else{this.ApellidoIngresado = false;}
-
-    if(this.regex.test(apellidos)){
-      this.ApellidoValido = true;
-    }else{this.ApellidoValido = false;}
+      this.ApellidoNoIngresado = true;
+    }else{
+      this.ApellidoNoIngresado = false;
+      if(this.regex.test(apellidos)){
+        this.ApellidoInvalido = true;
+        this.validacion = false;
+      }else{
+        this.ApellidoInvalido = false;
+        this.validacion = true;}
+    }
   }
+  FechaNoIngresada: boolean = false;
   FechaIngresada: boolean = false;
-  FechaValida: boolean = false;
+  FechaInvalida: boolean = false;
   FechaNacInput(){
     this.calcularEdad();
     const fec_nac = this.user.fec_nac;
     if(fec_nac == ''){
-      this.FechaIngresada = true;
-    }else{this.FechaIngresada = false;}
+      this.FechaNoIngresada = true;
+    }else{this.FechaNoIngresada = false;}
 
-    if(this.user.edad < 3){
-      this.FechaValida = true;
-    }else{this.FechaValida = false;}
+    if(this.user.edad < 5){
+      this.FechaInvalida = true;
+      this.validacion = false;
+    }else{
+      this.FechaInvalida = false;
+      this.validacion = true;
+      this.FechaIngresada = true;
+    }
   }
-  SexoIngresado: boolean = false;
-  DeporteIngresado: boolean = false;
-  TelefonoIngresado: boolean = false;
-  TelefonoValido: boolean = false;
+  SexoNoIngresado: boolean = false;
+  SexoChange(){
+    const sexo = this.user.sexo;
+    if(sexo == ''){
+      this.SexoNoIngresado = true;
+      this.validacion = false;
+    }else{
+      this.SexoNoIngresado = false;
+      this.validacion = true;
+    }
+  }
+  DeporteNoIngresado: boolean = false;
+  DeporteChange(){
+    const deporte = this.user.dep_fav;
+    if(deporte == ''){
+      this.DeporteNoIngresado = true;
+      this.validacion = false;
+    }else{
+      this.DeporteNoIngresado = false;
+      this.validacion = true;
+    }
+  }
+  TelefonoNoIngresado: boolean = false;
+  TelefonoInvalido: boolean = false;
   TelefonoInput(){
     const telefono = this.user.tel ?? '';
     const tel_string = telefono.toString();
     if(telefono == ''){
-      this.TelefonoIngresado = true;
-      this.TelefonoValido = false;
+      this.TelefonoNoIngresado = true;
+      this.TelefonoInvalido = false;
     }else{
-      this.TelefonoIngresado = false;
+      this.TelefonoNoIngresado = false;
       const patron = /^9/; // Expresión regular para verificar si comienza con +569
       const tel_valido = patron.test(telefono);
       if(!tel_valido || tel_string.length != 9){
-        this.TelefonoValido = true;
-      }else{this.TelefonoValido = false;}
+        this.TelefonoInvalido = true;
+        this.validacion = false;
+      }else{
+        this.TelefonoInvalido = false;
+        this.validacion = true;
+      }
     }
   }
-  EmailIngresado: boolean = false;
-  EmailValido: boolean = false;
+  EmailNoIngresado: boolean = false;
+  EmailInvalido: boolean = false;
   EmailInput(){
     const email = this.user.email;
     if(email == ''){
-      this.EmailIngresado = true;
-      this.EmailValido = false;
+      this.EmailNoIngresado = true;
+      this.EmailInvalido = false;
     }else{
-      this.EmailIngresado = false;
+      this.EmailNoIngresado = false;
       const patronCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       const email_valido = patronCorreo.test(email);
       if(!email_valido){
-        this.EmailValido = true;
-      }else{this.EmailValido = false;}
+        this.EmailInvalido = true;
+        this.validacion = false;
+      }else{
+        this.EmailInvalido = false;
+        this.validacion = true;}
     }
   }
-  UsuarioIngresado: boolean = false;
+  UsuarioNoIngresado: boolean = false;
   UsuarioExistente: boolean = false;
   UsuarioInput(){
     const usuario = this.user.username;
     if(usuario == ''){
-      this.UsuarioIngresado = true;
+      this.UsuarioNoIngresado = true;
     }else{
-      this.UsuarioIngresado = false;
+      this.UsuarioNoIngresado = false;
     }
   }
-  ContraseniaIngresada: boolean = false;
-  ContraseniaValida: boolean = false;
+  ContraseniaNoIngresada: boolean = false;
+  ContraseniaInvalida: boolean = false;
   ContraInput(){
     const contra = this.user.password;
     if(contra == ''){
-      this.ContraseniaIngresada = true;
-      this.ContraseniaValida = false;
+      this.ContraseniaNoIngresada = true;
+      this.ContraseniaInvalida = false;
     }else{
-      this.ContraseniaIngresada = false;
+      this.ContraseniaNoIngresada = false;
       // Expresión regular que verifica si la contraseña cumple con los requisitos
       const patronPassword = /^(?=.*\d{4})(?=.*[a-zA-Z]{3})(?=.*[A-Z]).{8,}$/;
       /* ?=.*\d{4}): Debe contener al menos 4 números.
@@ -137,20 +202,127 @@ export class RegisterPage implements OnInit {
       .{8,}: Debe tener una longitud mínima de 8 caracteres en total. */
       const contra_valida = patronPassword.test(contra);
       if(!contra_valida){
-        this.ContraseniaValida = true;
-      }else{this.ContraseniaValida = false;}
+        this.ContraseniaInvalida = true;
+        this.validacion = false;
+      }else{
+        this.ContraseniaInvalida = false;
+        this.validacion = true;}
     }
   }
-  ConfContraseniaIngresada: boolean = false;
-  ConfContraseniaValida: boolean = false;
-  ngOnInit() {
+  ConfContraseniaNoIngresada: boolean = false;
+  ConfContraseniaInvalida: boolean = false;
+  ConfContraInput(){
+    const ConfContra = this.pass_confirmation;
+    const contra = this.user.password;
+    if(ConfContra == ''){
+      this.ConfContraseniaNoIngresada = true;
+      this.ConfContraseniaInvalida = false;
+    }else{
+      this.ConfContraseniaNoIngresada = false;
+      if(ConfContra != contra){
+        this.ConfContraseniaInvalida = true;
+        this.validacion = false;
+      }else{
+        this.ConfContraseniaInvalida = false;
+        this.validacion = true;
+      }
+    }
   }
-
+  ionViewDidEnter() {
+    setTimeout(() => {
+      this.animation.play();
+    }, 100);
+  }
+  ionViewWillLeave() {
+    this.formulario.resetForm();
+    if (this.animation) {
+      this.animation.stop();
+    }
+    this.NombreNoIngresado = false;
+    this.ApellidoNoIngresado = false;
+    this.FechaNoIngresada = false;
+    this.SexoNoIngresado = false;
+    this.DeporteNoIngresado = false;  
+    this.TelefonoNoIngresado = false;
+    this.EmailNoIngresado = false;
+    this.UsuarioNoIngresado = false;
+    this.ContraseniaNoIngresada = false;
+    this.ConfContraseniaNoIngresada = false;
+  }
+  ngOnInit(){}
+  @ViewChild('modal') modal: any;
   onSubmit(){
-    console.log(this.user);
-    console.log(this.pass_confirmation);
-    
-    
+    if(!this.user.nombres){
+      this.NombreNoIngresado = true;
+      this.validacion = false;
+    }
+    else if(this.NombreInvalido){
+      this.validacion = false;
+    }
+    if(!this.user.apellidos){
+      this.ApellidoNoIngresado = true;
+      this.validacion = false;
+    }
+    else if(this.ApellidoInvalido){
+      this.validacion = false;
+    }
+    if(!this.user.fec_nac){
+      this.FechaNoIngresada = true;
+      this.validacion = false;
+    }
+    else if(this.FechaInvalida){
+      this.validacion = false;
+    }
+    if(!this.user.sexo){
+      this.SexoNoIngresado = true;
+      this.validacion = false;
+    }
+    if(!this.user.dep_fav){
+      this.DeporteNoIngresado = true;
+      this.validacion = false;
+    }
+    if(!this.user.tel){
+      this.TelefonoNoIngresado = true;
+      this.validacion = false;
+    }
+    else if(this.TelefonoInvalido){
+      this.validacion = false;
+    }
+    if(!this.user.email){
+      this.EmailNoIngresado = true;
+      this.validacion = false;
+    }
+    else if(this.EmailInvalido){
+      this.validacion = false;
+    }
+    if(!this.user.username){
+      this.UsuarioNoIngresado = true;
+      this.validacion = false;
+    }
+    else if(this.UsuarioExistente){
+      this.validacion = false;
+    }
+    if(!this.user.password){
+      this.ContraseniaNoIngresada = true;
+      this.validacion = false;
+    }
+    else if(this.ContraseniaInvalida){
+      this.validacion = false;
+    }
+    if(!this.pass_confirmation){
+      this.ConfContraseniaNoIngresada = true;
+      this.validacion = false;
+    }
+    else if(this.ConfContraseniaInvalida){
+      this.validacion = false;
+    }
+    if(this.validacion){
+      this.modal.present();
+      this.users.push(this.user);
+      console.log(this.users);
+      localStorage.setItem('users', JSON.stringify(this.users));
+    }
+      
   }
   
   onWillDismiss() {
