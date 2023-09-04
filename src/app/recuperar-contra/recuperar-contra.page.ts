@@ -24,11 +24,11 @@ export class RecuperarContraPage implements OnInit {
     this.animation = this.animationCtrl
       .create()
       .addElement(this.card.nativeElement)
-      .duration(1500)
+      .duration(1000)
       .iterations(1)
       .keyframes([
         { offset: 0, height: '0%' },
-        { offset: 0.99, height: '200px' },
+        { offset: 0.99, height: '250px' },
         { offset: 1, height: 'auto' },
       ]);
   }
