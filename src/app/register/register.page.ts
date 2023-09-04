@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { NavController, Animation, AnimationController, IonCard, IonCardContent } from '@ionic/angular';
+import { NavController, Animation, AnimationController, IonCard } from '@ionic/angular';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -252,7 +252,6 @@ export class RegisterPage implements OnInit {
   ngOnInit(){}
   @ViewChild('modal') modal: any;
   onSubmit(){
-    console.log(this.user);
     if(!this.user.nombres){
       this.NombreNoIngresado = true;
       this.validacion = false;

@@ -1,102 +1,103 @@
 <ion-content [fullscreen]="true">
-  <ion-card #card style="height: 0%;">
-    <ion-card-header>
-      <ion-button fill="clear" [routerLink]="['/home']">Atras</ion-button>
-      <ion-card-title>Registro</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <form (ngSubmit)="onSubmit()" #miFormulario="ngForm">
-        <div class="campo">
-          <ion-input required type="text" label="Nombres" labelPlacement="floating" name="nombres"
-            [(ngModel)]="user.nombres" (ionInput)="nombresInput()"></ion-input>
-          <ion-text color="danger" *ngIf="NombreNoIngresado">Ingrese Nombre</ion-text>
-          <ion-text color="danger" *ngIf="NombreInvalido">Ingrese Nombre Valido</ion-text>
-        </div>
-        <div class="campo">
-          <ion-input required type="text" label="Apellidos" labelPlacement="floating" name="apellidos"
-            [(ngModel)]="user.apellidos" (ionInput)="apellidosInput()"></ion-input>
-          <ion-text color="danger" *ngIf="ApellidoNoIngresado">Ingrese Apellido</ion-text>
-          <ion-text color="danger" *ngIf="ApellidoInvalido">Ingrese Apellido Valido</ion-text>
-        </div>
-        <div class="campo">
-          <ion-input required type="date" label="Fecha De Nacimiento" labelPlacement="floating" name="fecha_nacimiento"
-            [(ngModel)]="user.fec_nac" (ionInput)="FechaNacInput()"></ion-input>
-          <ion-text color="medium" *ngIf="FechaIngresada">Edad: {{user.edad}} años</ion-text>
-          <ion-text color="danger" *ngIf="FechaNoIngresada">Ingrese Fecha</ion-text>
-          <ion-text color="danger" *ngIf="FechaInvalida">Ingrese Fecha Valida <br> La Edad Minima Es De 5 Años, Has
-            Ingresado {{user.edad}} Años</ion-text>
-        </div>
-        <div class="campo">
-          <ion-select label="Sexo" label-placement="floating" name="sexo" [(ngModel)]="user.sexo"
-            (ionChange)="SexoChange()">
-            <ion-select-option value="m">Masculino</ion-select-option>
-            <ion-select-option value="f">Femenino</ion-select-option>
-            <ion-select-option value="o">Otros</ion-select-option>
-          </ion-select>
-          <ion-text color="danger" *ngIf="SexoNoIngresado">Ingrese Sexo</ion-text>
-        </div>
-        <div class="campo">
-          <ion-select label="Deporte Favorito" label-placement="floating" name="deporte_fav" [(ngModel)]="user.dep_fav"
-            (ionChange)="DeporteChange()">
-            <ion-select-option value="fut">Futbol</ion-select-option>
-            <ion-select-option value="bas">Basketball</ion-select-option>
-            <ion-select-option value="pad">Padel</ion-select-option>
-            <ion-select-option value="o">Otro</ion-select-option>
-          </ion-select>
-          <ion-text color="danger" *ngIf="DeporteNoIngresado">Ingrese Deporte Favorito</ion-text>
-        </div>
-        <div class="campo">
-          <ion-input required type="number" label="Teléfono" labelPlacement="floating" name="telefono"
-            [(ngModel)]="user.tel" (ionInput)="TelefonoInput()"></ion-input>
-          <ion-text color="danger" *ngIf="TelefonoNoIngresado">Ingrese Teléfono</ion-text>
-          <ion-text color="danger" *ngIf="TelefonoInvalido">Ingrese Teléfono Valido</ion-text>
-        </div>
-        <div class="campo">
-          <ion-input required type="email" label="Email" labelPlacement="floating" name="emial" [(ngModel)]="user.email"
-            (ionInput)="EmailInput()"></ion-input>
-          <ion-text color="danger" *ngIf="EmailNoIngresado">Ingrese Email</ion-text>
-          <ion-text color="danger" *ngIf="EmailInvalido">Ingrese Email Valido</ion-text>
-        </div>
-        <div class="campo">
-          <ion-input required type="text" label="Nombre de Usuario" labelPlacement="floating" name="username"
-            [(ngModel)]="user.username" (ionInput)="UsuarioInput()"></ion-input>
-          <ion-text color="danger" *ngIf="UsuarioNoIngresado">Ingrese Nombre de Usuario</ion-text>
-          <ion-text color="danger" *ngIf="UsuarioExistente">Nombre de Usuario YA Existente</ion-text>
-        </div>
-        <div class="campo">
-          <ion-input required type="password" label="Contraseña" labelPlacement="floating" name="password"
-            [(ngModel)]="user.password" (ionInput)="ContraInput()"></ion-input>
-          <ion-text color="danger" *ngIf="ContraseniaNoIngresada">Ingrese Contraseña</ion-text>
-          <ion-text color="danger" *ngIf="ContraseniaInvalida">
-            Ingrese Contraseña Valida <br>
-            Minimo 4 Números<br>
-            Minimo 3 Caracteres<br>
-            Minimo 1 Mayucula
-          </ion-text>
-        </div>
-        <div class="campo">
-          <ion-input required type="password" label="Confitmar Contraseña" labelPlacement="floating"
-            name="password_confirm" [(ngModel)]="pass_confirmation" (ionInput)="ConfContraInput()"></ion-input>
-          <ion-text color="danger" *ngIf="ConfContraseniaNoIngresada">Confirme Contraseña</ion-text>
-          <ion-text color="danger" *ngIf="ConfContraseniaInvalida">Contraseñas NO coinciden</ion-text>
-        </div>
-        <div class="boton-reg">
-          <ion-button block color="primary" type="submit">
-            Registrarse
-          </ion-button>
-        </div>
-      </form>
-    </ion-card-content>
-  </ion-card>
-  <ion-modal #modal (willDismiss)="onWillDismiss()">
-    <ng-template>
-      <ion-content>
-        <div class="modal-content">
-          <h2>Registro Completo</h2>
-          <br>
-          <ion-button [routerLink]="['/login']" (click)="modal.dismiss()">Iniciar Sesión</ion-button>
-        </div>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+<div class="content">
+    <ion-card #card style="height: 0%;">
+      <ion-card-header>
+        <ion-button fill="clear" [routerLink]="['/home']">Atras</ion-button>
+        <ion-card-title>Registro</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form (ngSubmit)="onSubmit()" #miFormulario="ngForm">
+          <div class="campo">
+            <ion-input required type="text" label="Nombres" labelPlacement="floating" name="nombres"
+              [(ngModel)]="user.nombres" (ionInput)="nombresInput()"></ion-input>
+            <ion-text color="danger" *ngIf="NombreNoIngresado">Ingrese Nombre</ion-text>
+            <ion-text color="danger" *ngIf="NombreInvalido">Ingrese Nombre Valido</ion-text>
+          </div>
+          <div class="campo">
+            <ion-input required type="text" label="Apellidos" labelPlacement="floating" name="apellidos"
+              [(ngModel)]="user.apellidos" (ionInput)="apellidosInput()"></ion-input>
+            <ion-text color="danger" *ngIf="ApellidoNoIngresado">Ingrese Apellido</ion-text>
+            <ion-text color="danger" *ngIf="ApellidoInvalido">Ingrese Apellido Valido</ion-text>
+          </div>
+          <div class="campo">
+            <ion-input required type="date" label="Fecha De Nacimiento" labelPlacement="floating" name="fecha_nacimiento"
+              [(ngModel)]="user.fec_nac" (ionInput)="FechaNacInput()"></ion-input>
+            <ion-text color="medium" *ngIf="FechaIngresada">Edad: {{user.edad}} años</ion-text>
+            <ion-text color="danger" *ngIf="FechaNoIngresada">Ingrese Fecha</ion-text>
+            <ion-text color="danger" *ngIf="FechaInvalida">Ingrese Fecha Valida <br> La Edad Minima Es De 5 Años, Has
+              Ingresado {{user.edad}} Años</ion-text>
+          </div>
+          <div class="campo">
+            <ion-select label="Sexo" label-placement="floating" name="sexo" [(ngModel)]="user.sexo"
+              (ionChange)="SexoChange()">
+              <ion-select-option value="m">Masculino</ion-select-option>
+              <ion-select-option value="f">Femenino</ion-select-option>
+              <ion-select-option value="o">Otros</ion-select-option>
+            </ion-select>
+            <ion-text color="danger" *ngIf="SexoNoIngresado">Ingrese Sexo</ion-text>
+          </div>
+          <div class="campo">
+            <ion-select label="Deporte Favorito" label-placement="floating" name="deporte_fav" [(ngModel)]="user.dep_fav"
+              (ionChange)="DeporteChange()">
+              <ion-select-option value="fut">Futbol</ion-select-option>
+              <ion-select-option value="bas">Basketball</ion-select-option>
+              <ion-select-option value="pad">Padel</ion-select-option>
+              <ion-select-option value="o">Otro</ion-select-option>
+            </ion-select>
+            <ion-text color="danger" *ngIf="DeporteNoIngresado">Ingrese Deporte Favorito</ion-text>
+          </div>
+          <div class="campo">
+            <ion-input required type="number" label="Teléfono" labelPlacement="floating" name="telefono"
+              [(ngModel)]="user.tel" (ionInput)="TelefonoInput()"></ion-input>
+            <ion-text color="danger" *ngIf="TelefonoNoIngresado">Ingrese Teléfono</ion-text>
+            <ion-text color="danger" *ngIf="TelefonoInvalido">Ingrese Teléfono Valido</ion-text>
+          </div>
+          <div class="campo">
+            <ion-input required type="email" label="Email" labelPlacement="floating" name="emial" [(ngModel)]="user.email"
+              (ionInput)="EmailInput()"></ion-input>
+            <ion-text color="danger" *ngIf="EmailNoIngresado">Ingrese Email</ion-text>
+            <ion-text color="danger" *ngIf="EmailInvalido">Ingrese Email Valido</ion-text>
+          </div>
+          <div class="campo">
+            <ion-input required type="text" label="Nombre de Usuario" labelPlacement="floating" name="username"
+              [(ngModel)]="user.username" (ionInput)="UsuarioInput()"></ion-input>
+            <ion-text color="danger" *ngIf="UsuarioNoIngresado">Ingrese Nombre de Usuario</ion-text>
+            <ion-text color="danger" *ngIf="UsuarioExistente">Nombre de Usuario YA Existente</ion-text>
+          </div>
+          <div class="campo">
+            <ion-input required type="password" label="Contraseña" labelPlacement="floating" name="password"
+              [(ngModel)]="user.password" (ionInput)="ContraInput()"></ion-input>
+            <ion-text color="danger" *ngIf="ContraseniaNoIngresada">Ingrese Contraseña</ion-text>
+            <ion-text color="danger" *ngIf="ContraseniaInvalida">
+              Ingrese Contraseña Valida <br>
+              Minimo 4 Números<br>
+              Minimo 3 Caracteres<br>
+              Minimo 1 Mayucula
+            </ion-text>
+          </div>
+          <div class="campo">
+            <ion-input required type="password" label="Confitmar Contraseña" labelPlacement="floating"
+              name="password_confirm" [(ngModel)]="pass_confirmation" (ionInput)="ConfContraInput()"></ion-input>
+            <ion-text color="danger" *ngIf="ConfContraseniaNoIngresada">Confirme Contraseña</ion-text>
+            <ion-text color="danger" *ngIf="ConfContraseniaInvalida">Contraseñas NO coinciden</ion-text>
+          </div>
+          <div class="boton-reg">
+            <ion-button block color="primary" type="submit">
+              Registrarse
+            </ion-button>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+    <ion-modal #modal (willDismiss)="onWillDismiss()">
+      <ng-template>
+        <ion-content>
+          <div class="modal-content">
+            <h2>Registro Completo</h2>
+            <ion-button [routerLink]="['/login']" (click)="modal.dismiss()">Iniciar Sesión</ion-button>
+          </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+</div>
 </ion-content>

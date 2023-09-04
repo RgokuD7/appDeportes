@@ -1,13 +1,37 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>RecuperarContra</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">RecuperarContra</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="content">
+    <ion-card #card style="height: 0%;">
+      <ion-card-header>
+        <div class="atras">
+          <ion-button fill="clear" [routerLink]="['/home']">Atras</ion-button>
+        </div>
+        <ion-card-title>Recuperar Contraseña</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form (ngSubmit)="onSubmit()" #miFormulario="ngForm">
+          <div class="campo">
+            <ion-input required type="email" label="Email" labelPlacement="floating" name="emial" [(ngModel)]="email"
+              (ionInput)="EmailInput()"></ion-input>
+            <ion-text color="danger" *ngIf="EmailNoIngresado">Ingrese Email</ion-text>
+            <ion-text color="danger" *ngIf="EmailInvalido">Ingrese Email Valido</ion-text>
+          </div>
+          <div class="boton-reg">
+            <ion-button block color="primary" type="submit">
+              Recuperar 
+            </ion-button>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+    <ion-modal #modal (willDismiss)="onWillDismiss()">
+      <ng-template>
+        <ion-content>
+          <div class="modal-content">
+            <h2>Se Envio La Contraseña Al Correo Ingresado <br> Verificala E Inicia Sesión</h2>
+            <ion-button [routerLink]="['/login']" (click)="modal.dismiss()">Iniciar Sesión</ion-button>
+          </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+  </div>
 </ion-content>
