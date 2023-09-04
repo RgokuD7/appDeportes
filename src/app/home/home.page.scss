@@ -30,3 +30,17 @@
   display: grid;
   place-items: center;  
 }
+
+ion-content{
+  --background: url(../../assets/Ingresar.jpg) 0 0/100% no-repeat;
+
+}
+
+ion-button {
+  --background: #138D75 
+}
+
+.example-button-row {
+  display: table-cell;
+  max-width: 600px;
+}

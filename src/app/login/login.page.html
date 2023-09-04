@@ -10,26 +10,29 @@
 
   <ion-card>
     
-    <ion-card-header>
+    <ion-card-header class="centro">
       <ion-card-title>Iniciar Sesión</ion-card-title>
     </ion-card-header>
 
 
-    <ion-card-content>
+    <ion-card-content class="centro">
         <ion-item>
           <ion-input label="Usuario" labelPlacement="floating" placeholder=""></ion-input>
         </ion-item>
     </ion-card-content>
 
-    <ion-card-content>
+    <ion-card-content class="centro">
         <ion-item>
           <ion-input label="Contraseña" labelPlacement="floating" type="password" value=""></ion-input>
         </ion-item>
+
     </ion-card-content>
-    <a [routerLink]="['/register']">Recuperar contraseña</a>
+    <div class="centro">
+      <a [routerLink]="['/register']">Recuperar contraseña</a>
+    </div>
 
     <ion-card-content>
-      <div>
+      <div class="centro">
         <ion-button [routerLink]="['/menu-partidos']">Ingresar</ion-button>
       </div>
     </ion-card-content>
