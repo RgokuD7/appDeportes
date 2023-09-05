@@ -3,7 +3,7 @@
 
   <ion-card-content>
     <div>
-      <ion-button fill="clear" [routerLink]="['/home']">Inicio</ion-button>
+      <ion-button class="retroceso" fill="clear" [routerLink]="['/home']">Inicio</ion-button>
     </div>
   </ion-card-content>
 
@@ -28,12 +28,14 @@
 
     </ion-card-content>
     <div class="centro">
-      <a [routerLink]="['/recuperar-contra']">Recuperar contraseña</a>
+      <a class="retroceso" [routerLink]="['/recuperar-contra']">Recuperar contraseña</a>
     </div>
+
+<br><br><br><br><br><br><br>
 
     <ion-card-content>
       <div class="centro">
-        <ion-button [routerLink]="['/menu-partidos']">Ingresar</ion-button>
+        <ion-button class="boton"  [routerLink]="['/menu-partidos']">Ingresar</ion-button>
       </div>
     </ion-card-content>
     
