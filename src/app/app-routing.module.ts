@@ -32,7 +32,15 @@ const routes: Routes = [
   {
     path: 'recuperar-contra',
     loadChildren: () => import('./recuperar-contra/recuperar-contra.module').then( m => m.RecuperarContraPageModule)
+  },  {
+    path: 'continuar',
+    loadChildren: () => import('./continuar/continuar.module').then( m => m.ContinuarPageModule)
   },
+  {
+    path: 'continuar-camp',
+    loadChildren: () => import('./continuar-camp/continuar-camp.module').then( m => m.ContinuarCampPageModule)
+  },
+
 
 
 ];

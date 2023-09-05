@@ -1,9 +1,4 @@
-
-.boton2 {
-    --background: #138D75;
-  }
-
-  .centro {
+.centro {
     display: flex;
     justify-content: center; /* Centra horizontalmente */
     align-items: center; /* Centra verticalmente */
@@ -12,3 +7,10 @@
   .retroceso {
     color: #138D75;;
   }
+
+  .boton {
+    display: grid;
+    place-items: center;
+    --background: #138D75;   
+  }
+  
