@@ -60,3 +60,9 @@ $theme: mat.define-light-theme((
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+.top{
+    position: fixed;
+    margin: 5%;
+    z-index: 1;
+    width: 100vw;
+  }

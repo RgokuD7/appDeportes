@@ -3,3 +3,23 @@
     justify-content: center; /* Centra horizontalmente */
     align-items: center; /* Centra verticalmente */
   }
+
+
+.content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+ion-card{
+  margin: auto 30px;
+  width: 100%;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex start;
+}
