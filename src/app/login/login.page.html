@@ -1,10 +1,7 @@
 <ion-content [fullscreen]="true">
-
-
   <div class="top">
     <ion-button fill="clear" [routerLink]="['/home']">Inicio</ion-button>
   </div>
-
   <div class="content">
     <ion-card #card style="height: 0%;">
       <ion-card-header class="centro">
@@ -32,24 +29,6 @@
           </div>
         </form>
       </ion-card-content>
-      <!--         <ion-card-content class="centro">
-        <ion-item>
-          <ion-input label="Usuario" labelPlacement="floating" placeholder="" [(ngModel)]="user.username"
-            (ionInput)="UsuarioInput()"></ion-input>
-          <ion-text color="danger" *ngIf="UsuarioNoIngresado">Ingrese Nombre de Usuario</ion-text>
-          <ion-text color="danger" *ngIf="UsuarioNoExiste">Nombre de Usuario YA Existente</ion-text>
-        </ion-item>
-      </ion-card-content>
-  
-      <ion-card-content class="centro">
-        <ion-item>
-          <ion-input label="Contraseña" labelPlacement="floating" type="password" value="" [(ngModel)]="user.password"
-            (ionInput)="ContraInput()"></ion-input>
-          <ion-text color="danger" *ngIf="ContraseniaNoIngresada">Ingrese Contraseña</ion-text>
-          <ion-text color="danger" *ngIf="ContraseniaInvalida">Contraseña Incorrecta</ion-text>
-        </ion-item>
-      </ion-card-content> -->
     </ion-card>
   </div>
-
 </ion-content>
