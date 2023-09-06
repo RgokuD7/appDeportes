@@ -4,12 +4,22 @@
     align-items: center; /* Centra verticalmente */
   }
 
-  .retroceso {
-    color: #138D75;;
-  }
 
-  .boton {
-    display: grid;
-    place-items: center;
-    --background: #138D75;   
-  }
+.content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+ion-card{
+  margin: auto 30px;
+  width: 100%;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex start;
+}
