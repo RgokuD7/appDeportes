@@ -1,8 +1,10 @@
 <ion-content [fullscreen]="true">
-<div class="content">
+    <div class="top">
+      <ion-button fill="clear" [routerLink]="['/home']">Atras</ion-button>
+    </div>
+  <div class="content">
     <ion-card #card style="height: 0%;">
       <ion-card-header>
-        <ion-button fill="clear" [routerLink]="['/home']">Atras</ion-button>
         <ion-card-title>Registro</ion-card-title>
       </ion-card-header>
       <ion-card-content>
@@ -20,8 +22,8 @@
             <ion-text color="danger" *ngIf="ApellidoInvalido">Ingrese Apellido Valido</ion-text>
           </div>
           <div class="campo">
-            <ion-input required type="date" label="Fecha De Nacimiento" labelPlacement="floating" name="fecha_nacimiento"
-              [(ngModel)]="user.fec_nac" (ionInput)="FechaNacInput()"></ion-input>
+            <ion-input required type="date" label="Fecha De Nacimiento" labelPlacement="floating"
+              name="fecha_nacimiento" [(ngModel)]="user.fec_nac" (ionInput)="FechaNacInput()"></ion-input>
             <ion-text color="medium" *ngIf="FechaIngresada">Edad: {{user.edad}} años</ion-text>
             <ion-text color="danger" *ngIf="FechaNoIngresada">Ingrese Fecha</ion-text>
             <ion-text color="danger" *ngIf="FechaInvalida">Ingrese Fecha Valida <br> La Edad Minima Es De 5 Años, Has
@@ -37,8 +39,8 @@
             <ion-text color="danger" *ngIf="SexoNoIngresado">Ingrese Sexo</ion-text>
           </div>
           <div class="campo">
-            <ion-select label="Deporte Favorito" label-placement="floating" name="deporte_fav" [(ngModel)]="user.dep_fav"
-              (ionChange)="DeporteChange()">
+            <ion-select label="Deporte Favorito" label-placement="floating" name="deporte_fav"
+              [(ngModel)]="user.dep_fav" (ionChange)="DeporteChange()">
               <ion-select-option value="fut">Futbol</ion-select-option>
               <ion-select-option value="bas">Basketball</ion-select-option>
               <ion-select-option value="pad">Padel</ion-select-option>
@@ -53,8 +55,8 @@
             <ion-text color="danger" *ngIf="TelefonoInvalido">Ingrese Teléfono Valido</ion-text>
           </div>
           <div class="campo">
-            <ion-input required type="email" label="Email" labelPlacement="floating" name="emial" [(ngModel)]="user.email"
-              (ionInput)="EmailInput()"></ion-input>
+            <ion-input required type="email" label="Email" labelPlacement="floating" name="emial"
+              [(ngModel)]="user.email" (ionInput)="EmailInput()"></ion-input>
             <ion-text color="danger" *ngIf="EmailNoIngresado">Ingrese Email</ion-text>
             <ion-text color="danger" *ngIf="EmailInvalido">Ingrese Email Valido</ion-text>
           </div>
@@ -99,5 +101,5 @@
         </ion-content>
       </ng-template>
     </ion-modal>
-</div>
+  </div>
 </ion-content>

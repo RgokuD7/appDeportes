@@ -1,10 +1,10 @@
 <ion-content [fullscreen]="true">
+  <div class="top">
+    <ion-button fill="clear" [routerLink]="['/home']">Atras</ion-button>
+  </div>
   <div class="content">
     <ion-card #card style="height: 0%;">
       <ion-card-header>
-        <div class="atras">
-          <ion-button fill="clear" [routerLink]="['/home']">Atras</ion-button>
-        </div>
         <ion-card-title>Recuperar Contraseña</ion-card-title>
       </ion-card-header>
       <ion-card-content>
@@ -17,7 +17,7 @@
           </div>
           <div class="boton-reg">
             <ion-button block color="primary" type="submit">
-              Recuperar 
+              Recuperar
             </ion-button>
           </div>
         </form>
