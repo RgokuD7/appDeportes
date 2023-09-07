@@ -1,0 +1,40 @@
+
+<ion-content [fullscreen]="true">
+
+  <ion-card-content>
+    <div>
+        <ion-button class="retroceso" fill="clear" [routerLink]="['/menu-partidos']">Atrás</ion-button>
+    </div>
+  </ion-card-content>
+  
+  <ion-card-content>
+    <div class="titulos">
+      <h1> NUEVO CAMPEONATO </h1>
+    </div>
+  </ion-card-content>
+  
+  <br><br><br><br><br>
+  
+  <ion-item>
+    <ion-select label="Deporte" label-placement="fixed" placeholder="">
+      <ion-select-option value="Padel">Padel</ion-select-option>
+      <ion-select-option value="Tenis de Mesa">Tenis de Mesa</ion-select-option>
+      <ion-select-option value="Futbol">Futbol</ion-select-option>
+    </ion-select>
+  </ion-item>
+  
+  <br><br><br><br><br>
+  
+  <ion-item>
+    <ion-input label="Número de Equipos" type="number" placeholder="0" maxlength="1"></ion-input>
+  </ion-item>
+  
+  <br><br><br>
+  
+  <ion-card-content>
+    <div>
+      <ion-button class="boton centro" [routerLink]="['/menu-partidos']">Continuar</ion-button>
+    </div>
+  </ion-card-content>
+  </ion-content>
+  
