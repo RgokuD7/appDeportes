@@ -13,7 +13,7 @@
             <ion-input required type="email" label="Email" labelPlacement="floating" name="emial" [(ngModel)]="email"
               (ionInput)="EmailInput()"></ion-input>
             <ion-text color="danger" *ngIf="EmailNoIngresado">Ingrese Email</ion-text>
-            <ion-text color="danger" *ngIf="EmailInvalido">Ingrese Email Valido</ion-text>
+            <ion-text color="danger" *ngIf="EmailInvalido">Este Emial No Esta Registrado</ion-text>
           </div>
           <div class="boton-reg">
             <ion-button block color="primary" type="submit">

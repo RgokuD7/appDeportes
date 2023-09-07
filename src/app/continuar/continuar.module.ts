@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ContinuarPageRoutingModule } from './continuar-routing.module';
 
 import { ContinuarPage } from './continuar.page';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ContinuarPageRoutingModule
+    ContinuarPageRoutingModule,
+    MatTableModule
   ],
   declarations: [ContinuarPage]
 })

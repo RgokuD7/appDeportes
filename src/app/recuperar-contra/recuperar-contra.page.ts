@@ -24,7 +24,7 @@ export class RecuperarContraPage implements OnInit {
     this.animation = this.animationCtrl
       .create()
       .addElement(this.card.nativeElement)
-      .duration(1000)
+      .duration(200)
       .iterations(1)
       .keyframes([
         { offset: 0, height: '0%' },
@@ -36,20 +36,35 @@ export class RecuperarContraPage implements OnInit {
   ngOnInit() {
   }
 
+  usersString = localStorage.getItem('users');
+  users = this.usersString ? JSON.parse(this.usersString) : [];
+
+  
+BuscarEmail(Email: string): any {
+  for (const key in this.users) {
+    if (this.users.hasOwnProperty(key)) {
+      const user = this.users[key];
+      if (user.email === Email) {
+        return user;
+      }
+    }
+  }
+  return null; // Si no se encuentra el usuario
+}
+
   email: string = '';
   validacion: boolean = false;
   EmailNoIngresado: boolean = false;
   EmailInvalido: boolean = false;
   EmailInput(){
     const email = this.email;
+    const emailRecovery  = this.BuscarEmail(email);
     if(email == ''){
       this.EmailNoIngresado = true;
       this.EmailInvalido = false;
     }else{
       this.EmailNoIngresado = false;
-      const patronCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      const email_valido = patronCorreo.test(email);
-      if(!email_valido){
+      if(emailRecovery == null){
         this.EmailInvalido = true;
         this.validacion = false;
       }else{
@@ -81,13 +96,14 @@ export class RecuperarContraPage implements OnInit {
     setTimeout(() => {
       this.animation.play();
     }, 100);
+    this.validacion = false;
+    this.EmailNoIngresado = false;
   }
   ionViewWillLeave() {
     this.formulario.resetForm();
     if (this.animation) {
       this.animation.stop();
     }
-    this.EmailNoIngresado = false;
   }
 
 }

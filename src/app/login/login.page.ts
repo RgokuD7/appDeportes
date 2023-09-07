@@ -26,11 +26,11 @@ export class LoginPage implements OnInit {
     this.animation = this.animationCtrl
       .create()
       .addElement(this.card.nativeElement)
-      .duration(1500)
+      .duration(200)
       .iterations(1)
       .keyframes([
         { offset: 0, height: '0%' },
-        { offset: 0.99, height: '200px' },
+        { offset: 0.99, height: '275px' },
         { offset: 1, height: 'auto' },
       ]);
   }
@@ -100,14 +100,15 @@ BuscarUsuario(Usuario: string): any {
     setTimeout(() => {
       this.animation.play();
     }, 100);
+    this.validacion = false;
+    this.UsuarioNoIngresado = false;
+    this.ContraseniaNoIngresada = false;
   }
   ionViewWillLeave() {
     this.formulario.resetForm();
     if (this.animation) {
       this.animation.stop();
     }
-    this.UsuarioNoIngresado = false;
-    this.ContraseniaNoIngresada = false;
   }
 
   onSubmit(){

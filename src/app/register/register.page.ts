@@ -23,7 +23,7 @@ export class RegisterPage implements OnInit {
     this.animation = this.animationCtrl
       .create()
       .addElement(this.card.nativeElement)
-      .duration(1500)
+      .duration(300)
       .iterations(1)
       .keyframes([
         { offset: 0, height: '0%' },
@@ -232,12 +232,7 @@ export class RegisterPage implements OnInit {
     setTimeout(() => {
       this.animation.play();
     }, 100);
-  }
-  ionViewWillLeave() {
-    this.formulario.resetForm();
-    if (this.animation) {
-      this.animation.stop();
-    }
+    this.validacion = false;
     this.NombreNoIngresado = false;
     this.ApellidoNoIngresado = false;
     this.FechaNoIngresada = false;
@@ -248,6 +243,12 @@ export class RegisterPage implements OnInit {
     this.UsuarioNoIngresado = false;
     this.ContraseniaNoIngresada = false;
     this.ConfContraseniaNoIngresada = false;
+  }
+  ionViewWillLeave() {
+    this.formulario.resetForm();
+    if (this.animation) {
+      this.animation.stop();
+    }
   }
   ngOnInit(){}
   @ViewChild('modal') modal: any;
