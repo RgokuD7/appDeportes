@@ -1,3 +1,7 @@
+ion-conten{
+  display: flex;
+}
+
 .titulos {
     display: flex;
     justify-content: center; /* Centra horizontalmente */
@@ -26,3 +30,34 @@
   .retroceso {
     color: #138D75;;
   }
+
+ion-grid {
+  ion-row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    ion-col {
+      padding: 0;
+      margin: 10px;
+      .deporte {
+        display: flex;
+        justify-content: center; /* Centra horizontalmente */
+        align-items: center; /* Centra verticalmente */
+        height: 100%;
+        width: auto;
+        margin: 0;
+        background-color: #f8f9fa;
+        border: 3px solid var(--ion-color-primary);
+        border-radius: 1rem;
+        -webkit-border-radius: 1rem;
+        -moz-border-radius: 1rem;
+        -ms-border-radius: 1rem;
+        -o-border-radius: 1rem;
+        ion-img {
+          width: auto;
+          height: auto;
+        }
+      }
+    }
+  }
+}

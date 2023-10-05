@@ -1,0 +1,58 @@
+<ion-content class="contenido" [fullscreen]="true">
+  <ion-card class="nombre-torneo">
+    <ion-card-header>
+      <ion-card-title>Nombre Torneo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-input type="text" placeholder="Ingrese nombre del Torneo"></ion-input>
+    </ion-card-content>
+  </ion-card>
+  <ion-card class="tipo_torneo">
+    <ion-card-header>
+      <ion-card-title>Tipo Torneo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-card>
+              <ion-img src="../../assets/icon/leaderboard.svg"></ion-img>
+              <h1>Liga</h1>
+            </ion-card>
+          </ion-col>
+          <ion-col>
+            <ion-card>
+              <ion-img src="../../assets/icon/cup.svg"></ion-img>
+              <h1>Copa</h1>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col><ion-checkbox labelPlacement="end">Fase de grupos</ion-checkbox></ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-card class="cantidad-equipos">
+    <ion-card-header>
+      <ion-card-title>Ingrese Cantidad de Equipos</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="4">
+            <ion-button expand="block" fill="clear" shape="round">
+              <ion-icon src="../../assets/icon/minus-solid.svg"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col size="4"><ion-input type="number" value="0"></ion-input></ion-col>
+          <ion-col size="4">
+            <ion-button expand="block" fill="clear" shape="round">
+              <ion-icon src="../../assets/icon/plus-solid.svg"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
