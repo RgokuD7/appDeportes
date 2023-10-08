@@ -1,11 +1,13 @@
+.titulo{
+    text-align: center;
+}
 ion-card.nombre-torneo{
     margin: 40px 10px 0 10px;
-    ion-card-header{
-        ion-card-title{
-            text-align: center;
-        }
-    }
     ion-card-content{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         ion-input{
             width: auto;
             text-align: center;
@@ -15,19 +17,14 @@ ion-card.nombre-torneo{
 }
 ion-card.tipo_torneo {
     margin: 10px;
-    ion-card-header{
-        ion-card-title{
-            text-align: center;
-        }
-    }
     ion-card-content{
         padding: 0;
         ion-grid {
             ion-row {
                 display: flex;
-                flex-wrap: wrap;
                 padding: 0;
                 ion-col {
+                    text-align: center;
                     padding: 0;
                     margin: 10px;
                     ion-card {
@@ -51,9 +48,16 @@ ion-card.tipo_torneo {
                             margin: 10px;
                         }
                         h1 {
-                            color: white;
                             margin: 5px;
                         }
+                    }
+                    .tipo-selected{
+                        background-color: #45d17f;
+                        border: 3px solid #45d17f;
+                    }
+                    ion-text{
+                        text-align: center;
+                        color:#FFD666;
                     }
                 }
             }
@@ -63,14 +67,14 @@ ion-card.tipo_torneo {
 
 ion-card.cantidad-equipos{ 
     margin: 10px;   
-    ion-card-header{
-        ion-card-title{
-            text-align: center;
-        }
-    }
     ion-card-content{
         ion-grid{
             padding: 0;
+            .alerta-equipos{
+                padding-top: 10px;
+                color: #FFD666;
+                text-align: center;
+            }
             ion-row{
                 padding: 0;
                 ion-col{
@@ -102,5 +106,10 @@ ion-card.cantidad-equipos{
             }
         }
     }
-
 }
+ion-button{
+    margin: 10px;
+}
+
+
+
