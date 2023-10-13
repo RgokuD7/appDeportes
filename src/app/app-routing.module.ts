@@ -66,25 +66,24 @@ const routes: Routes = [
     loadChildren: () => import('./producto/product-detail/product-detail.module').then( m => m.ProductDetailPageModule)
   },
   {
-    path: 'cliente/listar',
-    loadChildren: () => import('./cliente/listar/cliente.listar.module').then(m => m.ClienteListarPageModule)
+    path: 'cliente-add',
+    loadChildren: () => import('./cliente/cliente-add/cliente-add.module').then( m => m.ClienteAddPageModule)
   },
   {
-    path: 'cliente/agregar',
-    loadChildren: () => import('./cliente/agregar/cliente.agregar.module').then(m => m.ClienteAgregarPageModule)
+    path: 'cliente-all',
+    loadChildren: () => import('./cliente/cliente-all/cliente-all.module').then( m => m.ClienteAllPageModule)
   },
   {
-    path: 'cliente/actualizar',
-    loadChildren: () => import('./cliente/actualizar/cliente.actualizar.module').then(m => m.ClienteActualizarPageModule)
+    path: 'cliente-detail/:id',
+    loadChildren: () => import('./cliente/cliente-detail/cliente-detail.module').then( m => m.ClienteDetailPageModule)
   },
   {
-    path: 'cliente/eliminar',
-    loadChildren: () => import('./cliente/eliminar/cliente.eliminar.module').then(m => m.ClienteEliminarPageModule)
+    path: 'cliente-edit/:id',
+    loadChildren: () => import('./cliente/cliente-edit/cliente-edit.module').then( m => m.ClienteEditPageModule)
   },
-
   {
-    path: 'cliente/leer',
-    loadChildren: () => import('./cliente/leer/cliente.leer.module').then(m => m.ClienteLeerPageModule)
+    path: 'cliente-list',
+    loadChildren: () => import('./cliente/cliente-list/cliente-list.module').then( m => m.ClienteListPageModule)
   },
   {
     path: '**',
