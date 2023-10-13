@@ -46,9 +46,51 @@ const routes: Routes = [
     loadChildren: () => import('./nuevo-camp/nuevo-camp.module').then( m => m.NuevoCampPageModule)
   },
   {
+    path: 'product-add',
+    loadChildren: () => import('./producto/product-add/product-add.module').then( m => m.ProductAddPageModule)
+  },
+  {
+    path: 'product-edit',
+    loadChildren: () => import('./producto/product-edit/product-edit.module').then( m => m.ProductEditPageModule)
+  },
+  {
+    path: 'product-list',
+    loadChildren: () => import('./producto/product-list/product-list.module').then( m => m.ProductListPageModule)
+  },
+  {
+    path: 'product-all',
+    loadChildren: () => import('./producto/product-all/product-all.module').then( m => m.ProductAllPageModule)
+  },
+  {
+    path: 'product-detail',
+    loadChildren: () => import('./producto/product-detail/product-detail.module').then( m => m.ProductDetailPageModule)
+  },
+  {
+    path: 'cliente/listar',
+    loadChildren: () => import('./cliente/listar/cliente.listar.module').then(m => m.ClienteListarPageModule)
+  },
+  {
+    path: 'cliente/agregar',
+    loadChildren: () => import('./cliente/agregar/cliente.agregar.module').then(m => m.ClienteAgregarPageModule)
+  },
+  {
+    path: 'cliente/actualizar',
+    loadChildren: () => import('./cliente/actualizar/cliente.actualizar.module').then(m => m.ClienteActualizarPageModule)
+  },
+  {
+    path: 'cliente/eliminar',
+    loadChildren: () => import('./cliente/eliminar/cliente.eliminar.module').then(m => m.ClienteEliminarPageModule)
+  },
+
+  {
+    path: 'cliente/leer',
+    loadChildren: () => import('./cliente/leer/cliente.leer.module').then(m => m.ClienteLeerPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./not-found/not-found.module').then( m => m.NotFoundPageModule)
   },
+
 
 
 
