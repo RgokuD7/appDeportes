@@ -1,5 +1,10 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { NavController, Animation, AnimationController, IonCard } from '@ionic/angular';
+import { NavController, Animation, AnimationController, IonCard, IonInput } from '@ionic/angular';
+import { ActivatedRoute, ChildActivationStart, Router } from '@angular/router';
+import { Clusuario } from '../usuario/model/ClUsuario';
+import { UsuarioService } from '../usuario/usuario.service';
+import { HttpClient } from '@angular/common/http';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -9,15 +14,19 @@ export class RegisterPage implements OnInit {
 
   @ViewChild('miFormulario', { static: false }) formulario: any;
   @ViewChild(IonCard, { read: ElementRef }) card: any;
+  @ViewChild('nacionalidadModal') nacionalidadModal: any;
 
   private animation: Animation;
 
   constructor(
     private navCtrl: NavController,
-    private animationCtrl: AnimationController
+    private animationCtrl: AnimationController,
+    private http: HttpClient,
   ){
     this.animation = this.animationCtrl.create();
   }
+
+  
 
   ngAfterViewInit() {
     this.animation = this.animationCtrl
@@ -32,101 +41,147 @@ export class RegisterPage implements OnInit {
       ]);
   }
 
-  user: any = {
-    nombres: '',
-    apellidos: '',
-    fec_nac: '',
-    edad: '',
-    sexo: '',
-    dep_fav: '',
-    tel: '',
-    email: '',
-    username: '',
-    password: ''
+  usuario: Clusuario = {
+    id: 0,
+    nombres: "",
+    apellidos: "",
+    fecha_nac: "",
+    edad: 0,
+    genero:  "",
+    nacionalidad: "",
+    deporte_fav: "",
+    telefono: 0,
+    email:  "",
+    username: "",
+    password: ""
   }
-
-  usersString = localStorage.getItem('users');
-  users = this.usersString ? JSON.parse(this.usersString) : [];
   
-  calcularEdad() {
-    if (this.user.fec_nac) {
-      const hoy = new Date();
-      const fechaNacimiento = new Date(this.user.fec_nac);
-      const edadMilisegundos = hoy.getTime() - fechaNacimiento.getTime();
-      this.user.edad = Math.floor(edadMilisegundos / (365.25 * 24 * 60 * 60 * 1000));
-    } else {
-      this.user.edad = null;
-    }
+
+  getDteFormatted(date: Date){
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Suma 1 porque los meses se indexan desde 0
+    const day = date.getDate();
+    // Formatea la fecha como "YYYY-MM-DD"
+    const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    return formattedDate;
   }
-  regex = /\d/; // Expresión regular que verifica la presencia de números
+  calcularEdad(fec_nac: Date) {
+    const hoy = new Date();
+    const fechaNacimiento = fec_nac;
+    const edadMilisegundos = hoy.getTime() - fechaNacimiento.getTime();
+    const edad = Math.floor(edadMilisegundos / (365.25 * 24 * 60 * 60 * 1000));
+    return edad;
+  }
+  
+  regla = /\d/; // Expresión regular que verifica la presencia de números
   pass_confirmation: string  = ''
   validacion: boolean = false;
-  NombreNoIngresado: boolean = false;
-  NombreInvalido: boolean = false;
+  NombresInvalido = false;
   nombresInput(){
-    const nombres = this.user.nombres;
-    if(nombres == ''){
-      this.NombreNoIngresado = true;
-    }else{
-      this.NombreNoIngresado = false;
-      if(this.regex.test(nombres)){
-        this.NombreInvalido = true;
-        this.validacion = false;
-      }else{
-        this.NombreInvalido = false;
-        this.validacion = true;
-      }
+    const nombres = this.usuario.nombres;
+    if(this.regla.test(nombres)){
+      this.NombresInvalido = true;
     }
   }
-  ApellidoNoIngresado: boolean = false;
-  ApellidoInvalido: boolean = false;
   apellidosInput(){
-    const apellidos = this.user.apellidos;
-    if(apellidos == ''){
-      this.ApellidoNoIngresado = true;
-    }else{
-      this.ApellidoNoIngresado = false;
-      if(this.regex.test(apellidos)){
-        this.ApellidoInvalido = true;
-        this.validacion = false;
-      }else{
-        this.ApellidoInvalido = false;
-        this.validacion = true;}
+    const apellidos = this.usuario.apellidos;
+    if(this.regla.test(apellidos)){
+      this.NombresInvalido = true;
     }
   }
-  FechaNoIngresada: boolean = false;
-  FechaIngresada: boolean = false;
-  FechaInvalida: boolean = false;
-  FechaNacInput(){
-    this.calcularEdad();
-    const fec_nac = this.user.fec_nac;
-    if(fec_nac == ''){
-      this.FechaNoIngresada = true;
-    }else{this.FechaNoIngresada = false;}
+  fecha_nac : any;
+  date = this.getDteFormatted(new Date);
+  edad: any;
+  showDatetime = false;
+  dateInput = false;
+  dateChange(){
+    const date = this.getDteFormatted(new Date(this.fecha_nac));
+    this.date = date;
+    this.edad = this.calcularEdad(new Date(this.fecha_nac));
+    if(this.edad < 5){
+      this.edad = 'Ingrese una edad valida, minimo 5 años'
+    }
+    else{
+      this.edad = `${this.edad} años`
+    }
+    this.dateInput = true;
+  }
+  botonDateClick(){
+    this.showDatetime = !this.showDatetime;
+  }
+  datetimeLoseFocus(){
+    setTimeout(() => {
+        this.showDatetime = false;
+    }, 100);
+  }
+  femaleGenderColor = 'white';
+  maleGenderColor = 'white';
+  otherGenderColor = 'white';
+  femaleGenderClick(){
+    this.femaleGenderColor = 'var(--ion-color-secondary)';
+    this.maleGenderColor = 'white';
+    this.otherGenderColor = 'white';
+    this.usuario.genero = 'female';
+  }
+  maleGenderClick(){
+    this.maleGenderColor = 'var(--ion-color-secondary)';
+    this.femaleGenderColor = 'white';
+    this.otherGenderColor = 'white';
+    this.usuario.genero = 'male';
+  }
+  otroGenderClick(){
+    this.otherGenderColor = 'var(--ion-color-secondary)';
+    this.femaleGenderColor = 'white';
+    this.maleGenderColor = 'white';
+    this.usuario.genero = 'other';
+  }
 
-    if(this.user.edad < 5){
-      this.FechaInvalida = true;
-      this.validacion = false;
-    }else{
-      this.FechaInvalida = false;
-      this.validacion = true;
-      this.FechaIngresada = true;
-    }
+  banderas: any;
+  banderasFiltradas: any;
+
+  ngOnInit() {
+    this.http.get('https://flagcdn.com/es/codes.json').subscribe((res: any) => {
+      this.banderas = res;
+      this.banderasFiltradas = res;
+    });
   }
-  SexoNoIngresado: boolean = false;
-  SexoChange(){
-    const sexo = this.user.sexo;
-    if(sexo == ''){
-      this.SexoNoIngresado = true;
-      this.validacion = false;
-    }else{
-      this.SexoNoIngresado = false;
-      this.validacion = true;
-    }
+
+   // Esta función se ejecutará cuando cambie el valor en el campo de búsqueda
+   busquedaInput(event: any){
+    const busqueda = event.target.value.toLowerCase();
+    this.banderasFiltradas = Object.keys(this.banderas)
+      .filter((key) => this.banderas[key].toLowerCase().includes(busqueda.toLowerCase()))
+      .reduce((obj: any, key) => {
+        obj[key] = this.banderas[key];
+        return obj;
+      }, {});
   }
+
+  nacionalidad_src = 'https://flagcdn.com/256x192/cl.png'
+  nacionalidad_alt = 'Chile'
+
+  banderaClick(key: any, value: any){
+    this.usuario.nacionalidad = key;
+    this.nacionalidad_src = `https://flagcdn.com/256x192/${key}.png`;
+    this.nacionalidad_alt = value;
+    this.nacionalidadModal.dismiss();
+  }
+
+  deporte_src = '../../assets/icon/soccer_ball.png';
+  deporte_alt = 'Fútbol';
+
+  futbolClick(){
+    
+  }
+
+
+
+
+
+
   DeporteNoIngresado: boolean = false;
   DeporteChange(){
-    const deporte = this.user.dep_fav;
+    const deporte = this.usuario.deporte_fav;
     if(deporte == ''){
       this.DeporteNoIngresado = true;
       this.validacion = false;
@@ -138,15 +193,15 @@ export class RegisterPage implements OnInit {
   TelefonoNoIngresado: boolean = false;
   TelefonoInvalido: boolean = false;
   TelefonoInput(){
-    const telefono = this.user.tel ?? '';
-    const tel_string = telefono.toString();
-    if(telefono == ''){
+    const tel = this.usuario.telefono;
+    const tel_string = tel.toString();
+    if(tel == 0){
       this.TelefonoNoIngresado = true;
       this.TelefonoInvalido = false;
     }else{
       this.TelefonoNoIngresado = false;
       const patron = /^9/; // Expresión regular para verificar si comienza con +569
-      const tel_valido = patron.test(telefono);
+      const tel_valido = patron.test(tel_string);
       if(!tel_valido || tel_string.length != 9){
         this.TelefonoInvalido = true;
         this.validacion = false;
@@ -159,7 +214,7 @@ export class RegisterPage implements OnInit {
   EmailNoIngresado: boolean = false;
   EmailInvalido: boolean = false;
   EmailInput(){
-    const email = this.user.email;
+    const email = this.usuario.email;
     if(email == ''){
       this.EmailNoIngresado = true;
       this.EmailInvalido = false;
@@ -178,7 +233,7 @@ export class RegisterPage implements OnInit {
   UsuarioNoIngresado: boolean = false;
   UsuarioExistente: boolean = false;
   UsuarioInput(){
-    const usuario = this.user.username;
+    const usuario = this.usuario.username;
     if(usuario == ''){
       this.UsuarioNoIngresado = true;
     }else{
@@ -188,7 +243,7 @@ export class RegisterPage implements OnInit {
   ContraseniaNoIngresada: boolean = false;
   ContraseniaInvalida: boolean = false;
   ContraInput(){
-    const contra = this.user.password;
+    const contra = this.usuario.password;
     if(contra == ''){
       this.ContraseniaNoIngresada = true;
       this.ContraseniaInvalida = false;
@@ -213,7 +268,7 @@ export class RegisterPage implements OnInit {
   ConfContraseniaInvalida: boolean = false;
   ConfContraInput(){
     const ConfContra = this.pass_confirmation;
-    const contra = this.user.password;
+    const contra = this.usuario.password;
     if(ConfContra == ''){
       this.ConfContraseniaNoIngresada = true;
       this.ConfContraseniaInvalida = false;
@@ -229,14 +284,8 @@ export class RegisterPage implements OnInit {
     }
   }
   ionViewDidEnter() {
-    setTimeout(() => {
-      this.animation.play();
-    }, 100);
+
     this.validacion = false;
-    this.NombreNoIngresado = false;
-    this.ApellidoNoIngresado = false;
-    this.FechaNoIngresada = false;
-    this.SexoNoIngresado = false;
     this.DeporteNoIngresado = false;  
     this.TelefonoNoIngresado = false;
     this.EmailNoIngresado = false;
@@ -244,66 +293,37 @@ export class RegisterPage implements OnInit {
     this.ContraseniaNoIngresada = false;
     this.ConfContraseniaNoIngresada = false;
   }
-  ionViewWillLeave() {
-    this.formulario.resetForm();
-    if (this.animation) {
-      this.animation.stop();
-    }
-  }
-  ngOnInit(){}
   @ViewChild('modal') modal: any;
   onSubmit(){
-    if(!this.user.nombres){
-      this.NombreNoIngresado = true;
+    if(!this.usuario.genero){
       this.validacion = false;
     }
-    else if(this.NombreInvalido){
-      this.validacion = false;
-    }
-    if(!this.user.apellidos){
-      this.ApellidoNoIngresado = true;
-      this.validacion = false;
-    }
-    else if(this.ApellidoInvalido){
-      this.validacion = false;
-    }
-    if(!this.user.fec_nac){
-      this.FechaNoIngresada = true;
-      this.validacion = false;
-    }
-    else if(this.FechaInvalida){
-      this.validacion = false;
-    }
-    if(!this.user.sexo){
-      this.SexoNoIngresado = true;
-      this.validacion = false;
-    }
-    if(!this.user.dep_fav){
+    if(!this.usuario.deporte_fav){
       this.DeporteNoIngresado = true;
       this.validacion = false;
     }
-    if(!this.user.tel){
+    if(!this.usuario.telefono){
       this.TelefonoNoIngresado = true;
       this.validacion = false;
     }
     else if(this.TelefonoInvalido){
       this.validacion = false;
     }
-    if(!this.user.email){
+    if(!this.usuario.email){
       this.EmailNoIngresado = true;
       this.validacion = false;
     }
     else if(this.EmailInvalido){
       this.validacion = false;
     }
-    if(!this.user.username){
+    if(!this.usuario.username){
       this.UsuarioNoIngresado = true;
       this.validacion = false;
     }
     else if(this.UsuarioExistente){
       this.validacion = false;
     }
-    if(!this.user.password){
+    if(!this.usuario.password){
       this.ContraseniaNoIngresada = true;
       this.validacion = false;
     }
@@ -319,9 +339,6 @@ export class RegisterPage implements OnInit {
     }
     if(this.validacion){
       this.modal.present();
-      this.users.push(this.user);
-      console.log(this.users);
-      localStorage.setItem('users', JSON.stringify(this.users));
     }
       
   }

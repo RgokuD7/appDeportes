@@ -1,46 +1,165 @@
 <ion-content [fullscreen]="true">
-    <div class="top">
-      <ion-button fill="clear" [routerLink]="['/home']">Atras</ion-button>
-    </div>
+  <div class="top">
+    <ion-button fill="clear" [routerLink]="['/home']">Atras</ion-button>
+  </div>
+  <ion-card class="nombre">
+    <ion-card-header class="titulo">
+      <ion-card-title>Nombre</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-input type="text" placeholder="Nombres" name="nombres" [(ngModel)]="usuario.nombres"
+              (ionInput)="nombresInput()"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-input type="text" placeholder="Apellidos" name="apellidos" [(ngModel)]="usuario.apellidos"
+              (ionInput)="apellidosInput()"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="NombresInvalido">
+          <ion-col size="12" class="error">
+            <ion-text>Ingrese un nombre valido, sin números</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-card class="fecha-nacimiento">
+    <ion-card-header class="titulo">
+      <ion-card-title>Fecha de nacimiento</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block" fill="clear" (click)="botonDateClick()">{{date}}</ion-button>
+      <ion-text *ngIf="dateInput">{{edad}}</ion-text>
+      <ion-datetime (ionBlur)="datetimeLoseFocus()" (ionChange)="dateChange()" [firstDayOfWeek]="1" *ngIf="showDatetime"
+        presentation="date" [(ngModel)]="fecha_nac"></ion-datetime>
+    </ion-card-content>
+  </ion-card>
+  <ion-card class="genero">
+    <ion-card-header class="titulo">
+      <ion-card-title>Genero</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-card (click)="femaleGenderClick()">
+              <ion-icon [style.color]="femaleGenderColor" name="female-outline"></ion-icon>
+              <ion-text [style.color]="femaleGenderColor">Femenino</ion-text>
+            </ion-card>
+          </ion-col>
+          <ion-col>
+            <ion-card (click)="maleGenderClick()">
+              <ion-icon [style.color]="maleGenderColor" name="male-outline"></ion-icon>
+              <ion-text [style.color]="maleGenderColor">Maculino</ion-text>
+            </ion-card>
+          </ion-col>
+          <ion-col>
+            <ion-card (click)="otroGenderClick()">
+              <ion-icon [style.color]="otherGenderColor" name="male-female-outline"></ion-icon>
+              <ion-text [style.color]="otherGenderColor">Otro</ion-text>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-grid class="nacionalidad-deporte">
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-header class="titulo">
+            <ion-card-title>Nacionalidad</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-card id="open-nacionalidadModal">
+              <ion-img [src]="nacionalidad_src" [alt]="nacionalidad_alt"></ion-img>
+              <ion-text>{{nacionalidad_alt}}</ion-text>
+            </ion-card>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header class="titulo">
+            <ion-card-title>Deporte Favorito</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-card id="open-deporteModal">
+              <ion-img [src]="deporte_src" [alt]="deporte_alt"></ion-img>
+              <ion-text>{{deporte_alt}}</ion-text>
+            </ion-card>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-modal #nacionalidadModal class="modal-banderas" trigger="open-nacionalidadModal" [initialBreakpoint]="0.75"
+    [breakpoints]="[0, 0.25, 0.5, 0.75]">
+    <ng-template>
+      <ion-content>
+        <ion-searchbar placeholder="Search" (ionInput)="busquedaInput($event)"></ion-searchbar>
+        <div class="banderas-container">
+          <ion-card *ngFor="let key of banderasFiltradas | keyvalue" class="banderas"
+            (click)="banderaClick(key.key, key.value)">
+            <ion-img [src]="'https://flagcdn.com/160x120/' + key.key + '.png'" width="160" height="120"
+              alt={{key.value}}>
+            </ion-img>
+            <ion-text>{{key.value}}</ion-text>
+          </ion-card>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <ion-modal #deporteModal class="modal-deportes" trigger="open-deporteModal" [initialBreakpoint]="0.75"
+    [breakpoints]="[0, 0.25, 0.5, 0.75]">
+    <ng-template>
+      <ion-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-card class="deporte" (click)="futbolClick()">
+                <ion-img src="../../assets/icon/soccer_ball.png" alt="Torneo De Fútbol"></ion-img>
+                <ion-text>Torneo De Fútbol</ion-text>
+              </ion-card>
+            </ion-col>
+            <ion-col>
+              <ion-card class="deporte">
+                <ion-img src="../../assets/icon/basquetball.png" alt="Torneo De Básquetbol"></ion-img>
+                <ion-text>Torneo De Básquetbol</ion-text>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-card class="deporte">
+                <ion-img src="../../assets/icon/padel_raquet.png" alt="Torneo De Padel"></ion-img>
+                <ion-text>Torneo De Padel</ion-text>
+              </ion-card>
+            </ion-col>
+            <ion-col>
+              <ion-card class="deporte">
+                <ion-img src="../../assets/icon/tenis_raquet.png" alt="Torneo De Tenis"></ion-img>
+                <ion-text>Torneo De Tenis</ion-text>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
   <div class="content">
-    <ion-card #card style="height: 0%;">
+    <ion-card #card style="height: auto;">
       <ion-card-header>
         <ion-card-title>Registro</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <form (ngSubmit)="onSubmit()" #miFormulario="ngForm">
           <div class="campo">
-            <ion-input required type="text" label="Nombres" labelPlacement="floating" name="nombres"
-              [(ngModel)]="user.nombres" (ionInput)="nombresInput()"></ion-input>
-            <ion-text color="danger" *ngIf="NombreNoIngresado">Ingrese Nombre</ion-text>
-            <ion-text color="danger" *ngIf="NombreInvalido">Ingrese Nombre Valido</ion-text>
-          </div>
-          <div class="campo">
-            <ion-input required type="text" label="Apellidos" labelPlacement="floating" name="apellidos"
-              [(ngModel)]="user.apellidos" (ionInput)="apellidosInput()"></ion-input>
-            <ion-text color="danger" *ngIf="ApellidoNoIngresado">Ingrese Apellido</ion-text>
-            <ion-text color="danger" *ngIf="ApellidoInvalido">Ingrese Apellido Valido</ion-text>
-          </div>
-          <div class="campo">
-            <ion-input required type="date" label="Fecha De Nacimiento" labelPlacement="floating"
-              name="fecha_nacimiento" [(ngModel)]="user.fec_nac" (ionInput)="FechaNacInput()"></ion-input>
-            <ion-text color="medium" *ngIf="FechaIngresada">Edad: {{user.edad}} años</ion-text>
-            <ion-text color="danger" *ngIf="FechaNoIngresada">Ingrese Fecha</ion-text>
-            <ion-text color="danger" *ngIf="FechaInvalida">Ingrese Fecha Valida <br> La Edad Minima Es De 5 Años, Has
-              Ingresado {{user.edad}} Años</ion-text>
-          </div>
-          <div class="campo">
-            <ion-select label="Sexo" label-placement="floating" name="sexo" [(ngModel)]="user.sexo"
-              (ionChange)="SexoChange()">
-              <ion-select-option value="m">Masculino</ion-select-option>
-              <ion-select-option value="f">Femenino</ion-select-option>
-              <ion-select-option value="o">Otros</ion-select-option>
-            </ion-select>
-            <ion-text color="danger" *ngIf="SexoNoIngresado">Ingrese Sexo</ion-text>
-          </div>
-          <div class="campo">
             <ion-select label="Deporte Favorito" label-placement="floating" name="deporte_fav"
-              [(ngModel)]="user.dep_fav" (ionChange)="DeporteChange()">
+              [(ngModel)]="usuario.deporte_fav" (ionChange)="DeporteChange()">
               <ion-select-option value="fut">Futbol</ion-select-option>
               <ion-select-option value="bas">Basketball</ion-select-option>
               <ion-select-option value="pad">Padel</ion-select-option>
@@ -50,25 +169,25 @@
           </div>
           <div class="campo">
             <ion-input required type="number" label="Teléfono" labelPlacement="floating" name="telefono"
-              [(ngModel)]="user.tel" (ionInput)="TelefonoInput()"></ion-input>
+              [(ngModel)]="usuario.telefono" (ionInput)="TelefonoInput()"></ion-input>
             <ion-text color="danger" *ngIf="TelefonoNoIngresado">Ingrese Teléfono</ion-text>
             <ion-text color="danger" *ngIf="TelefonoInvalido">Ingrese Teléfono Valido</ion-text>
           </div>
           <div class="campo">
             <ion-input required type="email" label="Email" labelPlacement="floating" name="emial"
-              [(ngModel)]="user.email" (ionInput)="EmailInput()"></ion-input>
+              [(ngModel)]="usuario.email" (ionInput)="EmailInput()"></ion-input>
             <ion-text color="danger" *ngIf="EmailNoIngresado">Ingrese Email</ion-text>
             <ion-text color="danger" *ngIf="EmailInvalido">Ingrese Email Valido</ion-text>
           </div>
           <div class="campo">
-            <ion-input required type="text" label="Nombre de Usuario" labelPlacement="floating" name="username"
-              [(ngModel)]="user.username" (ionInput)="UsuarioInput()"></ion-input>
+            <ion-input required type="text" label="Nombre de Usuario" labelPlacement="floating" name="usuarioname"
+              [(ngModel)]="usuario.username" (ionInput)="UsuarioInput()"></ion-input>
             <ion-text color="danger" *ngIf="UsuarioNoIngresado">Ingrese Nombre de Usuario</ion-text>
             <ion-text color="danger" *ngIf="UsuarioExistente">Nombre de Usuario YA Existente</ion-text>
           </div>
           <div class="campo">
             <ion-input required type="password" label="Contraseña" labelPlacement="floating" name="password"
-              [(ngModel)]="user.password" (ionInput)="ContraInput()"></ion-input>
+              [(ngModel)]="usuario.password" (ionInput)="ContraInput()"></ion-input>
             <ion-text color="danger" *ngIf="ContraseniaNoIngresada">Ingrese Contraseña</ion-text>
             <ion-text color="danger" *ngIf="ContraseniaInvalida">
               Ingrese Contraseña Valida <br>
@@ -91,7 +210,7 @@
         </form>
       </ion-card-content>
     </ion-card>
-    <ion-modal #modal (willDismiss)="onWillDismiss()">
+    <ion-modal #modal (willDismiss)="onWillDismiss()" class="regsitro">
       <ng-template>
         <ion-content>
           <div class="modal-content">

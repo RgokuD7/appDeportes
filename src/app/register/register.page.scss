@@ -1,4 +1,4 @@
-ion-modal {
+ion-modal.regsitro {
     --height: 20%;
     --border-radius: 16px;
     --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -6,16 +6,211 @@ ion-modal {
 
 .content{
     display: flex;
-    align-items: center;
+    align-items: self-start;
     justify-content: center;
     height: 100%;
     width: 100%;
 }
 
-ion-card{
-    margin: 120px 30px;
-    width: 100%;
+.titulo{
+    text-align: center;
+    padding: 10px 10px 0 10px;
 }
+
+ion-card.nombre{
+    margin: 90px 10px 0 10px;
+    ion-card-content{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        ion-grid{
+            padding: 0;
+            ion-row{
+                ion-col{
+                    ion-input{
+                        width: auto;
+                        padding-left: 5px;
+                        margin: 5px;
+                        text-align: start;
+                        color: var(--ion-color-primary);
+                        border-bottom: 3px solid var(--ion-color-primary);
+                    }
+                    ion-text{
+                        color: var(--ion-color-secondary);
+                    }
+                }
+                ion-col.error{
+                    text-align: center;
+                    ion-text{
+                        color: var(--ion-color-secondary);
+                    }
+                }
+            }
+        }
+    }
+}
+ion-card.fecha-nacimiento{
+    margin: 10px;
+    ion-card-content{
+        padding: 10px;
+        display: grid;
+        place-items: center;
+        ion-button{
+            background-color: var(--ion-color-secondary);
+            color: var(--ion-color-primary);
+            border-radius: 1rem;
+            -webkit-border-radius: 1rem;
+            -moz-border-radius: 1rem;
+            -ms-border-radius: 1rem;
+            -o-border-radius: 1rem;
+        }
+        ion-text{
+            color: var(--ion-color-primary);
+        }
+        ion-datetime{
+            --background: var(--ion-card-background);
+            --wheel-fade-background-rgb: transparent;
+        }
+    }
+}
+
+ion-card.genero{
+    margin: 10px;
+    ion-card-content{
+        padding: 10px;
+        ion-grid{
+            padding: 0;
+            ion-row{
+                ion-col{
+                    ion-card{
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center; 
+                        align-items: center; 
+                        height: 100%;
+                        width: auto;
+                        margin: 0;
+                        padding: 10px;
+                        background-color: var(--ion-color-primary);
+                        border-radius: 1rem;
+                        -webkit-border-radius: 1rem;
+                        -moz-border-radius: 1rem;
+                        -ms-border-radius: 1rem;
+                        -o-border-radius: 1rem;
+                        ion-icon{
+                            color: white;
+                            font-size: 100%;
+                        }
+                        ion-text{
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+ion-grid.nacionalidad-deporte{
+    margin: 0;
+    margin-left: 10px;
+    padding: 0;
+    ion-row{
+        margin: 0;
+        padding: 0;
+        ion-col{
+            margin: 0 10px 10px 0;
+            padding: 0;
+            ion-card{
+                height: 100%;
+                margin: 0;
+                display: grid;
+                place-items: center;
+                ion-card-header{
+                    ion-card-title{
+                        font-size: large;
+                    }
+                }
+                ion-card-content{
+                    padding: 0;
+                    ion-card{
+                        display: grid;
+                        margin: 10px;
+                        place-items: center;
+                        width: auto;
+                        height: auto;
+                        ion-img{
+                            width: 100%;
+                            height: auto;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+ion-modal.modal-banderas {
+    ion-content {
+      .banderas-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+        gap: 16px; /* Espacio entre las tarjetas */
+        padding: 16px; /* Espacio interior */
+      }
+  
+      ion-card.banderas {
+        width: 100%; /* Ancho completo de cada tarjeta */
+        box-sizing: border-box;
+        display: grid;
+        place-items: center;
+        margin: 0;
+        ion-img{
+            width: max-content;
+        }
+      }
+    }
+  }
+
+ion-modal.modal-deportes{
+    ion-grid{
+        ion-row {
+          display: flex;
+          flex-wrap: wrap;
+          padding: 0;
+          ion-col {
+            padding: 0;
+            margin: 10px;
+            .deporte {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              height: 100%;
+              width: auto;
+              margin: 0;
+              border: 3px solid var(--ion-color-primary);
+              border-radius: 1rem;
+              -webkit-border-radius: 1rem;
+              -moz-border-radius: 1rem;
+              -ms-border-radius: 1rem;
+              -o-border-radius: 1rem;
+              ion-img {
+                height: 80%;
+                width: auto;
+              }
+              ion-text{
+                color: var(--ion-color-primary);
+              }
+            }
+          }
+        }
+      }
+}
+  
+/* ion-card{
+    margin: 90px 30px;
+    width: 100%;
+} */
 
 ion-card-header{
     display: flex;

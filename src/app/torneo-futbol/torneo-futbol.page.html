@@ -1,36 +1,36 @@
-<ion-content class="contenido" [fullscreen]="true">
+<ion-content [fullscreen]="true">
   <ion-card class="nombre-torneo">
-    <ion-card-header>
-      <ion-card-title class="titulo">Nombre Torneo</ion-card-title>
+    <ion-card-header class="titulo">
+      <ion-card-title>Nombre Torneo</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-input type="text" placeholder="Ingrese nombre del Torneo" [(ngModel)]="torneo.nombre"
-        autofocus="true" #nombreImput></ion-input>
+      <ion-input type="text" placeholder="Ingrese nombre del Torneo" [(ngModel)]="torneo.nombre" autofocus="true"
+        #nombreImput></ion-input>
     </ion-card-content>
   </ion-card>
   <ion-card class="tipo_torneo">
-    <ion-card-header>
-      <ion-card-title class="titulo">Tipo Torneo</ion-card-title>
+    <ion-card-header class="titulo">
+      <ion-card-title>Tipo Torneo</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-grid>
         <ion-row>
           <ion-col>
             <ion-card (click)="ligaClick()" #ligaCard>
-              <ion-img [src]="ligaImg" src="../../assets/icon/leaderboard.svg"></ion-img>
+              <ion-img [src]="ligaImg"></ion-img>
               <h1 [style.color]="ligaColorText">Liga</h1>
             </ion-card>
           </ion-col>
           <ion-col>
             <ion-card (click)="copaClick()" #copaCard>
-              <ion-img [src]="copaImg" src="../../assets/icon/cup.svg"></ion-img>
+              <ion-img [src]="copaImg"></ion-img>
               <h1 [style.color]="copaColorText">Copa</h1>
             </ion-card>
           </ion-col>
         </ion-row>
         <ion-row *ngIf="isCopa">
-          <ion-col><ion-checkbox [(ngModel)]="torneo.fase_grupos" labelPlacement="end">Fase de
-              grupos</ion-checkbox></ion-col>
+          <ion-col class="fase-grupos">
+            <ion-checkbox [(ngModel)]="torneo.fase_grupos" labelPlacement="end">Fase degrupos</ion-checkbox></ion-col>
         </ion-row>
         <ion-row *ngIf="tipoNoSelected">
           <ion-col>
@@ -42,8 +42,8 @@
   </ion-card>
 
   <ion-card class="cantidad-equipos">
-    <ion-card-header>
-      <ion-card-title class="titulo">Ingrese Cantidad de Equipos</ion-card-title>
+    <ion-card-header class="titulo">
+      <ion-card-title>Ingrese Cantidad de Equipos</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-grid fixed>
