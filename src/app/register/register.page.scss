@@ -35,6 +35,7 @@ ion-card.nombre{
                         text-align: start;
                         color: var(--ion-color-primary);
                         border-bottom: 3px solid var(--ion-color-primary);
+                        font-size: calc(16px + 6 * ((100vw - 320px) / 680));
                     }
                     ion-text{
                         color: var(--ion-color-secondary);
@@ -78,7 +79,7 @@ ion-card.fecha-nacimiento{
 ion-card.genero{
     margin: 10px;
     ion-card-content{
-        padding: 10px;
+        padding: 0;
         ion-grid{
             padding: 0;
             ion-row{
@@ -98,12 +99,9 @@ ion-card.genero{
                         -moz-border-radius: 1rem;
                         -ms-border-radius: 1rem;
                         -o-border-radius: 1rem;
-                        ion-icon{
-                            color: white;
-                            font-size: 100%;
-                        }
-                        ion-text{
-                            color: white;
+                        ion-img{
+                            width: 100%;
+                            height: auto;
                         }
                     }
                 }
@@ -122,27 +120,20 @@ ion-grid.nacionalidad-deporte{
             margin: 0 10px 10px 0;
             padding: 0;
             ion-card{
-                height: 100%;
+                display: flex;
+                flex-direction: column;
                 margin: 0;
-                display: grid;
-                place-items: center;
-                ion-card-header{
-                    ion-card-title{
-                        font-size: large;
-                    }
-                }
+                height: 100%;
                 ion-card-content{
-                    padding: 0;
-                    ion-card{
-                        display: grid;
-                        margin: 10px;
-                        place-items: center;
-                        width: auto;
+                    padding: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    align-items: center;
+                    height: 100%;
+                    ion-img{
+                        width: 100%;
                         height: auto;
-                        ion-img{
-                            width: 100%;
-                            height: auto;
-                        }
                     }
                 }
             }
@@ -153,13 +144,13 @@ ion-modal.modal-banderas {
     ion-content {
       .banderas-container {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); /* Dos columnas */
-        gap: 16px; /* Espacio entre las tarjetas */
-        padding: 16px; /* Espacio interior */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px; 
+        padding: 16px; 
       }
   
       ion-card.banderas {
-        width: 100%; /* Ancho completo de cada tarjeta */
+        width: 100%; 
         box-sizing: border-box;
         display: grid;
         place-items: center;
@@ -206,13 +197,55 @@ ion-modal.modal-deportes{
         }
       }
 }
+
+ion-card.info-personal{
+    margin: 10px;
+    margin-top: 0;
+    ion-card-content{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        ion-grid{
+            padding: 0;
+            ion-row{
+                ion-col{
+                    ion-input{
+                        width: auto;
+                        padding-left: 5px;
+                        margin: 5px;
+                        text-align: start;
+                        color: var(--ion-color-primary);
+                        border-bottom: 3px solid var(--ion-color-primary);
+                        font-size: calc(16px + 6 * ((100vw - 320px) / 680));
+                    }
+                    ion-text{
+                        color: var(--ion-color-secondary);
+                    }
+                }
+                ion-col.error{
+                    text-align: center;
+                    ion-text{
+                        color: var(--ion-color-secondary);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.password-error{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
   
 /* ion-card{
     margin: 90px 30px;
     width: 100%;
 } */
 
-ion-card-header{
+/* ion-card-header{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -223,7 +256,7 @@ ion-card-header{
 ion-card-header ion-button{
     position: fixed;
     left: 10px;
-}
+} */
 
 .modal-content{
     display: grid;

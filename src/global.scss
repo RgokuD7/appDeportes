@@ -66,3 +66,8 @@ $theme: mat.define-light-theme((
     z-index: 1;
     width: 100vw;
   }
+
+ion-text{
+  font-size: calc(16px + 6 * ((100vw - 320px) / 680));
+}
+

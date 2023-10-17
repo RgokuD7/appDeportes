@@ -44,22 +44,22 @@
     <ion-card-content>
       <ion-grid>
         <ion-row>
-          <ion-col>
+          <ion-col size="4">
             <ion-card (click)="femaleGenderClick()">
-              <ion-icon [style.color]="femaleGenderColor" name="female-outline"></ion-icon>
-              <ion-text [style.color]="femaleGenderColor">Femenino</ion-text>
+              <ion-img [src]="femaleGenderImgSrc"></ion-img>
+              <ion-text [style.color]="femaleGenderTextColor">Femenino</ion-text>
             </ion-card>
           </ion-col>
-          <ion-col>
+          <ion-col size="4">
             <ion-card (click)="maleGenderClick()">
-              <ion-icon [style.color]="maleGenderColor" name="male-outline"></ion-icon>
-              <ion-text [style.color]="maleGenderColor">Maculino</ion-text>
+              <ion-img [src]="maleGenderImgSrc"></ion-img>
+              <ion-text [style.color]="maleGenderTextColor">Maculino</ion-text>
             </ion-card>
           </ion-col>
-          <ion-col>
+          <ion-col size="4">
             <ion-card (click)="otroGenderClick()">
-              <ion-icon [style.color]="otherGenderColor" name="male-female-outline"></ion-icon>
-              <ion-text [style.color]="otherGenderColor">Otro</ion-text>
+              <ion-img [src]="otherGenderImgSrc"></ion-img>
+              <ion-text [style.color]="otherGenderTextColor">Otro</ion-text>
             </ion-card>
           </ion-col>
         </ion-row>
@@ -69,28 +69,24 @@
   <ion-grid class="nacionalidad-deporte">
     <ion-row>
       <ion-col>
-        <ion-card>
+        <ion-card id="open-nacionalidadModal">
           <ion-card-header class="titulo">
             <ion-card-title>Nacionalidad</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-card id="open-nacionalidadModal">
-              <ion-img [src]="nacionalidad_src" [alt]="nacionalidad_alt"></ion-img>
+              <ion-img style="padding-top: 30px;" [src]="nacionalidad_src" [alt]="nacionalidad_alt"></ion-img>
               <ion-text>{{nacionalidad_alt}}</ion-text>
-            </ion-card>
           </ion-card-content>
         </ion-card>
       </ion-col>
       <ion-col>
-        <ion-card>
+        <ion-card id="open-deporteModal">
           <ion-card-header class="titulo">
             <ion-card-title>Deporte Favorito</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-card id="open-deporteModal">
               <ion-img [src]="deporte_src" [alt]="deporte_alt"></ion-img>
               <ion-text>{{deporte_alt}}</ion-text>
-            </ion-card>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -126,7 +122,7 @@
               </ion-card>
             </ion-col>
             <ion-col>
-              <ion-card class="deporte">
+              <ion-card class="deporte" (click)="basquetClick()">
                 <ion-img src="../../assets/icon/basquetball.png" alt="Torneo De Básquetbol"></ion-img>
                 <ion-text>Torneo De Básquetbol</ion-text>
               </ion-card>
@@ -134,13 +130,13 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <ion-card class="deporte">
+              <ion-card class="deporte" (click)="padelClick()">
                 <ion-img src="../../assets/icon/padel_raquet.png" alt="Torneo De Padel"></ion-img>
                 <ion-text>Torneo De Padel</ion-text>
               </ion-card>
             </ion-col>
             <ion-col>
-              <ion-card class="deporte">
+              <ion-card class="deporte"  (click)="tenisClick()">
                 <ion-img src="../../assets/icon/tenis_raquet.png" alt="Torneo De Tenis"></ion-img>
                 <ion-text>Torneo De Tenis</ion-text>
               </ion-card>
@@ -150,6 +146,72 @@
       </ion-content>
     </ng-template>
   </ion-modal>
+  <ion-card class="info-personal">
+    <ion-card-header class="titulo">
+      <ion-card-title>Contacto</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-input type="tel" placeholder="Teléfono" name="telefono" [(ngModel)]="telefono"
+              (ionChange)="telefonoChange()"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-input type="email" placeholder="Correo" name="correo" [(ngModel)]="usuario.email"
+              (ionChange)="correoChange()"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="error">
+            <ion-text *ngIf="telefonoInvalido">Ingrese un Teléfono valido</ion-text>
+            <ion-text *ngIf="telefonoNoIngresado">Ingrese un Teléfono</ion-text>
+          </ion-col>
+          <ion-col class="error">
+            <ion-text *ngIf="correoInvalido">Ingrese un Correo valido</ion-text>
+            <ion-text *ngIf="correoNoIngresado">Ingrese un Teléfono</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-card class="info-personal">
+    <ion-card-header class="titulo">
+      <ion-card-title>Contacto</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-input type="text" placeholder="Nombre de Usuario" name="username" [(ngModel)]="usuario.username"
+              (ionChange)="usernameChange()"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="error">
+            <ion-text *ngIf="usernameInvalido">Ingrese un Usuario valido</ion-text>
+            <ion-text *ngIf="usernameNoIngresado">Ingrese Nombre de Usuario</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+              <ion-input type="password" placeholder="Contraseña" name="password" [(ngModel)]="usuario.password"
+                (ionInput)="passwordInput()"></ion-input>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="password-error">
+              <ion-text *ngIf="passwordInvalida">Ingrese un Correo valido:</ion-text>
+              <ion-text *ngIf="password4Num" >-Debe contener al menos 4 números.</ion-text>
+              <ion-text *ngIf="password3Car" >-Debe contener al menos 3 caracteres (letras minúsculas o mayúsculas).</ion-text>
+              <ion-text *ngIf="passwordMayus">-Debe contener al menos 1 letra mayúscula.</ion-text>
+              <ion-text *ngIf="passowrd8Length">-Debe tener una longitud mínima de 8 caracteres en total</ion-text>
+              <ion-text *ngIf="passwordNoIngresada">Ingrese una Contraseña</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
   <div class="content">
     <ion-card #card style="height: auto;">
       <ion-card-header>
@@ -157,45 +219,6 @@
       </ion-card-header>
       <ion-card-content>
         <form (ngSubmit)="onSubmit()" #miFormulario="ngForm">
-          <div class="campo">
-            <ion-select label="Deporte Favorito" label-placement="floating" name="deporte_fav"
-              [(ngModel)]="usuario.deporte_fav" (ionChange)="DeporteChange()">
-              <ion-select-option value="fut">Futbol</ion-select-option>
-              <ion-select-option value="bas">Basketball</ion-select-option>
-              <ion-select-option value="pad">Padel</ion-select-option>
-              <ion-select-option value="o">Otro</ion-select-option>
-            </ion-select>
-            <ion-text color="danger" *ngIf="DeporteNoIngresado">Ingrese Deporte Favorito</ion-text>
-          </div>
-          <div class="campo">
-            <ion-input required type="number" label="Teléfono" labelPlacement="floating" name="telefono"
-              [(ngModel)]="usuario.telefono" (ionInput)="TelefonoInput()"></ion-input>
-            <ion-text color="danger" *ngIf="TelefonoNoIngresado">Ingrese Teléfono</ion-text>
-            <ion-text color="danger" *ngIf="TelefonoInvalido">Ingrese Teléfono Valido</ion-text>
-          </div>
-          <div class="campo">
-            <ion-input required type="email" label="Email" labelPlacement="floating" name="emial"
-              [(ngModel)]="usuario.email" (ionInput)="EmailInput()"></ion-input>
-            <ion-text color="danger" *ngIf="EmailNoIngresado">Ingrese Email</ion-text>
-            <ion-text color="danger" *ngIf="EmailInvalido">Ingrese Email Valido</ion-text>
-          </div>
-          <div class="campo">
-            <ion-input required type="text" label="Nombre de Usuario" labelPlacement="floating" name="usuarioname"
-              [(ngModel)]="usuario.username" (ionInput)="UsuarioInput()"></ion-input>
-            <ion-text color="danger" *ngIf="UsuarioNoIngresado">Ingrese Nombre de Usuario</ion-text>
-            <ion-text color="danger" *ngIf="UsuarioExistente">Nombre de Usuario YA Existente</ion-text>
-          </div>
-          <div class="campo">
-            <ion-input required type="password" label="Contraseña" labelPlacement="floating" name="password"
-              [(ngModel)]="usuario.password" (ionInput)="ContraInput()"></ion-input>
-            <ion-text color="danger" *ngIf="ContraseniaNoIngresada">Ingrese Contraseña</ion-text>
-            <ion-text color="danger" *ngIf="ContraseniaInvalida">
-              Ingrese Contraseña Valida <br>
-              Minimo 4 Números<br>
-              Minimo 3 Caracteres<br>
-              Minimo 1 Mayucula
-            </ion-text>
-          </div>
           <div class="campo">
             <ion-input required type="password" label="Confitmar Contraseña" labelPlacement="floating"
               name="password_confirm" [(ngModel)]="pass_confirmation" (ionInput)="ConfContraInput()"></ion-input>

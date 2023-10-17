@@ -15,6 +15,8 @@ export class RegisterPage implements OnInit {
   @ViewChild('miFormulario', { static: false }) formulario: any;
   @ViewChild(IonCard, { read: ElementRef }) card: any;
   @ViewChild('nacionalidadModal') nacionalidadModal: any;
+  @ViewChild('deporteModal') deporteModal: any;
+
 
   private animation: Animation;
 
@@ -114,25 +116,37 @@ export class RegisterPage implements OnInit {
         this.showDatetime = false;
     }, 100);
   }
-  femaleGenderColor = 'white';
-  maleGenderColor = 'white';
-  otherGenderColor = 'white';
+  femaleGenderImgSrc = '../../assets/icon/female.svg';
+  femaleGenderTextColor = 'white';
+  maleGenderImgSrc = '../../assets/icon/male.svg';
+  maleGenderTextColor = 'white';
+  otherGenderImgSrc = '../../assets/icon/male-female.svg';
+  otherGenderTextColor = 'white';
   femaleGenderClick(){
-    this.femaleGenderColor = 'var(--ion-color-secondary)';
-    this.maleGenderColor = 'white';
-    this.otherGenderColor = 'white';
+    this.femaleGenderImgSrc = '../../assets/icon/female-selected.svg';
+    this.femaleGenderTextColor = 'var(--ion-color-secondary)';
+    this.maleGenderImgSrc = '../../assets/icon/male.svg'
+    this.maleGenderTextColor = 'white';
+    this.otherGenderImgSrc = '../../assets/icon/male-female.svg'
+    this.otherGenderTextColor = 'white';
     this.usuario.genero = 'female';
   }
   maleGenderClick(){
-    this.maleGenderColor = 'var(--ion-color-secondary)';
-    this.femaleGenderColor = 'white';
-    this.otherGenderColor = 'white';
+    this.maleGenderImgSrc = '../../assets/icon/male-selected.svg';
+    this.maleGenderTextColor = 'var(--ion-color-secondary)';
+    this.femaleGenderImgSrc = '../../assets/icon/female.svg';
+    this.femaleGenderTextColor = 'white';
+    this.otherGenderImgSrc = '../../assets/icon/male-female.svg'
+    this.otherGenderTextColor = 'white';
     this.usuario.genero = 'male';
   }
   otroGenderClick(){
-    this.otherGenderColor = 'var(--ion-color-secondary)';
-    this.femaleGenderColor = 'white';
-    this.maleGenderColor = 'white';
+    this.otherGenderImgSrc = '../../assets/icon/male-female-selected.svg'
+    this.otherGenderTextColor = 'var(--ion-color-secondary)';
+    this.femaleGenderImgSrc = '../../assets/icon/female.svg';
+    this.femaleGenderTextColor = 'white';
+    this.maleGenderImgSrc = '../../assets/icon/male.svg'
+    this.maleGenderTextColor = 'white';
     this.usuario.genero = 'other';
   }
 
@@ -171,97 +185,136 @@ export class RegisterPage implements OnInit {
   deporte_alt = 'Fútbol';
 
   futbolClick(){
-    
+    this.deporte_src = '../../assets/icon/soccer_ball.png';
+    this.deporte_alt = 'Fútbol';
+    this.deporteModal.dismiss();
   }
 
+  basquetClick(){
+    this.deporte_src = '../../assets/icon/basquetball.png';
+    this.deporte_alt = 'Básquetbol';
+    this.deporteModal.dismiss();
+  }
 
+  padelClick(){
+    this.deporte_src = '../../assets/icon/padel_raquet.png';
+    this.deporte_alt = 'Pádel';
+    this.deporteModal.dismiss();
+  }
 
+  tenisClick(){
+    this.deporte_src = '../../assets/icon/tenis_raquet.png';
+    this.deporte_alt = 'Tenis';
+    this.deporteModal.dismiss();
+  }
 
-
-
-  DeporteNoIngresado: boolean = false;
-  DeporteChange(){
-    const deporte = this.usuario.deporte_fav;
-    if(deporte == ''){
-      this.DeporteNoIngresado = true;
-      this.validacion = false;
-    }else{
-      this.DeporteNoIngresado = false;
-      this.validacion = true;
+  telefono = "";
+  telefonoInvalido = false;
+  telefonoNoIngresado = false;
+  telefonoChange(){
+    const patron = /^\+569/;  // Expresión regular para verificar si comienza con +569
+    const tel = this.telefono;
+    if(tel == ''){
+      this.telefonoNoIngresado = true;
+      this.telefonoInvalido = false;
+    }
+    else{
+      this.telefonoNoIngresado = false;
+      if(patron.test(this.telefono)){
+        this.telefono = this.telefono.substring(3);
+      }
+      else{
+        if(this.telefono[0] == '9'){
+          this.telefono = this.telefono;
+        }
+        else{
+          this.telefono = '9' + this.telefono;
+        }
+      }
+      if(this.telefono.length != 9){
+        this.telefonoInvalido = true;
+      }
+      else{
+        this.usuario.telefono = +this.telefono;
+        if(Number.isNaN(this.usuario.telefono)){
+          this.usuario.telefono = 0;
+          this.telefonoInvalido = true;
+        }
+        else{
+          this.telefonoInvalido = false;
+        }
+      }
     }
   }
-  TelefonoNoIngresado: boolean = false;
-  TelefonoInvalido: boolean = false;
-  TelefonoInput(){
-    const tel = this.usuario.telefono;
-    const tel_string = tel.toString();
-    if(tel == 0){
-      this.TelefonoNoIngresado = true;
-      this.TelefonoInvalido = false;
+  correoInvalido = false;
+  correoNoIngresado = false;
+  
+  correoChange(){
+    const email = this.usuario.email;
+    if(email == ''){
+      this.correoNoIngresado = true;
+      this.correoInvalido = false;
     }else{
-      this.TelefonoNoIngresado = false;
-      const patron = /^9/; // Expresión regular para verificar si comienza con +569
-      const tel_valido = patron.test(tel_string);
-      if(!tel_valido || tel_string.length != 9){
-        this.TelefonoInvalido = true;
+      this.correoNoIngresado = false;
+      const patronCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const email_valido = patronCorreo.test(email);
+      if(!email_valido){
+        this.correoInvalido = true;
         this.validacion = false;
       }else{
-        this.TelefonoInvalido = false;
+        this.correoInvalido = false;
         this.validacion = true;
       }
     }
   }
-  EmailNoIngresado: boolean = false;
-  EmailInvalido: boolean = false;
-  EmailInput(){
-    const email = this.usuario.email;
-    if(email == ''){
-      this.EmailNoIngresado = true;
-      this.EmailInvalido = false;
-    }else{
-      this.EmailNoIngresado = false;
-      const patronCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      const email_valido = patronCorreo.test(email);
-      if(!email_valido){
-        this.EmailInvalido = true;
-        this.validacion = false;
-      }else{
-        this.EmailInvalido = false;
-        this.validacion = true;}
+
+  usernameInvalido = false;
+  usernameNoIngresado = false;
+
+  usernameChange(){
+    if(this.usuario.username == ''){
+      this.usernameNoIngresado = true;
+    }
+    else{
+      this.usernameNoIngresado = false;
     }
   }
-  UsuarioNoIngresado: boolean = false;
-  UsuarioExistente: boolean = false;
-  UsuarioInput(){
-    const usuario = this.usuario.username;
-    if(usuario == ''){
-      this.UsuarioNoIngresado = true;
-    }else{
-      this.UsuarioNoIngresado = false;
-    }
-  }
-  ContraseniaNoIngresada: boolean = false;
-  ContraseniaInvalida: boolean = false;
-  ContraInput(){
+
+  passwordInvalida = false;
+  passwordNoIngresada = false;
+  password4Num = false;
+  password3Car = false;
+  passwordMayus = false;
+  passowrd8Length = false;
+  passwordInput(){
     const contra = this.usuario.password;
     if(contra == ''){
-      this.ContraseniaNoIngresada = true;
-      this.ContraseniaInvalida = false;
+      this.passwordNoIngresada = true;
+      this.passwordInvalida = false;
     }else{
-      this.ContraseniaNoIngresada = false;
+      this.passwordNoIngresada = false;
       // Expresión regular que verifica si la contraseña cumple con los requisitos
       const patronPassword = /^(?=.*\d{4})(?=.*[a-zA-Z]{3})(?=.*[A-Z]).{8,}$/;
+      const patron4Num = /\d{4}/;
+      const patron3Car = /[a-zA-Z]{3}/;
+      const patronMayus = /[A-Z]/;
+      const patron8Length = /^.{8,}$/;
       /* ?=.*\d{4}): Debe contener al menos 4 números.
       (?=.*[a-zA-Z]{3}): Debe contener al menos 3 caracteres (letras minúsculas o mayúsculas).
       (?=.*[A-Z]): Debe contener al menos 1 letra mayúscula.
       .{8,}: Debe tener una longitud mínima de 8 caracteres en total. */
+      this.password4Num = !patron4Num.test(contra);
+      this.password3Car = !patron3Car.test(contra);
+      this.passwordMayus = !patronMayus.test(contra);
+      this.passowrd8Length = !patron8Length.test(contra);
       const contra_valida = patronPassword.test(contra);
       if(!contra_valida){
-        this.ContraseniaInvalida = true;
+        this.passwordInvalida = true;
         this.validacion = false;
       }else{
-        this.ContraseniaInvalida = false;
-        this.validacion = true;}
+        this.passwordInvalida = false;
+        this.validacion = true;
+      }
     }
   }
   ConfContraseniaNoIngresada: boolean = false;
@@ -286,50 +339,10 @@ export class RegisterPage implements OnInit {
   ionViewDidEnter() {
 
     this.validacion = false;
-    this.DeporteNoIngresado = false;  
-    this.TelefonoNoIngresado = false;
-    this.EmailNoIngresado = false;
-    this.UsuarioNoIngresado = false;
-    this.ContraseniaNoIngresada = false;
     this.ConfContraseniaNoIngresada = false;
   }
   @ViewChild('modal') modal: any;
   onSubmit(){
-    if(!this.usuario.genero){
-      this.validacion = false;
-    }
-    if(!this.usuario.deporte_fav){
-      this.DeporteNoIngresado = true;
-      this.validacion = false;
-    }
-    if(!this.usuario.telefono){
-      this.TelefonoNoIngresado = true;
-      this.validacion = false;
-    }
-    else if(this.TelefonoInvalido){
-      this.validacion = false;
-    }
-    if(!this.usuario.email){
-      this.EmailNoIngresado = true;
-      this.validacion = false;
-    }
-    else if(this.EmailInvalido){
-      this.validacion = false;
-    }
-    if(!this.usuario.username){
-      this.UsuarioNoIngresado = true;
-      this.validacion = false;
-    }
-    else if(this.UsuarioExistente){
-      this.validacion = false;
-    }
-    if(!this.usuario.password){
-      this.ContraseniaNoIngresada = true;
-      this.validacion = false;
-    }
-    else if(this.ContraseniaInvalida){
-      this.validacion = false;
-    }
     if(!this.pass_confirmation){
       this.ConfContraseniaNoIngresada = true;
       this.validacion = false;
