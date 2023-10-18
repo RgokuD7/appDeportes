@@ -336,6 +336,8 @@ export class RegisterPage implements OnInit {
       }
     }
   }
+  password = '';
+  passwordNoCoincide = false;
   ionViewDidEnter() {
 
     this.validacion = false;

@@ -177,7 +177,7 @@
   </ion-card>
   <ion-card class="info-personal">
     <ion-card-header class="titulo">
-      <ion-card-title>Contacto</ion-card-title>
+      <ion-card-title>Información Inicio Sesión</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-grid>
@@ -209,6 +209,17 @@
               <ion-text *ngIf="passwordNoIngresada">Ingrese una Contraseña</ion-text>
           </ion-col>
         </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-input type="password" placeholder="Confirmar contraseña" name="password" [(ngModel)]="password"
+              (ionInput)="passwordInput()"></ion-input>
+          </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="password-error">
+            <ion-text *ngIf="passwordNoCoincide">L as contraseñas no coinciden</ion-text>
+        </ion-col>
+      </ion-row>
       </ion-grid>
     </ion-card-content>
   </ion-card>
