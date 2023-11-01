@@ -4,7 +4,7 @@
       <ion-card-title>Nombre Torneo</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-input type="text" placeholder="Ingrese nombre del Torneo" [(ngModel)]="torneo.nombre" autofocus="true"
+      <ion-input type="text" placeholder="Ingrese nombre del Torneo" [(ngModel)]="torneo.nombreprod" autofocus="true"
         #nombreImput></ion-input>
     </ion-card-content>
   </ion-card>
@@ -30,7 +30,7 @@
         </ion-row>
         <ion-row *ngIf="isCopa">
           <ion-col class="fase-grupos">
-            <ion-checkbox [(ngModel)]="torneo.fase_grupos" labelPlacement="end">Fase degrupos</ion-checkbox></ion-col>
+            <ion-checkbox (ionChange)="faseGruposChange($event)" labelPlacement="end">Fase degrupos</ion-checkbox></ion-col>
         </ion-row>
         <ion-row *ngIf="tipoNoSelected">
           <ion-col>
@@ -54,7 +54,7 @@
             </ion-button>
           </ion-col>
           <ion-col size="4">
-            <ion-input type="number" inputmode="numeric" [(ngModel)]="torneo.cantidad_equipos"
+            <ion-input type="number" inputmode="numeric" [(ngModel)]="torneo.cantidad"
               (ionInput)="equiposChange()"></ion-input>
           </ion-col>
           <ion-col size="4">

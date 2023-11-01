@@ -27,7 +27,19 @@ ion-card.nombre{
         ion-grid{
             padding: 0;
             ion-row{
+                ion-col.perfil-img{
+                    display: grid;
+                    place-items: center;
+                }
                 ion-col{
+                    ion-img{
+                        width: 50%;
+                        border-radius: 1rem;
+                        -webkit-border-radius: 1rem;
+                        -moz-border-radius: 1rem;
+                        -ms-border-radius: 1rem;
+                        -o-border-radius: 1rem;
+}
                     ion-input{
                         width: auto;
                         padding-left: 5px;
@@ -83,7 +95,9 @@ ion-card.genero{
         ion-grid{
             padding: 0;
             ion-row{
+                padding: 0;
                 ion-col{
+                    padding: 10px;
                     ion-card{
                         display: flex;
                         flex-direction: column;
@@ -105,13 +119,20 @@ ion-card.genero{
                         }
                     }
                 }
+                ion-col:first-child{
+                    padding-left: 10px;
+                    padding-right: 0;
+                }
+                ion-col:last-child{
+                    padding-left: 0;
+                    padding-right: 10px;
+                }
             }
         }
     }
 }
 ion-grid.nacionalidad-deporte{
-    margin: 0;
-    margin-left: 10px;
+    margin: 0 0 0 10px;
     padding: 0;
     ion-row{
         margin: 0;
@@ -163,6 +184,7 @@ ion-modal.modal-banderas {
   }
 
 ion-modal.modal-deportes{
+    --height: auto;
     ion-grid{
         ion-row {
           display: flex;
@@ -199,8 +221,7 @@ ion-modal.modal-deportes{
 }
 
 ion-card.info-personal{
-    margin: 10px;
-    margin-top: 0;
+    margin: 0 10px 10px 10px;
     ion-card-content{
         display: flex;
         justify-content: center;
@@ -239,7 +260,10 @@ ion-card.info-personal{
     flex-direction: column;
     justify-content: left;
 }
-  
+
+.boton-registrar{
+    margin: 0 10px 10px 10px;
+}
 /* ion-card{
     margin: 90px 30px;
     width: 100%;
@@ -267,11 +291,7 @@ ion-card-header ion-button{
     text-align: center;
 }
 
-.campo {
-    display: flex;
-    flex-direction: column;
-    align-items: flex start;
-}
+
 
 .boton-reg{
     display: flex;

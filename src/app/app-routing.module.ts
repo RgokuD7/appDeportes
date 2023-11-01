@@ -48,11 +48,11 @@ const routes: Routes = [
   {
     path: 'torneo-futbol',
     loadChildren: () => import('./torneo-futbol/torneo-futbol.module').then( m => m.TorneoFutbolPageModule)
-  },
+  },/* 
   {
     path: '**',
     loadChildren: () => import('./not-found/not-found.module').then( m => m.NotFoundPageModule)
-  },
+  }, */
   
 
 

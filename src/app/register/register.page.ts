@@ -4,7 +4,14 @@ import { ActivatedRoute, ChildActivationStart, Router } from '@angular/router';
 import { Clusuario } from '../usuario/model/ClUsuario';
 import { UsuarioService } from '../usuario/usuario.service';
 import { HttpClient } from '@angular/common/http';
+import { PhotoService } from '../services/photo.service';
+import { Geolocation } from '@capacitor/geolocation';
 
+const printCurrentPosition = async () => {
+  const coordinates = await Geolocation.getCurrentPosition();
+
+  console.log('Current position:', coordinates);
+};
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -24,23 +31,17 @@ export class RegisterPage implements OnInit {
     private navCtrl: NavController,
     private animationCtrl: AnimationController,
     private http: HttpClient,
+    public photoService: PhotoService,
   ){
     this.animation = this.animationCtrl.create();
   }
 
   
 
+  
+
   ngAfterViewInit() {
-    this.animation = this.animationCtrl
-      .create()
-      .addElement(this.card.nativeElement)
-      .duration(300)
-      .iterations(1)
-      .keyframes([
-        { offset: 0, height: '0%' },
-        { offset: 0.99, height: '700px' },
-        { offset: 1, height: 'auto' },
-      ]);
+    printCurrentPosition();
   }
 
   usuario: Clusuario = {
@@ -48,6 +49,7 @@ export class RegisterPage implements OnInit {
     nombres: "",
     apellidos: "",
     fecha_nac: "",
+    img_perfil: "",
     edad: 0,
     genero:  "",
     nacionalidad: "",
@@ -57,9 +59,12 @@ export class RegisterPage implements OnInit {
     username: "",
     password: ""
   }
+
+  
+  validacion = false;
   
 
-  getDteFormatted(date: Date){
+  getDateFormatted(date: Date){
     const year = date.getFullYear();
     const month = date.getMonth() + 1; // Suma 1 porque los meses se indexan desde 0
     const day = date.getDate();
@@ -74,10 +79,18 @@ export class RegisterPage implements OnInit {
     const edad = Math.floor(edadMilisegundos / (365.25 * 24 * 60 * 60 * 1000));
     return edad;
   }
+
+  imgPerfilSrc? = '../../assets/icon/user-img.svg';
+
+  async addPhotoToGallery() {
+    await this.photoService.addNewToGallery();
+    if (this.photoService.photos.length > 0) {
+      this.imgPerfilSrc = this.photoService.photos[0].webviewPath;
+    }
+  }
   
   regla = /\d/; // Expresión regular que verifica la presencia de números
-  pass_confirmation: string  = ''
-  validacion: boolean = false;
+  pass_confirmation = '';
   NombresInvalido = false;
   nombresInput(){
     const nombres = this.usuario.nombres;
@@ -92,12 +105,12 @@ export class RegisterPage implements OnInit {
     }
   }
   fecha_nac : any;
-  date = this.getDteFormatted(new Date);
+  date = this.getDateFormatted(new Date);
   edad: any;
   showDatetime = false;
   dateInput = false;
   dateChange(){
-    const date = this.getDteFormatted(new Date(this.fecha_nac));
+    const date = this.getDateFormatted(new Date(this.fecha_nac));
     this.date = date;
     this.edad = this.calcularEdad(new Date(this.fecha_nac));
     if(this.edad < 5){
@@ -317,41 +330,40 @@ export class RegisterPage implements OnInit {
       }
     }
   }
-  ConfContraseniaNoIngresada: boolean = false;
-  ConfContraseniaInvalida: boolean = false;
-  ConfContraInput(){
-    const ConfContra = this.pass_confirmation;
-    const contra = this.usuario.password;
-    if(ConfContra == ''){
-      this.ConfContraseniaNoIngresada = true;
-      this.ConfContraseniaInvalida = false;
+
+  password = '';
+  confPasswordNoIngresada = false;
+  passwordNoCoincide = false;
+
+  confPasswordChange(){
+    const confPass = this.password;
+    const password = this.usuario.password;
+    if(confPass == ''){
+      this.confPasswordNoIngresada = true;
+      this.passwordNoCoincide = false;
     }else{
-      this.ConfContraseniaNoIngresada = false;
-      if(ConfContra != contra){
-        this.ConfContraseniaInvalida = true;
+      this.confPasswordNoIngresada = false;
+      if(confPass != password){
+        this.passwordNoCoincide = true;
         this.validacion = false;
       }else{
-        this.ConfContraseniaInvalida = false;
+        this.passwordNoCoincide = false;
         this.validacion = true;
       }
     }
   }
-  password = '';
-  passwordNoCoincide = false;
+
+  registrarClick(){
+    
+  }
+
   ionViewDidEnter() {
 
     this.validacion = false;
-    this.ConfContraseniaNoIngresada = false;
   }
   @ViewChild('modal') modal: any;
   onSubmit(){
-    if(!this.pass_confirmation){
-      this.ConfContraseniaNoIngresada = true;
-      this.validacion = false;
-    }
-    else if(this.ConfContraseniaInvalida){
-      this.validacion = false;
-    }
+    
     if(this.validacion){
       this.modal.present();
     }
