@@ -46,7 +46,8 @@ export class UsuarioService {
     console.log("getUsuarios()");
     return this.http.get<Clusuario[]>(apiUrl)
       .pipe(
-        tap(heroes => console.log('fetched usuarios')),
+        map((usuarios) => usuarios.filter((usuario) => usuario.codigo === '09-G10-U')),
+        tap(usuarios => console.log('fetched usuarios')),
         catchError(this.handleError('getUsuario', []))
       );
   }

@@ -7,6 +7,7 @@
 } */
 
 export class ClToreno_futbol {
+    idProducto: number = 0;
     codigo: string = "09-G10"; // CodigoGrupo
     nombreprod: string = "x"; // NombreTorneo
     precio: number | null = null; // FaseGrupos 0 o 1

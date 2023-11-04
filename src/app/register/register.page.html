@@ -15,15 +15,20 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-input type="text" placeholder="Nombres" name="nombres" [(ngModel)]="usuario.nombres"
+            <ion-input type="text" placeholder="Nombres" name="nombres" [(ngModel)]="usuario.nombreprod"
               (ionInput)="nombresInput()"></ion-input>
           </ion-col>
           <ion-col>
-            <ion-input type="text" placeholder="Apellidos" name="apellidos" [(ngModel)]="usuario.apellidos"
+            <ion-input type="text" placeholder="Apellidos" name="apellidos" [(ngModel)]="usuario.dv"
               (ionInput)="apellidosInput()"></ion-input>
           </ion-col>
         </ion-row>
-        <ion-row *ngIf="NombresInvalido">
+        <ion-row *ngIf="nombresInvalido">
+          <ion-col size="12" class="error">
+            <ion-text>Ingrese un nombre valido, sin números</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="nombresNoIngresados">
           <ion-col size="12" class="error">
             <ion-text>Ingrese un nombre valido, sin números</ion-text>
           </ion-col>
@@ -38,6 +43,7 @@
     <ion-card-content>
       <ion-button expand="block" fill="clear" (click)="botonDateClick()">{{date}}</ion-button>
       <ion-text *ngIf="dateInput">{{edad}}</ion-text>
+      <ion-text *ngIf="dateNoIngresada">Ingrese Fecha de Nacimiento</ion-text>
       <ion-datetime (ionBlur)="datetimeLoseFocus()" (ionChange)="dateChange()" [firstDayOfWeek]="1" *ngIf="showDatetime"
         presentation="date" [(ngModel)]="fecha_nac"></ion-datetime>
     </ion-card-content>
@@ -163,7 +169,7 @@
               (ionChange)="telefonoChange()"></ion-input>
           </ion-col>
           <ion-col>
-            <ion-input type="email" placeholder="Correo" name="correo" [(ngModel)]="usuario.email"
+            <ion-input type="email" placeholder="Correo" name="correo" [(ngModel)]="usuario.direccion"
               (ionChange)="correoChange()"></ion-input>
           </ion-col>
         </ion-row>
@@ -188,7 +194,7 @@
       <ion-grid>
         <ion-row>
           <ion-col>
-            <ion-input type="text" placeholder="Nombre de Usuario" name="username" [(ngModel)]="usuario.username"
+            <ion-input type="text" placeholder="Nombre de Usuario" name="username" [(ngModel)]="usuario.hrini"
               (ionChange)="usernameChange()"></ion-input>
           </ion-col>
         </ion-row>
@@ -200,7 +206,7 @@
         </ion-row>
         <ion-row>
             <ion-col>
-              <ion-input type="password" placeholder="Contraseña" name="password" [(ngModel)]="usuario.password"
+              <ion-input type="password" placeholder="Contraseña" name="password" [(ngModel)]="usuario.hrfin"
                 (ionInput)="passwordInput()"></ion-input>
             </ion-col>
         </ion-row>

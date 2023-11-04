@@ -13,6 +13,6 @@ export class NuevoCampPage implements OnInit {
   }
 
   futbolClick(){
-    this.navCtrl.navigateForward('torneo-futbol');
+    this.navCtrl.navigateForward('torneo-futbol/crear-torneo-futbol');
   }
 }

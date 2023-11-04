@@ -11,8 +11,7 @@ import {
 } from '@angular/common/http';
 
 // creamos Constantes que utilizaremos en el envio
-const apiUrl =
-  'https://sumativa2.onrender.com/api/productos/';
+const apiUrl = 'https://sumativa2.onrender.com/api/productos/';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -53,19 +52,18 @@ export class TorneoFutbolService {
   getTorneos(): Observable<ClToreno_futbol[]> {
     console.log('getTorneos()');
     return this.http.get<ClToreno_futbol[]>(apiUrl).pipe(
-      tap((heroes) => console.log('fetched torneos')),
+      map((torneos) => torneos.filter((torneo) => torneo.codigo === '09-G10')),
+      tap((torneos) => console.log('fetched torneos')),
       catchError(this.handleError('getTorneos', []))
     );
   }
 
   //  Obtener un Torneo
-  getTorneo(id: String): Observable<ClToreno_futbol> {
-    //const url = '${apiUrl}/${id}';
-    //return this.http.get<Producto>(url).pipe(
+  getTorneo(id: number): Observable<ClToreno_futbol> {
     console.log('getTorneo ID:' + id);
-    return this.http.get<ClToreno_futbol>(apiUrl + '/' + id).pipe(
-      tap((_) => console.log('fetched torneo id=${id}')),
-      catchError(this.handleError<ClToreno_futbol>('getTorneo id=${id}'))
+    return this.http.get<ClToreno_futbol>(apiUrl + id).pipe(
+      tap((_) => console.log(`fetched torneo id=${id}`)),
+      catchError(this.handleError<ClToreno_futbol>(`getTorneo id=${id}`))
     );
   }
 
@@ -73,7 +71,7 @@ export class TorneoFutbolService {
     //const url = '${apiUrl}/${id}';
     //return this.http.delete<Producto>(url, httpOptions).pipe(
     return this.http
-      .delete<ClToreno_futbol>(apiUrl + '/' + id, httpOptions)
+      .delete<ClToreno_futbol>(apiUrl + id, httpOptions)
       .pipe(
         tap((_) => console.log('deleted torneo id=${id}')),
         catchError(this.handleError<ClToreno_futbol>('deleteTorneo'))
@@ -85,7 +83,7 @@ export class TorneoFutbolService {
     torneo: ClToreno_futbol
   ): Observable<ClToreno_futbol> {
     return this.http
-      .put<ClToreno_futbol>(apiUrl + '/' + id, torneo, httpOptions)
+      .put<ClToreno_futbol>(apiUrl + id, torneo, httpOptions)
       .pipe(
         tap((_) => console.log('updated torneo id=${id}')),
         catchError(this.handleError<any>('updateTorneo'))

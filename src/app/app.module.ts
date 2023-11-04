@@ -8,10 +8,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 defineCustomElements(window);
-
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,HttpClientModule],
+  imports: [BrowserModule, IonicModule.forRoot({ mode: 'ios' }), AppRoutingModule,HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

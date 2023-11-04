@@ -1,5 +1,12 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { NavController, Animation, AnimationController, IonCard, IonInput } from '@ionic/angular';
+import {
+  NavController,
+  LoadingController,
+  Animation,
+  AnimationController,
+  IonCard,
+  IonInput,
+} from '@ionic/angular';
 import { ActivatedRoute, ChildActivationStart, Router } from '@angular/router';
 import { Clusuario } from '../usuario/model/ClUsuario';
 import { UsuarioService } from '../usuario/usuario.service';
@@ -18,12 +25,10 @@ const printCurrentPosition = async () => {
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-
   @ViewChild('miFormulario', { static: false }) formulario: any;
   @ViewChild(IonCard, { read: ElementRef }) card: any;
   @ViewChild('nacionalidadModal') nacionalidadModal: any;
   @ViewChild('deporteModal') deporteModal: any;
-
 
   private animation: Animation;
 
@@ -32,44 +37,28 @@ export class RegisterPage implements OnInit {
     private animationCtrl: AnimationController,
     private http: HttpClient,
     public photoService: PhotoService,
-  ){
+    private loadingController: LoadingController,
+    private restApi: UsuarioService
+  ) {
     this.animation = this.animationCtrl.create();
   }
-
-  
-
-  
 
   ngAfterViewInit() {
     printCurrentPosition();
   }
 
-  usuario: Clusuario = {
-    id: 0,
-    nombres: "",
-    apellidos: "",
-    fecha_nac: "",
-    img_perfil: "",
-    edad: 0,
-    genero:  "",
-    nacionalidad: "",
-    deporte_fav: "",
-    telefono: 0,
-    email:  "",
-    username: "",
-    password: ""
-  }
+  usuario = new Clusuario();
 
-  
   validacion = false;
-  
 
-  getDateFormatted(date: Date){
+  getDateFormatted(date: Date) {
     const year = date.getFullYear();
     const month = date.getMonth() + 1; // Suma 1 porque los meses se indexan desde 0
     const day = date.getDate();
     // Formatea la fecha como "YYYY-MM-DD"
-    const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day
+      .toString()
+      .padStart(2, '0')}`;
     return formattedDate;
   }
   calcularEdad(fec_nac: Date) {
@@ -88,45 +77,47 @@ export class RegisterPage implements OnInit {
       this.imgPerfilSrc = this.photoService.photos[0].webviewPath;
     }
   }
-  
+
   regla = /\d/; // Expresión regular que verifica la presencia de números
   pass_confirmation = '';
-  NombresInvalido = false;
-  nombresInput(){
-    const nombres = this.usuario.nombres;
-    if(this.regla.test(nombres)){
-      this.NombresInvalido = true;
+  nombresInvalido = false;
+  nombresNoIngresados = false;
+  nombresInput() {
+    const nombres = this.usuario.nombreprod;
+    if (this.regla.test(nombres)) {
+      this.nombresInvalido = true;
     }
   }
-  apellidosInput(){
-    const apellidos = this.usuario.apellidos;
-    if(this.regla.test(apellidos)){
-      this.NombresInvalido = true;
+  apellidosInput() {
+    const apellidos = this.usuario.dv;
+    if (this.regla.test(apellidos)) {
+      this.nombresInvalido = true;
     }
   }
-  fecha_nac : any;
-  date = this.getDateFormatted(new Date);
+  fecha_nac: any;
+  date = this.getDateFormatted(new Date());
   edad: any;
   showDatetime = false;
   dateInput = false;
-  dateChange(){
+  dateNoIngresada = false;
+  dateChange() {
     const date = this.getDateFormatted(new Date(this.fecha_nac));
     this.date = date;
     this.edad = this.calcularEdad(new Date(this.fecha_nac));
-    if(this.edad < 5){
-      this.edad = 'Ingrese una edad valida, minimo 5 años'
-    }
-    else{
-      this.edad = `${this.edad} años`
+    if (this.edad < 5) {
+      this.edad = 'Ingrese una edad valida, minimo 5 años';
+    } else {
+      this.usuario.edad = this.edad;
+      this.edad = `${this.edad} años`;
     }
     this.dateInput = true;
   }
-  botonDateClick(){
+  botonDateClick() {
     this.showDatetime = !this.showDatetime;
   }
-  datetimeLoseFocus(){
+  datetimeLoseFocus() {
     setTimeout(() => {
-        this.showDatetime = false;
+      this.showDatetime = false;
     }, 100);
   }
   femaleGenderImgSrc = '../../assets/icon/female.svg';
@@ -135,60 +126,64 @@ export class RegisterPage implements OnInit {
   maleGenderTextColor = 'white';
   otherGenderImgSrc = '../../assets/icon/male-female.svg';
   otherGenderTextColor = 'white';
-  femaleGenderClick(){
+  femaleGenderClick() {
     this.femaleGenderImgSrc = '../../assets/icon/female-selected.svg';
     this.femaleGenderTextColor = 'var(--ion-color-secondary)';
-    this.maleGenderImgSrc = '../../assets/icon/male.svg'
+    this.maleGenderImgSrc = '../../assets/icon/male.svg';
     this.maleGenderTextColor = 'white';
-    this.otherGenderImgSrc = '../../assets/icon/male-female.svg'
+    this.otherGenderImgSrc = '../../assets/icon/male-female.svg';
     this.otherGenderTextColor = 'white';
-    this.usuario.genero = 'female';
+    this.usuario.raza = 'female';
   }
-  maleGenderClick(){
+  maleGenderClick() {
     this.maleGenderImgSrc = '../../assets/icon/male-selected.svg';
     this.maleGenderTextColor = 'var(--ion-color-secondary)';
     this.femaleGenderImgSrc = '../../assets/icon/female.svg';
     this.femaleGenderTextColor = 'white';
-    this.otherGenderImgSrc = '../../assets/icon/male-female.svg'
+    this.otherGenderImgSrc = '../../assets/icon/male-female.svg';
     this.otherGenderTextColor = 'white';
-    this.usuario.genero = 'male';
+    this.usuario.raza = 'male';
   }
-  otroGenderClick(){
-    this.otherGenderImgSrc = '../../assets/icon/male-female-selected.svg'
+  otroGenderClick() {
+    this.otherGenderImgSrc = '../../assets/icon/male-female-selected.svg';
     this.otherGenderTextColor = 'var(--ion-color-secondary)';
     this.femaleGenderImgSrc = '../../assets/icon/female.svg';
     this.femaleGenderTextColor = 'white';
-    this.maleGenderImgSrc = '../../assets/icon/male.svg'
+    this.maleGenderImgSrc = '../../assets/icon/male.svg';
     this.maleGenderTextColor = 'white';
-    this.usuario.genero = 'other';
+    this.usuario.raza = 'other';
   }
 
   banderas: any;
   banderasFiltradas: any;
 
   ngOnInit() {
+    this.usuario.rut = 'cl';
+    this.usuario.editorial = 'Fútbol'
     this.http.get('https://flagcdn.com/es/codes.json').subscribe((res: any) => {
       this.banderas = res;
       this.banderasFiltradas = res;
     });
   }
 
-   // Esta función se ejecutará cuando cambie el valor en el campo de búsqueda
-   busquedaInput(event: any){
+  // Esta función se ejecutará cuando cambie el valor en el campo de búsqueda
+  busquedaInput(event: any) {
     const busqueda = event.target.value.toLowerCase();
     this.banderasFiltradas = Object.keys(this.banderas)
-      .filter((key) => this.banderas[key].toLowerCase().includes(busqueda.toLowerCase()))
+      .filter((key) =>
+        this.banderas[key].toLowerCase().includes(busqueda.toLowerCase())
+      )
       .reduce((obj: any, key) => {
         obj[key] = this.banderas[key];
         return obj;
       }, {});
   }
 
-  nacionalidad_src = 'https://flagcdn.com/256x192/cl.png'
-  nacionalidad_alt = 'Chile'
+  nacionalidad_src = 'https://flagcdn.com/256x192/cl.png';
+  nacionalidad_alt = 'Chile';
 
-  banderaClick(key: any, value: any){
-    this.usuario.nacionalidad = key;
+  banderaClick(key: any, value: any) {
+    this.usuario.rut = key;
     this.nacionalidad_src = `https://flagcdn.com/256x192/${key}.png`;
     this.nacionalidad_alt = value;
     this.nacionalidadModal.dismiss();
@@ -197,63 +192,58 @@ export class RegisterPage implements OnInit {
   deporte_src = '../../assets/icon/soccer_ball.png';
   deporte_alt = 'Fútbol';
 
-  futbolClick(){
+  futbolClick() {
     this.deporte_src = '../../assets/icon/soccer_ball.png';
-    this.deporte_alt = 'Fútbol';
+    this.deporte_alt, this.usuario.editorial = 'Fútbol';
     this.deporteModal.dismiss();
   }
 
-  basquetClick(){
+  basquetClick() {
     this.deporte_src = '../../assets/icon/basquetball.png';
-    this.deporte_alt = 'Básquetbol';
+    this.deporte_alt, this.usuario.editorial = 'Básquetbol';
     this.deporteModal.dismiss();
   }
 
-  padelClick(){
+  padelClick() {
     this.deporte_src = '../../assets/icon/padel_raquet.png';
-    this.deporte_alt = 'Pádel';
+    this.deporte_alt, this.usuario.editorial = 'Pádel';
     this.deporteModal.dismiss();
   }
 
-  tenisClick(){
+  tenisClick() {
     this.deporte_src = '../../assets/icon/tenis_raquet.png';
-    this.deporte_alt = 'Tenis';
+    this.deporte_alt, this.usuario.editorial = 'Tenis';
     this.deporteModal.dismiss();
   }
 
-  telefono = "";
+  telefono = '';
   telefonoInvalido = false;
   telefonoNoIngresado = false;
-  telefonoChange(){
-    const patron = /^\+569/;  // Expresión regular para verificar si comienza con +569
+  telefonoChange() {
+    const patron = /^\+569/; // Expresión regular para verificar si comienza con +569
     const tel = this.telefono;
-    if(tel == ''){
+    if (tel == '') {
       this.telefonoNoIngresado = true;
       this.telefonoInvalido = false;
-    }
-    else{
+    } else {
       this.telefonoNoIngresado = false;
-      if(patron.test(this.telefono)){
+      if (patron.test(this.telefono)) {
         this.telefono = this.telefono.substring(3);
-      }
-      else{
-        if(this.telefono[0] == '9'){
+      } else {
+        if (this.telefono[0] == '9') {
           this.telefono = this.telefono;
-        }
-        else{
+        } else {
           this.telefono = '9' + this.telefono;
         }
       }
-      if(this.telefono.length != 9){
+      if (this.telefono.length != 9) {
         this.telefonoInvalido = true;
-      }
-      else{
-        this.usuario.telefono = +this.telefono;
-        if(Number.isNaN(this.usuario.telefono)){
-          this.usuario.telefono = 0;
+      } else {
+        this.usuario.cantidad = +this.telefono;
+        if (Number.isNaN(this.usuario.cantidad)) {
+          this.usuario.cantidad = 0;
           this.telefonoInvalido = true;
-        }
-        else{
+        } else {
           this.telefonoInvalido = false;
         }
       }
@@ -261,20 +251,20 @@ export class RegisterPage implements OnInit {
   }
   correoInvalido = false;
   correoNoIngresado = false;
-  
-  correoChange(){
-    const email = this.usuario.email;
-    if(email == ''){
+
+  correoChange() {
+    const email = this.usuario.direccion;
+    if (email == '') {
       this.correoNoIngresado = true;
       this.correoInvalido = false;
-    }else{
+    } else {
       this.correoNoIngresado = false;
       const patronCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       const email_valido = patronCorreo.test(email);
-      if(!email_valido){
+      if (!email_valido) {
         this.correoInvalido = true;
         this.validacion = false;
-      }else{
+      } else {
         this.correoInvalido = false;
         this.validacion = true;
       }
@@ -284,11 +274,10 @@ export class RegisterPage implements OnInit {
   usernameInvalido = false;
   usernameNoIngresado = false;
 
-  usernameChange(){
-    if(this.usuario.username == ''){
+  usernameChange() {
+    if (this.usuario.hrini == '') {
       this.usernameNoIngresado = true;
-    }
-    else{
+    } else {
       this.usernameNoIngresado = false;
     }
   }
@@ -299,12 +288,12 @@ export class RegisterPage implements OnInit {
   password3Car = false;
   passwordMayus = false;
   passowrd8Length = false;
-  passwordInput(){
-    const contra = this.usuario.password;
-    if(contra == ''){
+  passwordInput() {
+    const contra = this.usuario.hrfin;
+    if (contra == '') {
       this.passwordNoIngresada = true;
       this.passwordInvalida = false;
-    }else{
+    } else {
       this.passwordNoIngresada = false;
       // Expresión regular que verifica si la contraseña cumple con los requisitos
       const patronPassword = /^(?=.*\d{4})(?=.*[a-zA-Z]{3})(?=.*[A-Z]).{8,}$/;
@@ -321,10 +310,10 @@ export class RegisterPage implements OnInit {
       this.passwordMayus = !patronMayus.test(contra);
       this.passowrd8Length = !patron8Length.test(contra);
       const contra_valida = patronPassword.test(contra);
-      if(!contra_valida){
+      if (!contra_valida) {
         this.passwordInvalida = true;
         this.validacion = false;
-      }else{
+      } else {
         this.passwordInvalida = false;
         this.validacion = true;
       }
@@ -335,43 +324,83 @@ export class RegisterPage implements OnInit {
   confPasswordNoIngresada = false;
   passwordNoCoincide = false;
 
-  confPasswordChange(){
+  confPasswordChange() {
     const confPass = this.password;
-    const password = this.usuario.password;
-    if(confPass == ''){
+    const password = this.usuario.hrfin;
+    if (confPass == '') {
       this.confPasswordNoIngresada = true;
       this.passwordNoCoincide = false;
-    }else{
+    } else {
       this.confPasswordNoIngresada = false;
-      if(confPass != password){
+      if (confPass != password) {
         this.passwordNoCoincide = true;
         this.validacion = false;
-      }else{
+      } else {
         this.passwordNoCoincide = false;
         this.validacion = true;
       }
     }
   }
 
-  registrarClick(){
-    
-  }
-
   ionViewDidEnter() {
-
     this.validacion = false;
   }
   @ViewChild('modal') modal: any;
-  onSubmit(){
-    
-    if(this.validacion){
+  onSubmit() {
+    if (this.validacion) {
       this.modal.present();
     }
-      
   }
-  
+
   onWillDismiss() {
     this.navCtrl.navigateForward('login');
   }
-  
+
+  async registrarClick() {
+    if (this.usuario.nombreprod == '' || this.usuario.dv == '') {
+      this.nombresNoIngresados = true;
+    } else if (
+      this.dateInput == false ||
+      this.edad == 'Ingrese una edad valida, minimo 5 años'
+    ) {
+      this.dateNoIngresada = true;
+    } else if (this.usuario.raza == '') {
+      this.femaleGenderImgSrc = '../../assets/icon/female-selected.svg';
+      this.femaleGenderTextColor = 'var(--ion-color-secondary)';
+      this.maleGenderImgSrc = '../../assets/icon/male-selected.svg';
+      this.maleGenderTextColor = 'var(--ion-color-secondary)';
+      this.otherGenderImgSrc = '../../assets/icon/male-female-selected.svg';
+      this.otherGenderTextColor = 'var(--ion-color-secondary)';
+      await new Promise((resolve) => setTimeout(resolve, 150));
+      this.femaleGenderImgSrc = '../../assets/icon/female.svg';
+      this.femaleGenderTextColor = 'white';
+      this.maleGenderImgSrc = '../../assets/icon/male.svg';
+      this.maleGenderTextColor = 'white';
+      this.otherGenderImgSrc = '../../assets/icon/male-female.svg';
+      this.otherGenderTextColor = 'white';
+    }
+    else if(this.usuario.cantidad == null){
+      
+    } else {
+      const cargando = await this.loadingController.create({
+        message: 'Registrando',
+        cssClass: 'modal-cargando',
+      });
+      // Muestra el Loading Controller
+      await cargando.present();
+      await this.restApi.addUsuario(this.usuario).subscribe({
+        next: (res) => {
+          console.log('Creando torneo', res);
+          cargando.dismiss(); //Elimina la espera
+          this.navCtrl.navigateForward('menu-partidos');
+        },
+        complete: () => {},
+        error: (err) => {
+          console.log('Error Crenado Torneo', err);
+          cargando.dismiss(); //Elimina la espera
+        },
+      });
+      console.log('¡Registro agregado con éxito!');
+    }
+  }
 }
