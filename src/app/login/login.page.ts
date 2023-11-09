@@ -1,138 +1,122 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { NavController, Animation, AnimationController, IonCard } from '@ionic/angular';
+import {
+  NavController,
+  Animation,
+  AnimationController,
+  IonCard,
+} from '@ionic/angular';
 import { Router, NavigationExtras } from '@angular/router';
+import { Clusuario } from '../usuario/model/ClUsuario';
+import { UsuarioService } from '../usuario/usuario.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
   @ViewChild('miFormulario', { static: false }) formulario: any;
   @ViewChild(IonCard, { read: ElementRef }) card: any;
 
   private animation: Animation;
-  
+
   constructor(
     private navCtrl: NavController,
     private animationCtrl: AnimationController,
-    private router: Router
-
-  ){
+    private router: Router,
+    private restApi: UsuarioService
+  ) {
     this.animation = this.animationCtrl.create();
   }
 
-  ngAfterViewInit() {
-    this.animation = this.animationCtrl
-      .create()
-      .addElement(this.card.nativeElement)
-      .duration(200)
-      .iterations(1)
-      .keyframes([
-        { offset: 0, height: '0%' },
-        { offset: 0.99, height: '275px' },
-        { offset: 1, height: 'auto' },
-      ]);
-  }
-  user: any= {
-    username: '',
-    password: ''
-  }
-  
-  usersString = localStorage.getItem('users');
-  users = this.usersString ? JSON.parse(this.usersString) : [];
-  validacion: boolean = false;
-  user_login: any = null;
 
-// Bucle para buscar el usuario
-BuscarUsuario(Usuario: string): any {
-  for (const key in this.users) {
-    if (this.users.hasOwnProperty(key)) {
-      const user = this.users[key];
-      if (user.username === Usuario) {
-        return user;
-      }
+
+  usuario = new Clusuario();
+
+  validacion = false;
+
+  username = '';
+  usernameNoExistente = false;
+  usernameNoIngresado = false;
+
+  usernameChange() {
+    const usuario = this.username;
+    const user_verify = this.restApi.checkUserExists(usuario);
+    if (usuario == '') {
+      this.usernameNoIngresado = true;
+      this.usernameNoExistente = false;
+      this.validacion = false;
+    } else if (user_verify) {
+      this.usernameNoIngresado = false;
+      this.usernameNoExistente = false;
+      this.validacion = true;
+    } else {
+      this.usernameNoIngresado = false;
+      this.usernameNoExistente = true;
+      this.validacion = false;
     }
   }
-  return null; // Si no se encuentra el usuario
-}
 
-  UsuarioNoIngresado: boolean = false;
-  UsuarioNoExiste: boolean = false;
-  UsuarioInput(){
-    const usuario = this.user.username;
-    this.user_login = this.BuscarUsuario(usuario);
-    if(usuario == ''){
-      this.UsuarioNoIngresado = true;
-      this.UsuarioNoExiste = false;
-    }else{
-      this.UsuarioNoIngresado = false;
-      if(this.user_login == null){
-        this.UsuarioNoExiste = true;
-      }
-      else{
-        this.UsuarioNoExiste = false;
-      }
-    }
-  }
-  ContraseniaNoIngresada: boolean = false;
-  ContraseniaInvalida: boolean = false;
-  ContraInput(){
-    const contra = this.user.password;
-    if(contra == ''){
-      this.ContraseniaNoIngresada = true;
-      this.ContraseniaInvalida = false;
-    }else{
-      this.ContraseniaNoIngresada = false;
-      if(this.user_login.password != this.user.password){
-        this.ContraseniaInvalida = true;
+  password = '';
+  passwordNoCoincide = false;
+  passwordNoIngresada = false;
+
+  passwordChange() {
+    const contra = this.password;
+    const usuario = this.restApi.getUser(this.username);
+    if (contra == '') {
+      this.passwordNoIngresada = true;
+      this.passwordNoCoincide = false;
+      this.validacion = false;
+    } else if (!!usuario) {
+      this.passwordNoIngresada = false;
+      if (contra == usuario.password) {
+        this.passwordNoCoincide = false;
+        this.validacion = true;
+        this.usuario = usuario;
+      } else {
+        this.passwordNoCoincide = true;
         this.validacion = false;
-      }else{
-        this.ContraseniaInvalida = false;
-        this.validacion = true;}
+      }
     }
   }
 
-  ngOnInit() { 
-  }
+  ngOnInit() {}
 
   ionViewDidEnter() {
     setTimeout(() => {
       this.animation.play();
     }, 100);
     this.validacion = false;
-    this.UsuarioNoIngresado = false;
-    this.ContraseniaNoIngresada = false;
   }
+  ionViewWillEnter() {
+    const isLogged = this.restApi.checkUserLogged();
+    if (isLogged) {
+      this.router.navigate(['/tabs/perfil/']);
+    }
+    this.username = '';
+    this.password = '';
+  }
+
   ionViewWillLeave() {
-    this.formulario.resetForm();
-    if (this.animation) {
-      this.animation.stop();
-    }
+
   }
 
-  onSubmit(){
-    if(!this.user.username){
-      this.UsuarioNoIngresado = true;
+  loginClick() {
+    if (this.username == '') {
+      this.usernameNoIngresado = true;
       this.validacion = false;
     }
-    else if(this.UsuarioNoExiste){
+    if (this.password == '') {
+      this.passwordNoIngresada = true;
       this.validacion = false;
     }
-    if(!this.user.password){
-      this.ContraseniaNoIngresada = true;
-      this.validacion = false;
+    if (this.validacion) {
+      console.log('xd');
+      this.restApi.saveLoggedInUser(this.usuario);
+      let navigationExtras: NavigationExtras = {
+        state: { user: this.username },
+      };
+      this.router.navigate(['/tabs/perfil/'], navigationExtras);
     }
-    else if(this.ContraseniaInvalida){
-      this.validacion = false;
-    }
-    if(this.validacion){
-      console.log(this.user_login);
-      localStorage.setItem('user_login', JSON.stringify(this.user_login));
-      let navigationExtras: NavigationExtras = {state: {user: this.user_login.username}};
-      this.router.navigate(['/menu-partidos'],navigationExtras);
-    }
-      
   }
-
 }

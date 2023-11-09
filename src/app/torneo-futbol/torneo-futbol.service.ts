@@ -28,7 +28,7 @@ export class TorneoFutbolService {
   // Controla y enviará un mensaje a consola para todos los errores
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error('handleError Harrys', error); // log to console instead
+      console.error('error', error); // log to console instead
       return of(result as T);
     };
   }
@@ -68,8 +68,6 @@ export class TorneoFutbolService {
   }
 
   deleteTorneo(id: number): Observable<ClToreno_futbol> {
-    //const url = '${apiUrl}/${id}';
-    //return this.http.delete<Producto>(url, httpOptions).pipe(
     return this.http
       .delete<ClToreno_futbol>(apiUrl + id, httpOptions)
       .pipe(

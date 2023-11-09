@@ -9,31 +9,62 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'menu-partidos',
-        loadChildren: () => import('../menu-partidos/menu-partidos.module').then( m => m.MenuPartidosPageModule)
-      },
-      {
-        path: 'login',
-        loadChildren: () => import('../login/login.module').then( m => m.LoginPageModule)
-      },
-      {
         path: 'perfil',
-        loadChildren: () => import('../perfil/perfil.module').then( m => m.PerfilPageModule)
+        loadChildren: () =>
+          import('../perfil/perfil.module').then((m) => m.PerfilPageModule),
+      },
+
+      {
+        path: 'explorar',
+        loadChildren: () =>
+          import('../explorar/explorar.module').then(
+            (m) => m.ExplorarPageModule
+          ),
+      },
+      {
+        path: 'favoritos',
+        loadChildren: () =>
+          import('../favoritos/favoritos.module').then(
+            (m) => m.FavoritosPageModule
+          ),
+      },
+      {
+        path: 'club',
+        loadChildren: () =>
+          import('../club/club.module').then((m) => m.ClubPageModule),
+      },
+      {
+        path: 'torneos',
+        loadChildren: () =>
+          import('../torneos/torneos.module').then((m) => m.TorneosPageModule),
+      },
+      {
+        path: 'torneo-futbol',
+        loadChildren: () =>
+          import('../torneo-futbol/torneo-futbol.module').then(
+            (m) => m.TorneoFutbolPageModule
+          ),
+      },
+      {
+        path: 'listar-torneos',
+        loadChildren: () =>
+          import('../torneo-futbol/listar-torneos/listar-torneos.module').then(
+            (m) => m.ListarTorneosPageModule
+          ),
       },
       {
         path: '',
-        redirectTo: '/tabs/perfil',
-        pathMatch: 'full'
-      }
-    ]
+        redirectTo: '/tabs/favoritos',
+        pathMatch: 'full',
+      },
+    ],
   },
   {
     path: '',
-    redirectTo: '/tabs/perfil',
-    pathMatch: 'full'
-  }
+    redirectTo: '/tabs/favoritos',
+    pathMatch: 'full',
+  },
 ];
-
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

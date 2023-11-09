@@ -1,73 +1,21 @@
 <ion-content [fullscreen]="true">
   <ion-card class="nombre-torneo">
     <ion-card-header class="titulo">
-      <ion-card-subtitle>Torneo</ion-card-subtitle>
       <ion-card-title>{{torneo.nombreprod}}</ion-card-title>
+      <ion-card-subtitle>Torneo</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-        <ion-img [src]="ligaImg" *ngIf="!isCopa"></ion-img>
-        <h1 [style.color]="ligaColorText" *ngIf="!isCopa">Liga</h1>
-        <ion-img [src]="copaImg" *ngIf="isCopa"></ion-img>
-        <h1 [style.color]="copaColorText" *ngIf="isCopa">Copa</h1>
-        <ion-text *ngIf="isCopa">Fase de grupos</ion-text>
+      <ion-img [src]="ligaImg" *ngIf="!isCopa"></ion-img>
+      <h1 [style.color]="ligaColorText" *ngIf="!isCopa">Liga</h1>
+      <ion-img [src]="copaImg" *ngIf="isCopa"></ion-img>
+      <h1 [style.color]="copaColorText" *ngIf="isCopa">Copa</h1>
+      <ion-text *ngIf="isCopa">Fase de grupos</ion-text>
       <ion-text>
-        {{torneo.cantidad}}
-      </ion-text>
-      <ion-text>
-        equipos
+        {{torneo.cantidad}} Equipos
       </ion-text>
     </ion-card-content>
   </ion-card>
-  <ion-card class="tipo_torneo">
-    <ion-card-header class="titulo">
-      <ion-card-title>Tipo Torneo</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-card #ligaCard>
-              <ion-img [src]="ligaImg"></ion-img>
-              <h1 [style.color]="ligaColorText">Liga</h1>
-            </ion-card>
-          </ion-col>
-          <ion-col>
-            <ion-card #copaCard>
-              <ion-img [src]="copaImg"></ion-img>
-              <h1 [style.color]="copaColorText">Copa</h1>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-        <ion-row *ngIf="isCopa">
-          <ion-col class="fase-grupos">
-            <ion-checkbox labelPlacement="end">Fase de grupos</ion-checkbox></ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card class="cantidad-equipos">
-    <ion-card-header class="titulo">
-      <ion-card-title>Ingrese Cantidad de Equipos</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-grid fixed>
-        <ion-row>
-          <ion-col size="4">
-            <ion-button expand="block" fill="clear" shape="round">
-              <ion-icon src="../../assets/icon/minus-solid.svg"></ion-icon>
-            </ion-button>
-          </ion-col>
-          <ion-col size="4">
-            <ion-input type="number" inputmode="numeric"></ion-input>
-          </ion-col>
-          <ion-col size="4">
-            <ion-button expand="block" fill="clear" shape="round">
-              <ion-icon src="../../assets/icon/plus-solid.svg"></ion-icon>
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
+  <ion-button class="editar-boton"
+    [routerLink]="['/tabs/torneo-futbol/editar-torneo/',torneo.idProducto]" expand="block">Editar</ion-button>
+  <ion-button class="eliminar-boton" (click)="presentOpciones(torneo.idProducto)" expand="block">Eliminar</ion-button>
 </ion-content>

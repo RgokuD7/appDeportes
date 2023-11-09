@@ -8,6 +8,7 @@ import {
   IonCard,
   LoadingController,
   NavController,
+  ActionSheetController,
 } from '@ionic/angular';
 @Component({
   selector: 'app-detalle-torneo',
@@ -20,7 +21,8 @@ export class DetalleTorneoPage {
     private restApi: TorneoFutbolService,
     public router: Router,
     public actRoute: ActivatedRoute,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private actionSheetController: ActionSheetController
   ) {}
 
   torneo = new ClToreno_futbol();
@@ -78,4 +80,43 @@ export class DetalleTorneoPage {
     });
   }
 
+  async presentOpciones(id: number) {
+    const actionSheet = await this.actionSheetController.create({
+      header: '¿Estás seguro de que quieres eliminar este torneo?',
+      buttons: [
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: () => {
+            console.log(id);
+            this.eliminarTorneo(id);
+          },
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+      ],
+    });
+    await actionSheet.present();
+  }
+  
+  async eliminarTorneo(id: number) {
+    const cargando = await this.loadingController.create({
+      message: 'Eliminando',
+    });
+    await cargando.present();
+    await this.restApi.deleteTorneo(id).subscribe({
+      next: (res) => {
+        console.log('Error Eliminar Detalle', res);
+        cargando.dismiss();
+        this.router.navigate(['/tabs/listar/torneos']);
+      },
+      complete: () => {},
+      error: (err) => {
+        console.log('Error Eliminar Detalle', err);
+        cargando.dismiss(); //Elimina la espera
+      },
+    });
+  }
 }

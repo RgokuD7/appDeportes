@@ -1,7 +1,12 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registrarse</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content [fullscreen]="true">
-  <div class="top">
-    <ion-button fill="clear" [routerLink]="['/home']">Atras</ion-button>
-  </div>
   <ion-card class="nombre">
     <ion-card-header class="titulo">
       <ion-card-title>Usuario</ion-card-title>
@@ -15,11 +20,11 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-input type="text" placeholder="Nombres" name="nombres" [(ngModel)]="usuario.nombreprod"
+            <ion-input type="text" placeholder="Nombres" name="nombres" [(ngModel)]="usuario.nombres"
               (ionInput)="nombresInput()"></ion-input>
           </ion-col>
           <ion-col>
-            <ion-input type="text" placeholder="Apellidos" name="apellidos" [(ngModel)]="usuario.dv"
+            <ion-input type="text" placeholder="Apellidos" name="apellidos" [(ngModel)]="usuario.apellidos"
               (ionInput)="apellidosInput()"></ion-input>
           </ion-col>
         </ion-row>
@@ -30,7 +35,7 @@
         </ion-row>
         <ion-row *ngIf="nombresNoIngresados">
           <ion-col size="12" class="error">
-            <ion-text>Ingrese un nombre valido, sin números</ion-text>
+            <ion-text>Ingrese sus nombres y apellidos por favor</ion-text>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -56,7 +61,7 @@
       <ion-grid>
         <ion-row>
           <ion-col size="4">
-            <ion-card (click)="femaleGenderClick()">
+            <ion-card #femaleCard (click)="femaleGenderClick()">
               <ion-img [src]="femaleGenderImgSrc"></ion-img>
               <ion-text [style.color]="femaleGenderTextColor">Femenino</ion-text>
             </ion-card>
@@ -85,8 +90,8 @@
             <ion-card-title>Nacionalidad</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-              <ion-img style="padding-top: 30px;" [src]="nacionalidad_src" [alt]="nacionalidad_alt"></ion-img>
-              <ion-text>{{nacionalidad_alt}}</ion-text>
+            <ion-img style="padding-top: 30px;" [src]="nacionalidad_src" [alt]="nacionalidad_alt"></ion-img>
+            <ion-text>{{nacionalidad_alt}}</ion-text>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -96,18 +101,18 @@
             <ion-card-title>Deporte Favorito</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-              <ion-img [src]="deporte_src" [alt]="deporte_alt"></ion-img>
-              <ion-text>{{deporte_alt}}</ion-text>
+            <ion-img [src]="deporte_src" [alt]="deporte_alt"></ion-img>
+            <ion-text>{{deporte_alt}}</ion-text>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
   <ion-modal #nacionalidadModal class="modal-banderas" trigger="open-nacionalidadModal" [initialBreakpoint]="0.75"
-    [breakpoints]="[0, 0.25, 0.5, 0.75]">
+    [breakpoints]="[0 , 0.75, 1]">
     <ng-template>
+      <ion-searchbar placeholder="Search" (ionInput)="busquedaInput($event)" (click)="nacionalidadModal.setCurrentBreakpoint(1)"></ion-searchbar>
       <ion-content>
-        <ion-searchbar placeholder="Search" (ionInput)="busquedaInput($event)"></ion-searchbar>
         <div class="banderas-container">
           <ion-card *ngFor="let key of banderasFiltradas | keyvalue" class="banderas"
             (click)="banderaClick(key.key, key.value)">
@@ -147,7 +152,7 @@
               </ion-card>
             </ion-col>
             <ion-col>
-              <ion-card class="deporte"  (click)="tenisClick()">
+              <ion-card class="deporte" (click)="tenisClick()">
                 <ion-img src="../../assets/icon/tenis_raquet.png" alt="Torneo De Tenis"></ion-img>
                 <ion-text>Torneo De Tenis</ion-text>
               </ion-card>
@@ -168,19 +173,23 @@
             <ion-input type="tel" placeholder="Teléfono" name="telefono" [(ngModel)]="telefono"
               (ionChange)="telefonoChange()"></ion-input>
           </ion-col>
-          <ion-col>
-            <ion-input type="email" placeholder="Correo" name="correo" [(ngModel)]="usuario.direccion"
-              (ionChange)="correoChange()"></ion-input>
-          </ion-col>
         </ion-row>
         <ion-row>
           <ion-col class="error">
             <ion-text *ngIf="telefonoInvalido">Ingrese un Teléfono valido</ion-text>
             <ion-text *ngIf="telefonoNoIngresado">Ingrese un Teléfono</ion-text>
           </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-input type="email" placeholder="Correo" name="correo" [(ngModel)]="usuario.email"
+              (ionChange)="correoChange()"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
           <ion-col class="error">
             <ion-text *ngIf="correoInvalido">Ingrese un Correo valido</ion-text>
-            <ion-text *ngIf="correoNoIngresado">Ingrese un Teléfono</ion-text>
+            <ion-text *ngIf="correoNoIngresado">Ingrese un Correo</ion-text>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -194,57 +203,48 @@
       <ion-grid>
         <ion-row>
           <ion-col>
-            <ion-input type="text" placeholder="Nombre de Usuario" name="username" [(ngModel)]="usuario.hrini"
+            <ion-input type="text" placeholder="Nombre de Usuario" name="username" [(ngModel)]="usuario.username"
               (ionChange)="usernameChange()"></ion-input>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col class="error">
-            <ion-text *ngIf="usernameInvalido">Ingrese un Usuario valido</ion-text>
+            <ion-text *ngIf="usernameExistente">Nombre de Usuario ya existente</ion-text>
             <ion-text *ngIf="usernameNoIngresado">Ingrese Nombre de Usuario</ion-text>
           </ion-col>
         </ion-row>
         <ion-row>
-            <ion-col>
-              <ion-input type="password" placeholder="Contraseña" name="password" [(ngModel)]="usuario.hrfin"
-                (ionInput)="passwordInput()"></ion-input>
-            </ion-col>
+          <ion-col>
+            <ion-input type="password" placeholder="Contraseña" name="password" [(ngModel)]="usuario.password"
+              (ionInput)="passwordInput()"></ion-input>
+          </ion-col>
         </ion-row>
         <ion-row>
           <ion-col class="password-error">
-              <ion-text *ngIf="passwordInvalida">Ingrese un Correo valido:</ion-text>
-              <ion-text *ngIf="password4Num" >-Debe contener al menos 4 números.</ion-text>
-              <ion-text *ngIf="password3Car" >-Debe contener al menos 3 caracteres (letras minúsculas o mayúsculas).</ion-text>
-              <ion-text *ngIf="passwordMayus">-Debe contener al menos 1 letra mayúscula.</ion-text>
-              <ion-text *ngIf="passowrd8Length">-Debe tener una longitud mínima de 8 caracteres en total</ion-text>
-              <ion-text *ngIf="passwordNoIngresada">Ingrese una Contraseña</ion-text>
+            <ion-text *ngIf="passwordInvalida">Ingrese un Correo valido:</ion-text>
+            <ion-text *ngIf="password4Num">-Debe contener al menos 4 números.</ion-text>
+            <ion-text *ngIf="password3Car">-Debe contener al menos 3 caracteres (letras minúsculas o
+              mayúsculas).</ion-text>
+            <ion-text *ngIf="passwordMayus">-Debe contener al menos 1 letra mayúscula.</ion-text>
+            <ion-text *ngIf="passowrd8Length">-Debe tener una longitud mínima de 8 caracteres en total</ion-text>
+            <ion-text *ngIf="passwordNoIngresada">Ingrese una Contraseña</ion-text>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-input type="password" placeholder="Confirmar contraseña" name="password" [(ngModel)]="password"
-              (ionChange)="confPasswordChange()"></ion-input>
+            <ion-input type="password" placeholder="Confirmar contraseña" name="password"
+              [(ngModel)]="pass_confirmation" (ionChange)="confPasswordChange()"></ion-input>
           </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col class="password-error">
+        </ion-row>
+        <ion-row>
+          <ion-col class="password-error">
             <ion-text *ngIf="passwordNoCoincide">Las contraseñas no coinciden</ion-text>
             <ion-text *ngIf="confPasswordNoIngresada">Confirme Contraseña</ion-text>
-        </ion-col>
-      </ion-row>
+          </ion-col>
+        </ion-row>
       </ion-grid>
     </ion-card-content>
   </ion-card>
   <ion-button class="boton-registrar" (click)="registrarClick()" expand="block">
     Reistrarse
   </ion-button>
-  <ion-modal #modal (willDismiss)="onWillDismiss()" class="regsitro">
-    <ng-template>
-      <ion-content>
-        <div class="modal-content">
-          <h2>Registro Completo</h2>
-          <ion-button [routerLink]="['/login']" (click)="modal.dismiss()">Iniciar Sesión</ion-button>
-        </div>
-      </ion-content>
-    </ng-template>
-  </ion-modal>

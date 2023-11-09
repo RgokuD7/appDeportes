@@ -1,301 +1,269 @@
-ion-modal.regsitro {
-    --height: 20%;
-    --border-radius: 16px;
-    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+ion-content{
+    --padding-top: 10px;
   }
+.titulo {
+  text-align: center;
+  padding: 10px 10px 0 10px;
+}
 
-.content{
+ion-card.nombre {
+  margin: 10px 10px 0 10px;
+  ion-card-content {
     display: flex;
-    align-items: self-start;
     justify-content: center;
-    height: 100%;
-    width: 100%;
-}
-
-.titulo{
-    text-align: center;
-    padding: 10px 10px 0 10px;
-}
-
-ion-card.nombre{
-    margin: 90px 10px 0 10px;
-    ion-card-content{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
-        ion-grid{
-            padding: 0;
-            ion-row{
-                ion-col.perfil-img{
-                    display: grid;
-                    place-items: center;
-                }
-                ion-col{
-                    ion-img{
-                        width: 50%;
-                        border-radius: 1rem;
-                        -webkit-border-radius: 1rem;
-                        -moz-border-radius: 1rem;
-                        -ms-border-radius: 1rem;
-                        -o-border-radius: 1rem;
-}
-                    ion-input{
-                        width: auto;
-                        padding-left: 5px;
-                        margin: 5px;
-                        text-align: start;
-                        color: var(--ion-color-primary);
-                        border-bottom: 3px solid var(--ion-color-primary);
-                        font-size: calc(16px + 6 * ((100vw - 320px) / 680));
-                    }
-                    ion-text{
-                        color: var(--ion-color-secondary);
-                    }
-                }
-                ion-col.error{
-                    text-align: center;
-                    ion-text{
-                        color: var(--ion-color-secondary);
-                    }
-                }
-            }
+    align-items: center;
+    padding: 10px;
+    ion-grid {
+      padding: 0;
+      ion-row {
+        ion-col.perfil-img {
+          display: grid;
+          place-items: center;
         }
-    }
-}
-ion-card.fecha-nacimiento{
-    margin: 10px;
-    ion-card-content{
-        padding: 10px;
-        display: grid;
-        place-items: center;
-        ion-button{
-            background-color: var(--ion-color-secondary);
-            color: var(--ion-color-primary);
+        ion-col {
+          ion-img {
+            width: 50%;
             border-radius: 1rem;
             -webkit-border-radius: 1rem;
             -moz-border-radius: 1rem;
             -ms-border-radius: 1rem;
             -o-border-radius: 1rem;
-        }
-        ion-text{
+          }
+          ion-input {
+            width: auto;
+            padding-left: 5px;
+            margin: 5px;
+            text-align: start;
             color: var(--ion-color-primary);
+            border-bottom: 3px solid var(--ion-color-primary);
+            font-size: calc(16px + 6 * ((100vw - 320px) / 680));
+          }
+          ion-text {
+            color: var(--ion-color-secondary);
+          }
         }
-        ion-datetime{
-            --background: var(--ion-card-background);
-            --wheel-fade-background-rgb: transparent;
-        }
-    }
-}
-
-ion-card.genero{
-    margin: 10px;
-    ion-card-content{
-        padding: 0;
-        ion-grid{
-            padding: 0;
-            ion-row{
-                padding: 0;
-                ion-col{
-                    padding: 10px;
-                    ion-card{
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center; 
-                        align-items: center; 
-                        height: 100%;
-                        width: auto;
-                        margin: 0;
-                        padding: 10px;
-                        background-color: var(--ion-color-primary);
-                        border-radius: 1rem;
-                        -webkit-border-radius: 1rem;
-                        -moz-border-radius: 1rem;
-                        -ms-border-radius: 1rem;
-                        -o-border-radius: 1rem;
-                        ion-img{
-                            width: 100%;
-                            height: auto;
-                        }
-                    }
-                }
-                ion-col:first-child{
-                    padding-left: 10px;
-                    padding-right: 0;
-                }
-                ion-col:last-child{
-                    padding-left: 0;
-                    padding-right: 10px;
-                }
-            }
-        }
-    }
-}
-ion-grid.nacionalidad-deporte{
-    margin: 0 0 0 10px;
-    padding: 0;
-    ion-row{
-        margin: 0;
-        padding: 0;
-        ion-col{
-            margin: 0 10px 10px 0;
-            padding: 0;
-            ion-card{
-                display: flex;
-                flex-direction: column;
-                margin: 0;
-                height: 100%;
-                ion-card-content{
-                    padding: 10px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    align-items: center;
-                    height: 100%;
-                    ion-img{
-                        width: 100%;
-                        height: auto;
-                    }
-                }
-            }
-        }
-    }
-}
-ion-modal.modal-banderas {
-    ion-content {
-      .banderas-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px; 
-        padding: 16px; 
-      }
-  
-      ion-card.banderas {
-        width: 100%; 
-        box-sizing: border-box;
-        display: grid;
-        place-items: center;
-        margin: 0;
-        ion-img{
-            width: max-content;
+        ion-col.error {
+          text-align: center;
+          ion-text {
+            color: var(--ion-color-secondary);
+          }
         }
       }
     }
   }
+}
+ion-card.fecha-nacimiento {
+  margin: 10px;
+  ion-card-content {
+    padding: 10px;
+    display: grid;
+    place-items: center;
+    ion-button {
+      background-color: var(--ion-color-secondary);
+      color: var(--ion-color-primary);
+      border-radius: 1rem;
+      -webkit-border-radius: 1rem;
+      -moz-border-radius: 1rem;
+      -ms-border-radius: 1rem;
+      -o-border-radius: 1rem;
+    }
+    ion-text {
+      color: var(--ion-color-primary);
+    }
+    ion-datetime {
+      --background: var(--ion-card-background);
+      --wheel-fade-background-rgb: transparent;
+    }
+  }
+}
 
-ion-modal.modal-deportes{
-    --height: auto;
-    ion-grid{
-        ion-row {
-          display: flex;
-          flex-wrap: wrap;
-          padding: 0;
-          ion-col {
-            padding: 0;
-            margin: 10px;
-            .deporte {
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              align-items: center;
-              height: 100%;
-              width: auto;
-              margin: 0;
-              border: 3px solid var(--ion-color-primary);
-              border-radius: 1rem;
-              -webkit-border-radius: 1rem;
-              -moz-border-radius: 1rem;
-              -ms-border-radius: 1rem;
-              -o-border-radius: 1rem;
-              ion-img {
-                height: 80%;
-                width: auto;
-              }
-              ion-text{
-                color: var(--ion-color-primary);
-              }
+ion-card.genero {
+  margin: 10px;
+  ion-card-content {
+    padding: 0;
+    ion-grid {
+      padding: 0;
+      ion-row {
+        padding: 0;
+        ion-col {
+          padding: 10px;
+          ion-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: auto;
+            margin: 0;
+            padding: 10px;
+            background-color: var(--ion-color-primary);
+            border-radius: 1rem;
+            -webkit-border-radius: 1rem;
+            -moz-border-radius: 1rem;
+            -ms-border-radius: 1rem;
+            -o-border-radius: 1rem;
+            ion-img {
+              width: 100%;
+              height: auto;
             }
           }
         }
-      }
-}
-
-ion-card.info-personal{
-    margin: 0 10px 10px 10px;
-    ion-card-content{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
-        ion-grid{
-            padding: 0;
-            ion-row{
-                ion-col{
-                    ion-input{
-                        width: auto;
-                        padding-left: 5px;
-                        margin: 5px;
-                        text-align: start;
-                        color: var(--ion-color-primary);
-                        border-bottom: 3px solid var(--ion-color-primary);
-                        font-size: calc(16px + 6 * ((100vw - 320px) / 680));
-                    }
-                    ion-text{
-                        color: var(--ion-color-secondary);
-                    }
-                }
-                ion-col.error{
-                    text-align: center;
-                    ion-text{
-                        color: var(--ion-color-secondary);
-                    }
-                }
-            }
+        ion-col:first-child {
+          padding-left: 10px;
+          padding-right: 0;
         }
+        ion-col:last-child {
+          padding-left: 0;
+          padding-right: 10px;
+        }
+      }
     }
+  }
+}
+ion-grid.nacionalidad-deporte {
+  margin: 0 0 0 10px;
+  padding: 0;
+  ion-row {
+    margin: 0;
+    padding: 0;
+    ion-col {
+      margin: 0 10px 10px 0;
+      padding: 0;
+      ion-card {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        height: 100%;
+        ion-card-content {
+          padding: 10px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          height: 100%;
+          ion-img {
+            width: 100%;
+            height: auto;
+          }
+        }
+      }
+    }
+  }
+}
+ion-modal.modal-banderas {
+  ion-content {
+    .banderas-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    ion-card.banderas {
+      width: 100%;
+      box-sizing: border-box;
+      display: grid;
+      place-items: center;
+      margin: 0;
+      ion-img {
+        width: 160px;
+        height: 120px;
+      }
+    }
+  }
 }
 
-.password-error{
+ion-modal.modal-deportes {
+  ion-grid {
+    ion-row {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0;
+      ion-col {
+        padding: 0;
+        margin: 10px;
+        .deporte {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          width: auto;
+          margin: 0;
+          border: 3px solid var(--ion-color-primary);
+          border-radius: 1rem;
+          -webkit-border-radius: 1rem;
+          -moz-border-radius: 1rem;
+          -ms-border-radius: 1rem;
+          -o-border-radius: 1rem;
+          ion-img {
+            height: 80%;
+            width: auto;
+          }
+          ion-text {
+            color: var(--ion-color-primary);
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+ion-card.info-personal {
+  margin: 0 10px 10px 10px;
+  ion-card-content {
     display: flex;
-    flex-direction: column;
-    justify-content: left;
-}
-
-.boton-registrar{
-    margin: 0 10px 10px 10px;
-}
-/* ion-card{
-    margin: 90px 30px;
-    width: 100%;
-} */
-
-/* ion-card-header{
-    display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-    
+    padding: 10px;
+    ion-grid {
+      padding: 0;
+      ion-row {
+        ion-col {
+          ion-input {
+            width: auto;
+            padding-left: 5px;
+            margin: 5px;
+            text-align: start;
+            color: var(--ion-color-primary);
+            border-bottom: 3px solid var(--ion-color-primary);
+            font-size: calc(16px + 6 * ((100vw - 320px) / 680));
+          }
+          ion-text {
+            color: var(--ion-color-secondary);
+          }
+        }
+        ion-col.error {
+          text-align: start;
+          ion-text {
+            color: var(--ion-color-secondary);
+          }
+        }
+      }
+    }
+  }
 }
 
-ion-card-header ion-button{
-    position: fixed;
-    left: 10px;
-} */
-
-.modal-content{
-    display: grid;
-    place-items: center;
-    height: 100%;
-}
-.modal-content h2{
-    text-align: center;
+.password-error {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
 }
 
-
-
-.boton-reg{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.boton-registrar {
+  margin: 0 10px 10px 10px;
+}
+.modal-content {
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
+.modal-content h2 {
+  text-align: center;
 }
 
+.boton-reg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

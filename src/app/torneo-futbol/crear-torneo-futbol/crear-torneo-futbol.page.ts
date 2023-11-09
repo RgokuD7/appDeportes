@@ -116,10 +116,10 @@ export class CrearTorneoFutbolPage {
       // Muestra el Loading Controller
       await cargando.present();
       await this.restApi.addTorneo(this.torneo).subscribe({
-        next: (res) => {
-          console.log('Creando torneo', res);
+        next: (torneo) => {
+          console.log('Creando torneo', torneo);
           cargando.dismiss(); //Elimina la espera
-          this.navCtrl.navigateForward('menu-partidos');
+          this.router.navigate(['/tabs/torneo-futbol/detalle-torneo/',torneo.idProducto]);
         },
         complete: () => {},
         error: (err) => {

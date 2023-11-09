@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TorneoFutbolService } from '../torneo-futbol.service';
 import { ClToreno_futbol } from '../model/ClTorneo-futbol';
-import { IonCard, LoadingController, NavController } from '@ionic/angular';
+import { IonCard, LoadingController, NavController, ActionSheetController  } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-listar-torneos',
   templateUrl: './listar-torneos.page.html',
@@ -10,8 +11,54 @@ import { IonCard, LoadingController, NavController } from '@ionic/angular';
 export class ListarTorneosPage {
   constructor(
     public loadingController: LoadingController,
-    private restApi: TorneoFutbolService
+    private restApi: TorneoFutbolService,
+    private actionSheetController: ActionSheetController,
+    private router: Router
   ) {}
+
+
+  async presentOpciones(id: number) {
+    const actionSheet = await this.actionSheetController.create({
+      header: '¿Estás seguro de que quieres eliminar este torneo?',
+      buttons: [
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: () => {
+            console.log(id);
+            this.eliminarTorneo(id);
+          }
+        }, {
+          text: 'Cancelar',
+          role: 'cancel'
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+  async eliminarTorneo(id: number) {
+    const cargando = await this.loadingController.create({
+      message: 'Eliminando'
+    });
+    await cargando.present();
+    await this.restApi.deleteTorneo(id)
+      .subscribe({
+        next: (res) => {
+          console.log("Error Eliminar", res);
+          cargando.dismiss();
+          this.getTorneos();
+        }
+        , complete: () => { }
+        , error: (err) => {
+          console.log("Error Eliminar", err);
+          cargando.dismiss(); //Elimina la espera
+        }
+
+      })
+  }
+  
+  
 
   ionViewDidEnter() {
     this.getTorneos();

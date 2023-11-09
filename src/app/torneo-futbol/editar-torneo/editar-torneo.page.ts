@@ -148,10 +148,8 @@ export class EditarTorneoPage{
         .subscribe({
           next: (torneo) => {
             cargando.dismiss();
-            //let id = res['id'];
-            //this.router.navigate([ 'detail', { outlets: { details: id }} ]);
             this.router.navigate([
-              'torneo-futbol/detalle-torneo/' + this.torneo.idProducto,
+              '/tabs/torneo-futbol/detalle-torneo/' + this.torneo.idProducto,
             ]);
           },
           complete: () => {},
