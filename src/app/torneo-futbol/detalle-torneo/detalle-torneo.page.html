@@ -1,0 +1,21 @@
+<ion-content [fullscreen]="true">
+  <ion-card class="nombre-torneo">
+    <ion-card-header class="titulo">
+      <ion-card-title>{{torneo.nombreprod}}</ion-card-title>
+      <ion-card-subtitle>Torneo</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-img [src]="ligaImg" *ngIf="!isCopa"></ion-img>
+      <h1 [style.color]="ligaColorText" *ngIf="!isCopa">Liga</h1>
+      <ion-img [src]="copaImg" *ngIf="isCopa"></ion-img>
+      <h1 [style.color]="copaColorText" *ngIf="isCopa">Copa</h1>
+      <ion-text *ngIf="isCopa">Fase de grupos</ion-text>
+      <ion-text>
+        {{torneo.cantidad}} Equipos
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+  <ion-button class="editar-boton"
+    [routerLink]="['/tabs/torneo-futbol/editar-torneo/',torneo.idProducto]" expand="block">Editar</ion-button>
+  <ion-button class="eliminar-boton" (click)="presentOpciones(torneo.idProducto)" expand="block">Eliminar</ion-button>
+</ion-content>

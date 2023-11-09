@@ -1,0 +1,79 @@
+<ion-content [fullscreen]="true">
+  <ion-card class="nombre-torneo">
+    <ion-card-header class="titulo">
+      <ion-card-title>Nombre Torneo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-input type="text" placeholder="Ingrese nombre del Torneo" [(ngModel)]="torneo.nombreprod" autofocus="true"
+        #nombreImput></ion-input>
+    </ion-card-content>
+  </ion-card>
+  <ion-card class="tipo_torneo">
+    <ion-card-header class="titulo">
+      <ion-card-title>Tipo Torneo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-card (click)="ligaClick()" #ligaCard>
+              <ion-img [src]="ligaImg"></ion-img>
+              <h1 [style.color]="ligaColorText">Liga</h1>
+            </ion-card>
+          </ion-col>
+          <ion-col>
+            <ion-card (click)="copaClick()" #copaCard>
+              <ion-img [src]="copaImg"></ion-img>
+              <h1 [style.color]="copaColorText">Copa</h1>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="isCopa">
+          <ion-col class="fase-grupos">
+            <ion-checkbox (ionChange)="faseGruposChange($event)" labelPlacement="end">Fase de grupos</ion-checkbox></ion-col>
+        </ion-row>
+        <ion-row *ngIf="tipoNoSelected">
+          <ion-col>
+            <ion-text>Ingrese tipo Torneo</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="cantidad-equipos">
+    <ion-card-header class="titulo">
+      <ion-card-title>Ingrese Cantidad de Equipos</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="4">
+            <ion-button expand="block" fill="clear" shape="round" (click)="menosClick()">
+              <ion-icon src="../../assets/icon/minus-solid.svg"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col size="4">
+            <ion-input type="number" inputmode="numeric" [(ngModel)]="torneo.cantidad"
+              (ionInput)="equiposChange()"></ion-input>
+          </ion-col>
+          <ion-col size="4">
+            <ion-button expand="block" fill="clear" shape="round" (click)="masClick()">
+              <ion-icon src="../../assets/icon/plus-solid.svg"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="alerta_equipos" class="alerta-equipos">
+          <ion-col>
+            <ion-text>
+              Recuerda elegir equipos suficientes para competir
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-button (click)="crearClick()" expand="block">
+    Crear Torneo
+  </ion-button>
+</ion-content>

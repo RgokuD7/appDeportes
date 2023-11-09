@@ -1,0 +1,33 @@
+ion-card.perfil {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  ion-grid {
+    ion-row {
+      ion-col.img-perfil {
+        padding: 0;
+        display: grid;
+        place-items: center;
+        ion-avatar {
+          width: 100%;
+          height: auto;
+          --border-radius: 7px;
+        }
+      }
+      ion-col.info-perfil {
+        ion-card-title {
+          margin: 10px;
+          display: flex;
+          ion-img {
+            width: 20%;
+            height: auto;
+            margin: 0 10px;
+          }
+        }
+        ion-card-subtitle{
+            margin: 0 10px;
+        }
+      }
+    }
+  }
+}

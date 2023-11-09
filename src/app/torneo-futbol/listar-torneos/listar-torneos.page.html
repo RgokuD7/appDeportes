@@ -1,0 +1,25 @@
+<ion-content [fullscreen]="true">
+  <ion-card class="vacio" *ngIf="torneos.length === 0">
+    <ion-card-header class="titulo">
+      <ion-card-title>No tienes Torneos Creados</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button class="crear-boton" expand="block" [routerLink]="['/tabs/torneo-futbol/crear-torneo-futbol/']">Crear
+        torneo</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-icon *ngIf="torneos.length != 0" slot="fixed" name="add-circle-outline"
+    [routerLink]="['/tabs/torneo-futbol/crear-torneo-futbol/']"></ion-icon>
+
+  <ion-card class="torneos" *ngFor="let torneo of torneos">
+    <ion-card-header [routerLink]="['/tabs/torneo-futbol/detalle-torneo/',torneo.idProducto]">
+      <ion-card-title>{{torneo.nombreprod}}</ion-card-title>
+      <ion-card-subtitle>{{torneo.categoria}}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button class="editar-boton"
+        [routerLink]="['/tabs/torneo-futbol/editar-torneo/',torneo.idProducto]">Editar</ion-button>
+      <ion-button class="eliminar-boton" (click)="presentOpciones(torneo.idProducto)">Eliminar</ion-button>
+    </ion-card-content>
+  </ion-card>

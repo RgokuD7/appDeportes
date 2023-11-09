@@ -1,40 +1,40 @@
-
 <ion-content [fullscreen]="true">
 
-  <ion-card-content>
-    <div>
-        <ion-button class="retroceso" fill="clear" [routerLink]="['/menu-partidos']">Atrás</ion-button>
-    </div>
-  </ion-card-content>
-  
-  <ion-card-content>
-    <div class="titulos">
-      <h1> NUEVO CAMPEONATO </h1>
-    </div>
-  </ion-card-content>
-  
-  <br><br><br><br><br>
-  
-  <ion-item>
-    <ion-select label="Deporte" label-placement="fixed" placeholder="">
-      <ion-select-option value="Padel">Padel</ion-select-option>
-      <ion-select-option value="Tenis de Mesa">Tenis de Mesa</ion-select-option>
-      <ion-select-option value="Futbol">Futbol</ion-select-option>
-    </ion-select>
-  </ion-item>
-  
-  <br><br><br><br><br>
-  
-  <ion-item>
-    <ion-input label="Número de Equipos" type="number" placeholder="0" maxlength="1"></ion-input>
-  </ion-item>
-  
-  <br><br><br>
-  
-  <ion-card-content>
-    <div>
-      <ion-button class="boton centro" [routerLink]="['/menu-partidos']">Continuar</ion-button>
-    </div>
-  </ion-card-content>
-  </ion-content>
-  
+  <div>
+    <ion-button class="retroceso" fill="clear" [routerLink]="['/menu-partidos']">Atrás</ion-button>
+  </div>
+  <div class="titulos">
+    <h1> NUEVO CAMPEONATO </h1>
+  </div>
+  <ion-grid class="deportes">
+    <ion-row>
+      <ion-col>
+        <ion-card class="deporte" (click)="futbolClick()">
+          <ion-img src="../../assets/icon/soccer_ball.png" alt="Torneo De Fútbol"></ion-img>
+          <ion-text>Torneo De Fútbol</ion-text>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card class="deporte">
+          <ion-img src="../../assets/icon/basquetball.png" alt="Torneo De Básquetbol"></ion-img>
+          <ion-text>Torneo De Básquetbol</ion-text>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-card class="deporte">
+          <ion-img src="../../assets/icon/padel_raquet.png" alt="Torneo De Padel"></ion-img>
+          <ion-text>Torneo De Padel</ion-text>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card class="deporte">
+          <ion-img src="../../assets/icon/tenis_raquet.png" alt="Torneo De Tenis"></ion-img>
+          <ion-text>Torneo De Tenis</ion-text>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
