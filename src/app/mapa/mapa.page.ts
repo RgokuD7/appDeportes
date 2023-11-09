@@ -1,10 +1,13 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 
 import { Geolocation } from '@capacitor/geolocation';
 import { GoogleMap } from '@capacitor/google-maps';
 import { environment } from 'src/environments/environment';
-
-const apiKey = 'AIzaSyBU5K4FN4QJeTy9pq3J-CizGiweJvjtKzc';
 
 @Component({
   selector: 'app-mapa',
@@ -17,27 +20,28 @@ export class MapaPage implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
-  newMap: any;
 
   ionViewDidEnter() {
     this.createMap();
   }
 
-
   async createMap() {
-    this.newMap = await GoogleMap.create({
-      id: 'my-cool-map',
+    const position = await Geolocation.getCurrentPosition();
+    this.map = await GoogleMap.create({
+      id: 'mapa',
       element: this.mapRef.nativeElement,
       apiKey: environment.mapsKey,
       config: {
         center: {
-          lat: 33.6,
-          lng: -117.9,
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
         },
-        zoom: 8,
+        zoom: 100,
       },
     });
   }
+  
 }
