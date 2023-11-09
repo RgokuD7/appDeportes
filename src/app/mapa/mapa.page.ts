@@ -1,14 +1,8 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { Geolocation } from '@capacitor/geolocation';
-import { GoogleMap } from '@capacitor/google-maps';
+import { GoogleMap, Marker  } from '@capacitor/google-maps';
 import { environment } from 'src/environments/environment';
-
 @Component({
   selector: 'app-mapa',
   templateUrl: './mapa.page.html',
@@ -17,12 +11,11 @@ import { environment } from 'src/environments/environment';
 export class MapaPage implements OnInit {
   @ViewChild('mapa') mapRef: ElementRef;
   map: GoogleMap;
+  @ViewChild('map') mapView: ElementRef;
 
   constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 
   ionViewDidEnter() {
     this.createMap();
@@ -39,9 +32,18 @@ export class MapaPage implements OnInit {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         },
-        zoom: 100,
+        zoom: 19,
       },
     });
+
+    await this.map.enableCurrentLocation(true);
+
+    const markerId = await this.map.addMarker({
+      coordinate: {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      }
+    });
+
   }
-  
 }

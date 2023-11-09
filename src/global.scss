@@ -70,3 +70,7 @@ ion-text {
 ion-content{
   --padding-top: 40px;
 }
+
+.md body, .ios body {
+  --ion-background-color: none;
+}
