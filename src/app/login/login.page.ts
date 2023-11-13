@@ -111,7 +111,6 @@ export class LoginPage implements OnInit {
       this.validacion = false;
     }
     if (this.validacion) {
-      console.log('xd');
       this.restApi.saveLoggedInUser(this.usuario);
       let navigationExtras: NavigationExtras = {
         state: { user: this.username },

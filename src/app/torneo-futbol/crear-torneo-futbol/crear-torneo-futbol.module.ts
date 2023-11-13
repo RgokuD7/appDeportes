@@ -8,8 +8,6 @@ import { CrearTorneoFutbolPageRoutingModule } from './crear-torneo-futbol-routin
 
 import { CrearTorneoFutbolPage } from './crear-torneo-futbol.page';
 
-import { TorneoFutbolService } from '../torneo-futbol.service';
-import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
