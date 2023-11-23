@@ -1,13 +1,11 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>club</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">club</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card class="vacio">
+    <ion-card-header class="titulo">
+      <ion-card-title>No tienes Equipo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button class="crear-boton" expand="block" [routerLink]="['/tabs/torneo-futbol/crear-torneo-futbol/xd']">Crear
+        Equipo</ion-button>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

@@ -11,7 +11,6 @@ import { environment } from 'src/environments/environment';
 export class MapaPage implements OnInit {
   @ViewChild('mapa') mapRef: ElementRef;
   map: GoogleMap;
-  @ViewChild('map') mapView: ElementRef;
 
   constructor() {}
 
