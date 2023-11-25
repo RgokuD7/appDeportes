@@ -1,5 +1,19 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { NavController, Animation, AnimationController, IonCard } from '@ionic/angular';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  inject,
+} from '@angular/core';
+import {
+  NavController,
+  Animation,
+  AnimationController,
+  IonCard,
+  LoadingController,
+} from '@ionic/angular';
+import { FirebaseService } from '../services/firebase.service';
+import { UtilsService } from '../services/utils.service';
 
 @Component({
   selector: 'app-recuperar-contra',
@@ -7,7 +21,6 @@ import { NavController, Animation, AnimationController, IonCard } from '@ionic/a
   styleUrls: ['./recuperar-contra.page.scss'],
 })
 export class RecuperarContraPage implements OnInit {
-
   @ViewChild('miFormulario', { static: false }) formulario: any;
   @ViewChild(IonCard, { read: ElementRef }) card: any;
 
@@ -16,9 +29,13 @@ export class RecuperarContraPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private animationCtrl: AnimationController
-  ){
+  ) {
     this.animation = this.animationCtrl.create();
   }
+
+  firebaseSvc = inject(FirebaseService);
+  loadingController = inject(LoadingController);
+  utilSvc = inject(UtilsService);
 
   ngAfterViewInit() {
     this.animation = this.animationCtrl
@@ -33,77 +50,67 @@ export class RecuperarContraPage implements OnInit {
       ]);
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  usersString = localStorage.getItem('users');
-  users = this.usersString ? JSON.parse(this.usersString) : [];
-
-  
-BuscarEmail(Email: string): any {
-  for (const key in this.users) {
-    if (this.users.hasOwnProperty(key)) {
-      const user = this.users[key];
-      if (user.email === Email) {
-        return user;
+  correo = '';
+  validacion = false;
+  correoNoIngresado = false;
+  correoInvalido = false;
+  EmailInput() {
+    const correo = this.correo;
+    if (correo == '') {
+      this.correoNoIngresado = true;
+      this.correoInvalido = false;
+      this.validacion = false;
+    } else {
+      this.correoNoIngresado = false;
+      const patronCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const correo_valido = patronCorreo.test(correo);
+      if (!correo_valido) {
+        this.correoInvalido = true;
+        this.validacion = false;
+      } else {
+        this.correoInvalido = false;
+        this.validacion = true;
       }
     }
   }
-  return null; // Si no se encuentra el usuario
-}
 
-  email: string = '';
-  validacion: boolean = false;
-  EmailNoIngresado: boolean = false;
-  EmailInvalido: boolean = false;
-  EmailInput(){
-    const email = this.email;
-    const emailRecovery  = this.BuscarEmail(email);
-    if(email == ''){
-      this.EmailNoIngresado = true;
-      this.EmailInvalido = false;
-    }else{
-      this.EmailNoIngresado = false;
-      if(emailRecovery == null){
-        this.EmailInvalido = true;
-        this.validacion = false;
-      }else{
-        this.EmailInvalido = false;
-        this.validacion = true;}
-    }
-  }
-
-  onWillDismiss(){
+  onWillDismiss() {
     this.navCtrl.navigateForward('login');
   }
 
   @ViewChild('modal') modal: any;
-  onSubmit(){
-    if(!this.email){
-      this.EmailNoIngresado = true;
+  async onSubmit() {
+    if (!this.correo) {
+      this.correoNoIngresado = true;
+      this.validacion = false;
+    } else if (this.correoInvalido) {
       this.validacion = false;
     }
-    else if(this.EmailInvalido){
-      this.validacion = false;
+    if (this.validacion) {
+      const cargando = await this.loadingController.create({
+        message: 'Enviando email de recuperación',
+        cssClass: 'modal-cargando',
+        duration: 300,
+      });
+      // Muestra el Loading Controller
+      await cargando.present();
+      this.firebaseSvc
+        .sendRecoberyEmail(this.correo)
+        .then(res => {
+          console.log(res);
+          this.modal.present();
+        })
+        .catch(error => {
+          console.log(error.message);
+        })
+        .finally(() => {
+          cargando.dismiss();
+        });
     }
-    if(this.validacion){
-      this.modal.present();
-    }
-      
   }
 
-  ionViewDidEnter() {
-    setTimeout(() => {
-      this.animation.play();
-    }, 100);
-    this.validacion = false;
-    this.EmailNoIngresado = false;
-  }
-  ionViewWillLeave() {
-    this.formulario.resetForm();
-    if (this.animation) {
-      this.animation.stop();
-    }
-  }
-
+  ionViewDidEnter() {}
+  ionViewWillLeave() {}
 }

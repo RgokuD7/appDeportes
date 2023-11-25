@@ -1,64 +1,71 @@
 ion-modal {
-    --height: 200px;
-    --border-radius: 16px;
-    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --height: 200px;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.titulo {
+  text-align: center;
+  padding: 10px 10px 0 10px;
+}
+ion-card.recuperar {
+  margin: 170px 10px 10px 10px;
+  align-self: center;
+  ion-card-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-justify: distribute;
+      padding: 0;
+      ion-input {
+        width: 100%;
+        padding-left: 5px;
+        margin: 5px;
+        color: var(--ion-color-primary);
+        border-bottom: 3px solid var(--ion-color-primary);
+        font-size: calc(18px + 6 * ((100vw - 320px) / 680));
+      }
+      ion-text {
+        color: var(--ion-color-secondary);
+        width: 100%;
+        text-align: center; 
+      }
+      ion-text.error {
+        width: 100%;
+        text-align: left; 
+      }
+      .boton {
+        display: flex;
+        width: 100%;
+        margin-top: 20px;
+      }
+    }
   }
-
-.content{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
 }
 
-ion-card{
-    margin: auto 30px;
-    height: 100%;
-    width: 100%;
+.modal-content {
+  display: grid;
+  place-items: center;
+  height: 100%;
 }
-
-ion-card-header{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
-}
-
-ion-card-header .atras{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    width: 100%;
-}
-
-ion-card-header ion-card-title{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.modal-content{
-    display: grid;
-    place-items: center;
-    height: 100%;
-}
-.modal-content h2{
-    text-align: center;
+.modal-content h2 {
+  text-align: center;
 }
 .campo {
-    display: flex;
-    flex-direction: column;
-    align-items: flex start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex start;
 }
 
-.boton-reg{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.boton-reg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-

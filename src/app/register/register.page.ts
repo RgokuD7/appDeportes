@@ -1,4 +1,10 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import {
   NavController,
   LoadingController,
@@ -13,12 +19,10 @@ import { UsuarioService } from '../usuario/usuario.service';
 import { HttpClient } from '@angular/common/http';
 import { PhotoService } from '../services/photo.service';
 import { Geolocation } from '@capacitor/geolocation';
+import { FirebaseService } from '../services/firebase.service';
+import { UtilsService } from '../services/utils.service';
 
-const printCurrentPosition = async () => {
-  const coordinates = await Geolocation.getCurrentPosition();
 
-  console.log('Current position:', coordinates);
-};
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -44,8 +48,11 @@ export class RegisterPage implements OnInit {
     this.animation = this.animationCtrl.create();
   }
 
+  firebaseSvc = inject(FirebaseService);
+  utilSvc = inject(UtilsService);
+
   ngAfterViewInit() {
-    printCurrentPosition();
+    
   }
 
   usuario = new Clusuario();
@@ -314,7 +321,7 @@ export class RegisterPage implements OnInit {
     if (usuario == '') {
       this.usernameNoIngresado = true;
       this.validacion = false;
-    }else if(user_verify){
+    } else if (user_verify) {
       this.usernameExistente = true;
       this.usernameNoIngresado = false;
     } else {
@@ -413,7 +420,8 @@ export class RegisterPage implements OnInit {
     }
     if (this.usuario.genero == '') {
       await this.femaleCard.nativeElement.scrollIntoView({
-        behavior: 'smooth',block: 'center',
+        behavior: 'smooth',
+        block: 'center',
       });
       await new Promise((resolve) => setTimeout(resolve, 300));
       this.femaleGenderImgSrc = '../../assets/icon/female-selected.svg';
@@ -451,32 +459,43 @@ export class RegisterPage implements OnInit {
       this.confPasswordNoIngresada = true;
       this.validacion = false;
     }
-    console.log('xd1', this.validacion);
     if (this.validacion) {
-      console.log('xd2');
       const cargando = await this.loadingController.create({
         message: 'Registrando',
         cssClass: 'modal-cargando',
-        duration: 300
+        duration: 300,
       });
       // Muestra el Loading Controller
       await cargando.present();
-      this.restApi.saveUser(this.usuario);
-      await cargando.dismiss();
-      this.router.navigate(['/login']);
-      /* await this.restApi.addUsuario(this.usuario).subscribe({
-        next: (res) => {
-          console.log('Registrando Usuario', res);
-          cargando.dismiss(); //Elimina la espera
-          this.navCtrl.navigateForward('login');
-        },
-        complete: () => {},
-        error: (err) => {
-          console.log('Error Crenado Torneo', err);
-          cargando.dismiss(); //Elimina la espera
-        },
-      });
-      console.log('¡Registro agregado con éxito!'); */
+      this.firebaseSvc
+        .signUp(this.usuario)
+        .then(async res => {
+          await this.firebaseSvc.updateUser(this.usuario.username);
+          let uid = res.user.uid;
+          this.usuario.uid = uid;
+          await this.setUsuario(uid);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(async () => {
+          await cargando.dismiss();
+        });
     }
+  }
+
+  async setUsuario(uid: string) {
+    let path = `users/${uid}`;
+    this.usuario.password = '';
+    this.firebaseSvc
+      .setDocument(path, this.usuario)
+      .then(() => {
+        this.utilSvc.saveInLocalStorage('user', this.usuario);
+        this.router.navigate(['/tabs/perfil/']);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(async () => {});
   }
 }

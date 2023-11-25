@@ -62,15 +62,15 @@ $theme: mat.define-light-theme(
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-
 ion-text {
-  font-size: calc(16px + 6 * ((100vw - 320px) / 680));
+  font-size: calc(18px + 6 * ((100vw - 320px) / 680));
 }
 
-ion-content{
+ion-content {
   --padding-top: 40px;
 }
 
-.md body, .ios body {
+.md body,
+.ios body {
   --ion-background-color: none;
 }

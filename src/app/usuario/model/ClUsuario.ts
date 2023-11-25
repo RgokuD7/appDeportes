@@ -1,5 +1,5 @@
 export class Clusuario {
-    id: number | null = null;
+    uid: string | null = null;
     nombres: string = "";
     apellidos: string = "";
     img_perfil: string = "";

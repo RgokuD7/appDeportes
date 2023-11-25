@@ -9,13 +9,26 @@ import { AppRoutingModule } from './app-routing.module';
 import { Storage } from '@ionic/storage-angular';
 import { IonicStorageModule } from '@ionic/storage-angular';
 
+// FireBase
+
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from 'src/environments/environment';
+
 defineCustomElements(window);
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot({ mode: 'ios' }), AppRoutingModule,HttpClientModule, IonicStorageModule.forRoot()],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, Storage] ,
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot({ mode: 'ios' }),
+    AppRoutingModule,
+    HttpClientModule,
+    IonicStorageModule.forRoot(),
+    AngularFireModule.initializeApp(environment.firebaseConfig)
+  ],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Storage,
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-  
-}
+export class AppModule {}

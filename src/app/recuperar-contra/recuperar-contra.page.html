@@ -2,36 +2,33 @@
   <div class="top">
     <ion-button fill="clear" [routerLink]="['/home']">Atras</ion-button>
   </div>
-  <div class="content">
-    <ion-card #card style="height: 0%;">
-      <ion-card-header>
-        <ion-card-title>Recuperar Contraseña</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <form (ngSubmit)="onSubmit()" #miFormulario="ngForm">
-          <div class="campo">
-            <ion-input required type="email" label="Email" labelPlacement="floating" name="emial" [(ngModel)]="email"
-              (ionInput)="EmailInput()"></ion-input>
-            <ion-text color="danger" *ngIf="EmailNoIngresado">Ingrese Email</ion-text>
-            <ion-text color="danger" *ngIf="EmailInvalido">Este Emial No Esta Registrado</ion-text>
-          </div>
-          <div class="boton-reg">
-            <ion-button block color="primary" type="submit">
-              Recuperar
-            </ion-button>
-          </div>
-        </form>
-      </ion-card-content>
-    </ion-card>
-    <ion-modal #modal (willDismiss)="onWillDismiss()">
-      <ng-template>
-        <ion-content>
-          <div class="modal-content">
-            <h2>Se Envio La Contraseña Al Correo Ingresado <br> Verificala E Inicia Sesión</h2>
-            <ion-button [routerLink]="['/login']" (click)="modal.dismiss()">Iniciar Sesión</ion-button>
-          </div>
-        </ion-content>
-      </ng-template>
-    </ion-modal>
-  </div>
+  <ion-card #card class="recuperar">
+    <ion-card-header class="titulo">
+      <ion-card-title>Recuperar Contraseña</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form (ngSubmit)="onSubmit()" #miFormulario="ngForm">
+        <ion-text color="primary" class="aviso">
+          Ingrese el correo de su cuenta, le enviaremos un correo con un link para reestablecer su contraseña
+        </ion-text>
+        <ion-input required type="email" label="Correo" labelPlacement="floating" name="emial" [(ngModel)]="correo"
+          (ionInput)="EmailInput()"></ion-input>
+          <ion-text class="error" color="danger" *ngIf="correoNoIngresado">Ingrese su Correo</ion-text>
+          <ion-text class="error" color="danger" *ngIf="correoInvalido">Formato de correo Incorreto</ion-text>
+        <ion-button [disabled]="!validacion" color="primary" type="submit" class="boton">
+          Recuperar
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+  <ion-modal #modal (willDismiss)="onWillDismiss()">
+    <ng-template>
+      <ion-content>
+        <div class="modal-content">
+          <h2>Se envio un correo para que reestabelzcas tu contraseña</h2>
+          <ion-button [routerLink]="['/login']" (click)="modal.dismiss()">Iniciar Sesión</ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

@@ -10,7 +10,7 @@ export class AuthService {
     return this._userIsAuthenticated;
   }
 
-  constructor(private restApi: UsuarioService) {}
+  constructor() {}
 
   login() {
     this._userIsAuthenticated = true;

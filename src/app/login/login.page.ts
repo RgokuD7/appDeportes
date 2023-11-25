@@ -1,13 +1,22 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import {
   NavController,
   Animation,
   AnimationController,
   IonCard,
+  LoadingController,
 } from '@ionic/angular';
 import { Router, NavigationExtras } from '@angular/router';
 import { Clusuario } from '../usuario/model/ClUsuario';
 import { UsuarioService } from '../usuario/usuario.service';
+import { FirebaseService } from '../services/firebase.service';
+import { UtilsService } from '../services/utils.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -28,31 +37,35 @@ export class LoginPage implements OnInit {
     this.animation = this.animationCtrl.create();
   }
 
-
-
+  firebaseSvc = inject(FirebaseService);
+  loadingController = inject(LoadingController);
+  utilSvc = inject(UtilsService);
   usuario = new Clusuario();
 
   validacion = false;
 
-  username = '';
-  usernameNoExistente = false;
-  usernameNoIngresado = false;
+  email = '';
+  correoInvalido = false;
+  correoNoIngresado = false;
 
-  usernameChange() {
-    const usuario = this.username;
-    const user_verify = this.restApi.checkUserExists(usuario);
-    if (usuario == '') {
-      this.usernameNoIngresado = true;
-      this.usernameNoExistente = false;
+  emailChange() {
+    const email = this.email;
+    if (email == '') {
+      this.correoNoIngresado = true;
+      this.correoInvalido = false;
       this.validacion = false;
-    } else if (user_verify) {
-      this.usernameNoIngresado = false;
-      this.usernameNoExistente = false;
-      this.validacion = true;
     } else {
-      this.usernameNoIngresado = false;
-      this.usernameNoExistente = true;
-      this.validacion = false;
+      this.correoNoIngresado = false;
+      const patronCorreo = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const email_valido = patronCorreo.test(email);
+      if (!email_valido) {
+        this.correoInvalido = true;
+        this.validacion = false;
+      } else {
+        this.correoInvalido = false;
+        this.validacion = true;
+        this.usuario.email = email;
+      }
     }
   }
 
@@ -62,21 +75,13 @@ export class LoginPage implements OnInit {
 
   passwordChange() {
     const contra = this.password;
-    const usuario = this.restApi.getUser(this.username);
     if (contra == '') {
       this.passwordNoIngresada = true;
       this.passwordNoCoincide = false;
       this.validacion = false;
-    } else if (!!usuario) {
-      this.passwordNoIngresada = false;
-      if (contra == usuario.password) {
-        this.passwordNoCoincide = false;
-        this.validacion = true;
-        this.usuario = usuario;
-      } else {
-        this.passwordNoCoincide = true;
-        this.validacion = false;
-      }
+    } else {
+      this.validacion = true;
+      this.usuario.password = contra;
     }
   }
 
@@ -93,17 +98,15 @@ export class LoginPage implements OnInit {
     if (isLogged) {
       this.router.navigate(['/tabs/perfil/']);
     }
-    this.username = '';
+    this.email = '';
     this.password = '';
   }
 
-  ionViewWillLeave() {
+  ionViewWillLeave() {}
 
-  }
-
-  loginClick() {
-    if (this.username == '') {
-      this.usernameNoIngresado = true;
+  async loginClick() {
+    if (this.email == '') {
+      this.correoNoIngresado = true;
       this.validacion = false;
     }
     if (this.password == '') {
@@ -112,10 +115,41 @@ export class LoginPage implements OnInit {
     }
     if (this.validacion) {
       this.restApi.saveLoggedInUser(this.usuario);
-      let navigationExtras: NavigationExtras = {
-        state: { user: this.username },
-      };
-      this.router.navigate(['/tabs/perfil/'], navigationExtras);
+      const cargando = await this.loadingController.create({
+        message: 'Ingresando',
+        cssClass: 'modal-cargando',
+        duration: 300,
+      });
+      // Muestra el Loading Controller
+      await cargando.present();
+      this.firebaseSvc
+        .signIn(this.usuario)
+        .then((res) => {
+          this.getUsuario(res.user.uid);
+          let navigationExtras: NavigationExtras = {
+            state: { user: this.email },
+          };
+          this.router.navigate(['/tabs/perfil/'], navigationExtras);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          cargando.dismiss();
+        });
     }
+  }
+
+  async getUsuario(uid: string) {
+    let path = `users/${uid}`;
+    this.firebaseSvc
+      .getDocument(path)
+      .then((user: Clusuario) => {
+        this.utilSvc.saveInLocalStorage('user', user);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(async () => {});
   }
 }
