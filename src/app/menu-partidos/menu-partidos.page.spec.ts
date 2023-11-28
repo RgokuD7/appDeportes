@@ -1,11 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MenuPartidosPage } from './menu-partidos.page';
+import { RouterTestingModule } from '@angular/router/testing'; // Importa RouterTestingModule
 
 describe('MenuPartidosPage', () => {
   let component: MenuPartidosPage;
   let fixture: ComponentFixture<MenuPartidosPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
+      declarations: [MenuPartidosPage]
+    })
+    .compileComponents();
+
     fixture = TestBed.createComponent(MenuPartidosPage);
     component = fixture.componentInstance;
     fixture.detectChanges();

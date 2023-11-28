@@ -22,7 +22,6 @@ ion-card.recuperar {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      text-justify: distribute;
       padding: 0;
       ion-input {
         width: 100%;
@@ -33,13 +32,12 @@ ion-card.recuperar {
         font-size: calc(18px + 6 * ((100vw - 320px) / 680));
       }
       ion-text {
-        color: var(--ion-color-secondary);
         width: 100%;
-        text-align: center; 
+        text-align: center;
       }
       ion-text.error {
         width: 100%;
-        text-align: left; 
+        text-align: left;
       }
       .boton {
         display: flex;
@@ -51,21 +49,13 @@ ion-card.recuperar {
 }
 
 .modal-content {
-  display: grid;
-  place-items: center;
   height: 100%;
-}
-.modal-content h2 {
-  text-align: center;
-}
-.campo {
   display: flex;
   flex-direction: column;
-  align-items: flex start;
-}
-
-.boton-reg {
-  display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  padding: 0;
+  h2 {
+    text-align: center;
+  }
 }

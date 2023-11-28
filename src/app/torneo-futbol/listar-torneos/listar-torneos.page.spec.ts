@@ -1,11 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ListarTorneosPage } from './listar-torneos.page';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ListarTorneosPage', () => {
   let component: ListarTorneosPage;
   let fixture: ComponentFixture<ListarTorneosPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientModule],
+      declarations: [ListarTorneosPage]
+    })
     fixture = TestBed.createComponent(ListarTorneosPage);
     component = fixture.componentInstance;
     fixture.detectChanges();

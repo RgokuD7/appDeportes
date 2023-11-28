@@ -22,33 +22,15 @@ import { UtilsService } from '../services/utils.service';
 })
 export class RecuperarContraPage implements OnInit {
   @ViewChild('miFormulario', { static: false }) formulario: any;
-  @ViewChild(IonCard, { read: ElementRef }) card: any;
-
-  private animation: Animation;
 
   constructor(
     private navCtrl: NavController,
     private animationCtrl: AnimationController
-  ) {
-    this.animation = this.animationCtrl.create();
-  }
+  ) {}
 
   firebaseSvc = inject(FirebaseService);
   loadingController = inject(LoadingController);
   utilSvc = inject(UtilsService);
-
-  ngAfterViewInit() {
-    this.animation = this.animationCtrl
-      .create()
-      .addElement(this.card.nativeElement)
-      .duration(200)
-      .iterations(1)
-      .keyframes([
-        { offset: 0, height: '0%' },
-        { offset: 0.99, height: '250px' },
-        { offset: 1, height: 'auto' },
-      ]);
-  }
 
   ngOnInit() {}
 
@@ -56,8 +38,10 @@ export class RecuperarContraPage implements OnInit {
   validacion = false;
   correoNoIngresado = false;
   correoInvalido = false;
+  correoNoEncontrado = false;
   EmailInput() {
     const correo = this.correo;
+    this.correoNoEncontrado = false;
     if (correo == '') {
       this.correoNoIngresado = true;
       this.correoInvalido = false;
@@ -98,19 +82,17 @@ export class RecuperarContraPage implements OnInit {
       await cargando.present();
       this.firebaseSvc
         .sendRecoberyEmail(this.correo)
-        .then(res => {
-          console.log(res);
+        .then((res) => {
           this.modal.present();
         })
-        .catch(error => {
-          console.log(error.message);
+        .catch((error) => {
+          if (error.code == 'auth/user-not-found') {
+            this.correoNoEncontrado = true;
+          }
         })
         .finally(() => {
           cargando.dismiss();
         });
     }
   }
-
-  ionViewDidEnter() {}
-  ionViewWillLeave() {}
 }

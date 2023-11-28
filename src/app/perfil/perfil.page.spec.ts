@@ -1,6 +1,9 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PerfilPage } from './perfil.page';
 import { IonicModule } from '@ionic/angular';
+import { PerfilPage } from './perfil.page';
+import { IonicStorageModule } from '@ionic/storage-angular';
+
 describe('PerfilPage', () => {
   let component: PerfilPage;
   let fixture: ComponentFixture<PerfilPage>;
@@ -8,7 +11,11 @@ describe('PerfilPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PerfilPage],
-      imports: [IonicModule.forRoot()]
+      imports: [
+        IonicModule.forRoot(),
+        HttpClientModule,
+        IonicStorageModule.forRoot(),
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PerfilPage);
