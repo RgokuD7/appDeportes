@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CapacitorGoogleMaps } from '@capacitor-community/capacitor-googlemaps-native';
 import { environment } from '../environments/environment';
 
 @Component({
