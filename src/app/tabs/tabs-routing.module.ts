@@ -34,6 +34,10 @@ const routes: Routes = [
           import('../club/club.module').then((m) => m.ClubPageModule),
       },
       {
+        path: 'crear-equipo',
+        loadChildren: () => import('../club/crear-equipo/crear-equipo.module').then( m => m.CrearEquipoPageModule)
+      },
+      {
         path: 'torneos',
         loadChildren: () =>
           import('../torneos/torneos.module').then((m) => m.TorneosPageModule),

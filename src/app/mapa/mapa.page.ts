@@ -37,12 +37,6 @@ export class MapaPage implements OnInit {
 
     await this.map.enableCurrentLocation(true);
 
-    const markerId = await this.map.addMarker({
-      coordinate: {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      }
-    });
 
   }
 }

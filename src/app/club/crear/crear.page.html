@@ -1,0 +1,39 @@
+<ion-content [fullscreen]="true">
+  <form [formGroup]="Clubform">
+    <ion-item>
+      <ion-label>Nombre del Club:</ion-label>
+      <ion-input formControlName="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Ubicación:</ion-label>
+      <ion-input formControlName="location"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Imagen:</ion-label>
+      <ion-input formControlName="image"></ion-input>
+    </ion-item>
+
+    <ion-list formArrayName="categories">
+      <div *ngFor="let category of categories.controls; let i = index">
+        <ion-item-group [formGroupName]="i">
+          <ion-item>
+            <ion-label>Nombre de la Categoría:</ion-label>
+            <ion-input formControlName="categoryName"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Edad Mínima:</ion-label>
+            <ion-input formControlName="minAge"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Edad Máxima:</ion-label>
+            <ion-input formControlName="maxAge"></ion-input>
+          </ion-item>
+          <ion-button (click)="removeCategory(i)">Eliminar Categoría</ion-button>
+        </ion-item-group>
+      </div>
+    </ion-list>
+
+    <ion-button (click)="addCategory()">Agregar Categoría</ion-button>
+    <ion-button type="submit">Crear Club</ion-button>
+  </form>
+</ion-content>

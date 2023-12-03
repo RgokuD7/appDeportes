@@ -10,29 +10,25 @@ export class PhotoService {
 
   constructor() { }
 
-  public photos: UserPhoto[] = [];
+  async takePicture(promptLabelHeader: string){
+   return await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Prompt,
+      promptLabelHeader,
+      promptLabelPhoto: 'Seleccione una Foto',
+      promptLabelPicture: 'Toma una Foto'
+    });
+  };
 
-  public async addNewToGallery() {
-    try {
-      // Take a photo
-      const capturedPhoto = await Camera.getPhoto({
-        resultType: CameraResultType.Uri,
-        source: CameraSource.Prompt,
-        quality: 100
-      });
-  
-      this.photos.unshift({
-        filepath: "soon...",
-        webviewPath: capturedPhoto.webPath!
-      });
-    } catch (error) {
-      console.error('camara cerrada');
-    }
-  }
-  
-}
+  async selectImage(){
+    return await Camera.getPhoto({
+       quality: 90,
+       allowEditing: true,
+       resultType: CameraResultType.DataUrl,
+       source: CameraSource.Photos,
+     });
+   };
 
-export interface UserPhoto {
-  filepath: string;
-  webviewPath?: string;
 }

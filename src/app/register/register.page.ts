@@ -22,7 +22,6 @@ import { Geolocation } from '@capacitor/geolocation';
 import { FirebaseService } from '../services/firebase.service';
 import { UtilsService } from '../services/utils.service';
 
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -51,9 +50,7 @@ export class RegisterPage implements OnInit {
   firebaseSvc = inject(FirebaseService);
   utilSvc = inject(UtilsService);
 
-  ngAfterViewInit() {
-    
-  }
+  ngAfterViewInit() {}
 
   usuario = new Clusuario();
 
@@ -79,12 +76,10 @@ export class RegisterPage implements OnInit {
 
   imgPerfilSrc? = '../../assets/icon/user-img.svg';
 
-  async addPhotoToGallery() {
-    await this.photoService.addNewToGallery();
-    if (this.photoService.photos.length > 0) {
-      this.imgPerfilSrc = this.photoService.photos[0].webviewPath;
-      this.usuario.img_perfil = this.imgPerfilSrc!;
-    }
+  async takeImage() {
+    const dataUrl = (await this.photoService.takePicture('Foto de Perfil'))
+      .dataUrl;
+    this.imgPerfilSrc = dataUrl;
   }
 
   regla = /\d/; // Expresión regular que verifica la presencia de números
@@ -469,7 +464,7 @@ export class RegisterPage implements OnInit {
       await cargando.present();
       this.firebaseSvc
         .signUp(this.usuario)
-        .then(async res => {
+        .then(async (res) => {
           await this.firebaseSvc.updateUser(this.usuario.username);
           let uid = res.user.uid;
           this.usuario.uid = uid;

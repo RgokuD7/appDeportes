@@ -1,0 +1,14 @@
+<ion-content [fullscreen]="true">
+  <form [formGroup]="form">
+    <ion-card class="club">
+      <ion-card-header class="titulo">
+        <ion-card-title>Equipos</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-img [src]='form.value.image' (click)="selectClubImage()"></ion-img>
+        <ion-input label="Nombre de Club" labelPlacement='floating' formControlName="name"></ion-input>
+        <ion-input label="Ubicación" labelPlacement='floating' formControlName="location"></ion-input>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ion-content>

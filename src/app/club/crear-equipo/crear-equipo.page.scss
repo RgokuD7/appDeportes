@@ -1,0 +1,33 @@
+.titulo {
+  text-align: center;
+  padding: 10px 10px 0 10px;
+}
+ion-card.club {
+  margin: 10px 10px 0 10px;
+  ion-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    ion-img {
+      display: grid;
+      place-items: center;
+      width: 50%;
+      border-radius: 1rem;
+      -webkit-border-radius: 1rem;
+      -moz-border-radius: 1rem;
+      -ms-border-radius: 1rem;
+      -o-border-radius: 1rem;
+    }
+    ion-input {
+      width: 100%;
+      padding-left: 5px;
+      margin: 5px;
+      text-align: start;
+      color: var(--ion-color-primary);
+      border-bottom: 3px solid var(--ion-color-primary);
+      font-size: calc(16px + 6 * ((100vw - 320px) / 680));
+    }
+  }
+}
