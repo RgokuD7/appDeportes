@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'appDeportes',
+  appId: 'io.RgokuD7.PulenTorneos',
+  appName: 'PulenTorneos',
   webDir: 'www',
   server: {
     androidScheme: 'https'

@@ -17,6 +17,8 @@ ion-content {
   --background: none;
 }
 
-body {
-  --ion-background-color: none;
+@media (prefers-color-scheme: dark) {
+  ion-content {
+    --background: none;
+  }
 }

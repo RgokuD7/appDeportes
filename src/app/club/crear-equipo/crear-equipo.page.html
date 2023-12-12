@@ -7,7 +7,17 @@
       <ion-card-content>
         <ion-img [src]='form.value.image' (click)="selectClubImage()"></ion-img>
         <ion-input label="Nombre de Club" labelPlacement='floating' formControlName="name"></ion-input>
+        <ion-text class="errors" color="danger"
+          *ngIf="form.controls.name.invalid && (form.controls.name.dirty || form.controls.name.touched)">
+          <p *ngIf="form.controls.name.errors['required']">El nombre es requerido.</p>
+          <p *ngIf="form.controls.name.errors['minlength']">La longitud del nombre debe ser mayor que
+            {{form.controls.name.errors['minlength'].requiredLength}} caracteres.</p>
+        </ion-text>
         <ion-input label="Ubicación" labelPlacement='floating' formControlName="location"></ion-input>
+        <ion-text class="errors" color="danger"
+          *ngIf="form.controls.location.invalid && (form.controls.location.dirty || form.controls.location.touched)">
+          <p *ngIf="form.controls.location.errors['required']">La ubicación es requerida.</p>
+        </ion-text>
       </ion-card-content>
     </ion-card>
   </form>
